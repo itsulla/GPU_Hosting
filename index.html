@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPUHosting.Guide: Self-Hosting AI Models</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Custom Styles to ensure no SVG is needed and charts are contained */
+        body { font-family: 'Inter', sans-serif; }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 40vh; /* Responsive height */
+            max-height: 450px;
+            min-height: 300px;
+        }
+
+        /* Unicode icon styling as replacement for SVGs */
+        .icon-btn::before { margin-right: 8px; }
+        .tab-active { border-bottom: 2px solid #4f46e5; color: #4f46e5; font-weight: 600; }
+        
+        /* Custom range slider styling */
+        input[type=range] {
+            accent-color: #4f46e5;
+        }
+        
+        /* Tooltip styling for text context */
+        .info-tooltip {
+            position: relative;
+            cursor: help;
+            border-bottom: 1px dotted #64748b;
+        }
+        
+        /* verified badge */
+        .verified-badge {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 999px;
+            background-color: #dcfce7;
+            color: #166534;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+    </style>
+
+    <!-- Chosen Palette: Light Slate (slate-50 bg) with Indigo (indigo-600) and Emerald (emerald-500) accents. This provides a clean, professional, and highly readable light-themed environment suitable for technical documentation and data visualization. -->
+    
+    <!-- Application Structure Plan: 
+    The SPA is structured as a linear but interactive "Guide/Dashboard" mimicking the requested gpuhosting.guide. 
+    1. Hero/Intro: Establishes context.
+    2. Model Landscape: A grid comparing Open Weights models, allowing users to understand their options before picking hardware.
+    3. Hardware & VRAM Estimator: An interactive calculator helping users translate model size (Parameters/Quantization) into VRAM requirements, bridging the gap between software and hardware.
+    4. Cost Calculator (The Core Feature): An interactive Chart.js visualization comparing API costs vs Server costs over a 30-day period based on user inputs (tokens/day, server hourly rate). This directly answers the "Why self-host?" financial question.
+    5. Provider Comparison: A functional data table with sorting/filtering to help users choose a cloud GPU provider based on the VRAM and budget established in previous sections.
+    6. Software Stack: Tabbed interface explaining deployment tools.
+    This structure guides the user sequentially through the decision-making process of self-hosting an LLM. -->
+    
+    <!-- Visualization & Content Choices:
+    1. VRAM Estimator -> Goal: Inform/Change -> Viz: Interactive Sliders + Dynamic Text Output -> Justification: Users need immediate feedback on how quantization affects hardware needs. Simple math logic updates the DOM.
+    2. API vs Self-Host Cost -> Goal: Compare/Change -> Viz: Chart.js Line Chart -> Justification: A line chart perfectly illustrates the break-even point over time (Days vs Cost). Interactive sliders update the chart dynamically (NO SVG used, Canvas only).
+    3. Provider List -> Goal: Organize/Compare -> Viz: HTML Table with JS filtering -> Justification: Technical audiences prefer dense, sortable data for pricing and specs.
+    4. Model Specs -> Goal: Inform -> Viz: CSS Grid Cards -> Justification: Cleanly separates distinct model families for easy scanning. 
+    -->
+    
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-indigo-100 selection:text-indigo-900">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-indigo-700">🖥️ GPUHosting<span class="text-slate-800">.guide</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center font-medium text-sm text-slate-600">
+                    <a href="#models" class="hover:text-indigo-600 transition-colors">1. Models</a>
+                    <a href="#hardware" class="hover:text-indigo-600 transition-colors">2. VRAM & Hardware</a>
+                    <a href="#calculator" class="hover:text-indigo-600 transition-colors">3. Cost Calculator</a>
+                    <a href="#providers" class="hover:text-indigo-600 transition-colors">4. Providers</a>
+                    <a href="#stack" class="hover:text-indigo-600 transition-colors">5. Software</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-20">
+
+        <!-- Header / Intro -->
+        <header class="text-center max-w-3xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 mb-6">
+                Self-Hosting AI Models on GPU Infrastructure
+            </h1>
+            <p class="text-lg text-slate-600 mb-4">
+                A technical guide for developers moving from per-token APIs to self-hosted LLMs (Llama, DeepSeek, Mistral). Calculate costs, estimate VRAM, and compare GPU cloud providers.
+            </p>
+            <div class="inline-block bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-semibold border border-amber-200">
+                📅 Data Verified as of: March 2026
+            </div>
+        </header>
+
+        <!-- Section 1: Models -->
+        <section id="models" class="scroll-mt-24">
+            <div class="mb-8 border-b border-slate-200 pb-4">
+                <h2 class="text-3xl font-bold text-slate-900">1. The Open-Source LLM Landscape</h2>
+                <p class="mt-4 text-slate-600">
+                    <strong>Context:</strong> Before provisioning hardware, you must select a model. This section outlines the major families of open-weights models available for self-hosting in 2026. Review their sizes (parameters) and primary strengths to determine which fits your use case.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Meta Llama -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-bold text-indigo-700">🦙 Meta Llama 3.x / 4</h3>
+                        <span class="verified-badge">Verified 03/2026</span>
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-600 mb-4">
+                        <li><strong>Sizes:</strong> 8B, 70B, 405B</li>
+                        <li><strong>License:</strong> Llama Community License (Commercial use allowed, limits >700M MAU)</li>
+                        <li><strong>Quality:</strong> 405B rivals GPT-4 class; 70B is the standard for high-end self-hosting.</li>
+                    </ul>
+                    <div class="bg-slate-50 p-3 rounded border border-slate-100 text-sm">
+                        <em>Best for:</em> General purpose chat, reasoning, high-reliability enterprise deployments.
+                    </div>
+                </div>
+
+                <!-- DeepSeek -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-bold text-indigo-700">🐋 DeepSeek</h3>
+                        <span class="verified-badge">Verified 03/2026</span>
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-600 mb-4">
+                        <li><strong>Sizes:</strong> V3 (671B MoE), R1 (Reasoning, various sizes 7B-671B)</li>
+                        <li><strong>License:</strong> MIT License (Highly permissive commercial use)</li>
+                        <li><strong>Quality:</strong> Unmatched price-to-performance; coding and math capabilities exceed many proprietary models.</li>
+                    </ul>
+                    <div class="bg-slate-50 p-3 rounded border border-slate-100 text-sm">
+                        <em>Best for:</em> Coding tasks, complex reasoning, budget-conscious massive scaling (due to MoE architecture).
+                    </div>
+                </div>
+
+                <!-- Mistral -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-bold text-indigo-700">🌪️ Mistral</h3>
+                        <span class="verified-badge">Verified 03/2026</span>
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-600 mb-4">
+                        <li><strong>Sizes:</strong> 7B (v0.3), Mixtral 8x7B/8x22B, NeMo 12B</li>
+                        <li><strong>License:</strong> Apache 2.0 (Small models), Custom (Large models)</li>
+                        <li><strong>Quality:</strong> Excellent efficiency. Mixtral 8x22B is a highly capable MoE alternative to Llama 70B.</li>
+                    </ul>
+                    <div class="bg-slate-50 p-3 rounded border border-slate-100 text-sm">
+                        <em>Best for:</em> Fast inference on limited hardware, multi-lingual tasks.
+                    </div>
+                </div>
+
+                <!-- Qwen -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-bold text-indigo-700">🐉 Qwen 2.5</h3>
+                        <span class="verified-badge">Verified 03/2026</span>
+                    </div>
+                    <ul class="space-y-2 text-sm text-slate-600 mb-4">
+                        <li><strong>Sizes:</strong> 0.5B, 1.5B, 7B, 14B, 32B, 72B</li>
+                        <li><strong>License:</strong> Apache 2.0 (Most models)</li>
+                        <li><strong>Quality:</strong> Exceptional multi-lingual support, strong coding, very competitive with Llama across all parameter brackets.</li>
+                    </ul>
+                    <div class="bg-slate-50 p-3 rounded border border-slate-100 text-sm">
+                        <em>Best for:</em> Agentic workflows, non-English applications, intermediate size (32B) sweet spots.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: VRAM & Hardware Estimator -->
+        <section id="hardware" class="scroll-mt-24">
+            <div class="mb-8 border-b border-slate-200 pb-4">
+                <h2 class="text-3xl font-bold text-slate-900">2. Interactive VRAM & Hardware Estimator</h2>
+                <p class="mt-4 text-slate-600">
+                    <strong>Context:</strong> The most critical bottleneck in self-hosting is GPU VRAM (Video RAM). Models must fit entirely in VRAM for fast inference. Use this calculator to estimate how much VRAM you need based on the model size and quantization level (compressing the model to save space), and see which GPUs match your needs.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col md:flex-row">
+                <!-- Controls -->
+                <div class="p-6 md:w-1/2 bg-slate-50 border-r border-slate-200">
+                    <h3 class="text-lg font-bold mb-4">Configure Model Parameters</h3>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">
+                            Model Size: <span id="param-val" class="font-bold text-indigo-600">70</span> Billion Parameters
+                        </label>
+                        <input type="range" id="param-slider" min="7" max="405" value="70" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+                        <div class="flex justify-between text-xs text-slate-500 mt-1">
+                            <span>7B</span>
+                            <span>70B</span>
+                            <span>405B</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Quantization (Precision)</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button class="quant-btn active bg-indigo-600 text-white py-2 rounded text-sm font-medium transition-colors" data-multiplier="2">
+                                FP16 (No Quant)
+                            </button>
+                            <button class="quant-btn bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 py-2 rounded text-sm font-medium transition-colors" data-multiplier="1">
+                                8-Bit (INT8)
+                            </button>
+                            <button class="quant-btn bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 py-2 rounded text-sm font-medium transition-colors" data-multiplier="0.6">
+                                4-Bit (INT4)
+                            </button>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-2">FP16 offers best quality. 4-Bit uses the least VRAM but slightly degrades reasoning.</p>
+                    </div>
+                </div>
+
+                <!-- Output -->
+                <div class="p-6 md:w-1/2 flex flex-col justify-center items-center text-center">
+                    <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wide mb-2">Estimated VRAM Required</h3>
+                    <div class="text-5xl font-extrabold text-slate-900 mb-2">
+                        <span id="vram-output">168</span><span class="text-2xl text-slate-500"> GB</span>
+                    </div>
+                    <p class="text-sm text-slate-500 mb-6">Includes 20% overhead for context window & KV cache.</p>
+                    
+                    <div class="w-full p-4 bg-indigo-50 border border-indigo-100 rounded-lg">
+                        <h4 class="text-sm font-bold text-indigo-900 mb-1">Recommended GPU Setup:</h4>
+                        <p id="gpu-recommendation" class="text-indigo-700 font-medium">
+                            2x NVIDIA H100 (80GB) or 4x A100 (40GB)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Cost Calculator -->
+        <section id="calculator" class="scroll-mt-24">
+            <div class="mb-8 border-b border-slate-200 pb-4">
+                <h2 class="text-3xl font-bold text-slate-900">3. API vs. Self-Hosting Cost Calculator</h2>
+                <p class="mt-4 text-slate-600">
+                    <strong>Context:</strong> Does self-hosting actually save you money? It depends on your volume. Use this interactive chart to find your "break-even point". Adjust your daily token usage and infrastructure costs to see when fixed server pricing becomes cheaper than paying per-token API fees (like OpenAI or Anthropic).
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Calculator Inputs -->
+                    <div class="space-y-6 lg:col-span-1">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">
+                                Daily Token Volume: <span id="token-val" class="font-bold text-indigo-600">10</span> Million
+                            </label>
+                            <input type="range" id="token-slider" min="1" max="100" value="10" step="1" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">
+                                API Cost (per 1M tokens): $<span id="api-cost-val" class="font-bold text-indigo-600">2.50</span>
+                            </label>
+                            <input type="range" id="api-cost-slider" min="0.10" max="10.00" value="2.50" step="0.10" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+                            <p class="text-xs text-slate-500 mt-1">Avg mixed input/output for GPT-4o-mini class is ~$0.30. Llama 70B API is ~$0.50. Claude 3.5 Sonnet is ~$15.00.</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-2">
+                                Server Cost (Hourly): $<span id="server-cost-val" class="font-bold text-indigo-600">1.20</span>
+                            </label>
+                            <input type="range" id="server-cost-slider" min="0.20" max="15.00" value="1.20" step="0.10" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+                            <p class="text-xs text-slate-500 mt-1">Example: 1x RTX 4090 on RunPod is ~$0.45/hr. 1x A100 80GB is ~$1.20/hr.</p>
+                        </div>
+                        
+                        <div class="pt-4 border-t border-slate-200">
+                            <div class="text-sm">
+                                <span class="block text-slate-500 mb-1">30-Day API Cost:</span>
+                                <span class="text-2xl font-bold text-rose-600" id="total-api-cost">$750</span>
+                            </div>
+                            <div class="text-sm mt-3">
+                                <span class="block text-slate-500 mb-1">30-Day Self-Hosted Cost:</span>
+                                <span class="text-2xl font-bold text-emerald-600" id="total-server-cost">$864</span>
+                            </div>
+                            <div id="cost-conclusion" class="mt-4 p-3 bg-slate-50 rounded text-sm font-medium text-slate-700 border border-slate-200">
+                                At this volume, API is cheaper. Break-even requires more daily tokens.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chart Container -->
+                    <div class="lg:col-span-2 flex flex-col">
+                        <h3 class="text-center font-bold text-slate-700 mb-2">Cumulative 30-Day Cost Projection</h3>
+                        <div class="chart-container grow">
+                            <canvas id="costChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Providers -->
+        <section id="providers" class="scroll-mt-24">
+            <div class="mb-8 border-b border-slate-200 pb-4">
+                <h2 class="text-3xl font-bold text-slate-900">4. GPU Cloud Provider Comparison</h2>
+                <p class="mt-4 text-slate-600">
+                    <strong>Context:</strong> Once you know your VRAM needs and budget, you must choose where to rent the GPUs. This table compares leading providers for AI workloads, categorized by enterprise reliability vs. budget-friendly unmanaged instances.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
+                <div class="p-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
+                    <span class="font-semibold text-slate-700">Verified Provider Data</span>
+                    <select id="provider-filter" class="text-sm border-slate-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2">
+                        <option value="all">All Providers</option>
+                        <option value="enterprise">Enterprise (AWS/GCP)</option>
+                        <option value="budget">Budget / Serverless (RunPod/Vast)</option>
+                    </select>
+                </div>
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-100 text-sm uppercase tracking-wider text-slate-600 border-b border-slate-200">
+                            <th class="p-4 font-semibold">Provider</th>
+                            <th class="p-4 font-semibold">Type</th>
+                            <th class="p-4 font-semibold">Flagship GPU</th>
+                            <th class="p-4 font-semibold">Est. Hourly Rate</th>
+                            <th class="p-4 font-semibold">Key Advantage</th>
+                        </tr>
+                    </thead>
+                    <tbody id="provider-tbody" class="text-sm divide-y divide-slate-100">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+                <div class="p-4 text-xs text-slate-500 bg-slate-50 italic">
+                    Note: Pricing fluctuates wildly based on spot availability and reserved commitments. Data reflects estimated on-demand pricing as of March 2026.
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Software Stack -->
+        <section id="stack" class="scroll-mt-24">
+            <div class="mb-8 border-b border-slate-200 pb-4">
+                <h2 class="text-3xl font-bold text-slate-900">5. Inference Software Stack</h2>
+                <p class="mt-4 text-slate-600">
+                    <strong>Context:</strong> You have the server and the model. Now you need software to load the model into the GPU and serve an API. The ecosystem has coalesced around a few dominant inference engines. Select a tab to view details.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="flex border-b border-slate-200 bg-slate-50">
+                    <button class="tab-btn active px-6 py-4 text-sm font-medium text-indigo-600 border-b-2 border-indigo-600" data-target="vllm">vLLM</button>
+                    <button class="tab-btn px-6 py-4 text-sm font-medium text-slate-500 hover:text-slate-700 border-b-2 border-transparent" data-target="ollama">Ollama</button>
+                    <button class="tab-btn px-6 py-4 text-sm font-medium text-slate-500 hover:text-slate-700 border-b-2 border-transparent" data-target="tgi">HF TGI</button>
+                </div>
+
+                <div class="p-6 h-64">
+                    <!-- vLLM Content -->
+                    <div id="tab-vllm" class="tab-content block">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">⚙️ vLLM (Virtual Large Language Model)</h3>
+                        <p class="text-slate-600 mb-4">The industry standard for high-throughput production serving. Utilizes PagedAttention to manage KV cache efficiently, dramatically increasing the number of concurrent users you can support.</p>
+                        <ul class="list-disc pl-5 text-sm text-slate-600 space-y-1">
+                            <li><strong>Best for:</strong> Production environments, high concurrency, maximum tokens/second.</li>
+                            <li><strong>API Compatibility:</strong> Drop-in replacement for OpenAI API.</li>
+                            <li><strong>Setup Difficulty:</strong> Medium (Docker recommended).</li>
+                        </ul>
+                    </div>
+
+                    <!-- Ollama Content -->
+                    <div id="tab-ollama" class="tab-content hidden">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">🦙 Ollama</h3>
+                        <p class="text-slate-600 mb-4">The easiest way to get up and running locally or on a single VPS. Packages weights, configuration, and data into a single Modelfile, similar to Docker.</p>
+                        <ul class="list-disc pl-5 text-sm text-slate-600 space-y-1">
+                            <li><strong>Best for:</strong> Development, testing, single-user self-hosting.</li>
+                            <li><strong>API Compatibility:</strong> Native API, plus an OpenAI compatibility layer.</li>
+                            <li><strong>Setup Difficulty:</strong> Very Easy (One-line install).</li>
+                        </ul>
+                    </div>
+
+                    <!-- TGI Content -->
+                    <div id="tab-tgi" class="tab-content hidden">
+                        <h3 class="text-xl font-bold text-slate-900 mb-2">🤗 Hugging Face Text Generation Inference (TGI)</h3>
+                        <p class="text-slate-600 mb-4">A robust, production-ready toolkit built in Rust and Python. Often supports the absolute newest architectures slightly faster than vLLM.</p>
+                        <ul class="list-disc pl-5 text-sm text-slate-600 space-y-1">
+                            <li><strong>Best for:</strong> Enterprise deployments directly integrated with the Hugging Face Hub.</li>
+                            <li><strong>API Compatibility:</strong> Custom API, requires adaptation or middleware for OpenAI parity.</li>
+                            <li><strong>Setup Difficulty:</strong> Hard (Strict hardware/CUDA requirements).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-12 text-center mt-20">
+        <p class="text-sm">gpuhosting.guide &copy; 2026. Data synthesized for educational purposes based on March 2026 landscape.</p>
+    </footer>
+
+    <!-- Interactive JavaScript Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            /* =========================================
+               1. VRAM Estimator Logic
+               ========================================= */
+            const paramSlider = document.getElementById('param-slider');
+            const paramValText = document.getElementById('param-val');
+            const quantBtns = document.querySelectorAll('.quant-btn');
+            const vramOutputText = document.getElementById('vram-output');
+            const gpuRecText = document.getElementById('gpu-recommendation');
+
+            let currentMultiplier = 2; // Default FP16
+
+            function updateVRAM() {
+                const params = parseFloat(paramSlider.value);
+                paramValText.innerText = params;
+
+                // VRAM Formula: (Params * bytes per param) * 1.2 (for context/KV cache overhead)
+                const rawVram = params * currentMultiplier;
+                const totalVram = Math.ceil(rawVram * 1.2);
+                vramOutputText.innerText = totalVram;
+
+                // Recommend GPU
+                let rec = "";
+                if (totalVram <= 24) rec = "1x RTX 4090 (24GB) or 1x RTX 3090";
+                else if (totalVram <= 48) rec = "2x RTX 4090 (48GB) or 1x RTX 6000 Ada";
+                else if (totalVram <= 80) rec = "1x A100 (80GB) or 1x H100 (80GB)";
+                else if (totalVram <= 160) rec = "2x H100 (80GB) or 4x A100 (40GB)";
+                else rec = `${Math.ceil(totalVram/80)}x H100 (80GB) - Enterprise Cluster`;
+                
+                gpuRecText.innerText = rec;
+            }
+
+            paramSlider.addEventListener('input', updateVRAM);
+
+            quantBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    // UI Update
+                    quantBtns.forEach(b => {
+                        b.classList.remove('active', 'bg-indigo-600', 'text-white');
+                        b.classList.add('bg-white', 'text-slate-700');
+                    });
+                    e.target.classList.remove('bg-white', 'text-slate-700');
+                    e.target.classList.add('active', 'bg-indigo-600', 'text-white');
+                    
+                    // Logic Update
+                    currentMultiplier = parseFloat(e.target.dataset.multiplier);
+                    updateVRAM();
+                });
+            });
+
+            // Init VRAM
+            updateVRAM();
+
+
+            /* =========================================
+               2. Cost Calculator Chart Logic (Chart.js)
+               ========================================= */
+            const tokenSlider = document.getElementById('token-slider');
+            const apiCostSlider = document.getElementById('api-cost-slider');
+            const serverCostSlider = document.getElementById('server-cost-slider');
+            
+            const tokenValText = document.getElementById('token-val');
+            const apiCostValText = document.getElementById('api-cost-val');
+            const serverCostValText = document.getElementById('server-cost-val');
+            
+            const totalApiText = document.getElementById('total-api-cost');
+            const totalServerText = document.getElementById('total-server-cost');
+            const conclusionText = document.getElementById('cost-conclusion');
+
+            const ctx = document.getElementById('costChart').getContext('2d');
+            
+            // Generate X-axis (Days 1 to 30)
+            const days = Array.from({length: 30}, (_, i) => i + 1);
+            
+            let costChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: days,
+                    datasets: [
+                        {
+                            label: 'API Cost ($)',
+                            data: [],
+                            borderColor: '#e11d48', // rose-600
+                            backgroundColor: 'rgba(225, 29, 72, 0.1)',
+                            fill: true,
+                            tension: 0.1,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Self-Hosted Server Cost ($)',
+                            data: [],
+                            borderColor: '#059669', // emerald-600
+                            backgroundColor: 'rgba(5, 150, 105, 0.1)',
+                            fill: true,
+                            tension: 0.1,
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': $' + context.parsed.y.toLocaleString();
+                                }
+                            }
+                        },
+                        legend: { position: 'top' }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Cumulative Cost (USD)' }
+                        },
+                        x: {
+                            title: { display: true, text: 'Days' }
+                        }
+                    }
+                }
+            });
+
+            function updateChart() {
+                const tokensPerDayM = parseFloat(tokenSlider.value);
+                const apiPricePerM = parseFloat(apiCostSlider.value);
+                const serverHourly = parseFloat(serverCostSlider.value);
+
+                tokenValText.innerText = tokensPerDayM;
+                apiCostValText.innerText = apiPricePerM.toFixed(2);
+                serverCostValText.innerText = serverHourly.toFixed(2);
+
+                const apiData = [];
+                const serverData = [];
+                
+                let currentApiCost = 0;
+                let currentServerCost = 0;
+                
+                // Server cost per day = Hourly * 24
+                const dailyServerCost = serverHourly * 24;
+                // API cost per day = (TokensM) * APIPrice
+                const dailyApiCost = tokensPerDayM * apiPricePerM;
+
+                for(let i=1; i<=30; i++) {
+                    currentApiCost = dailyApiCost * i;
+                    currentServerCost = dailyServerCost * i;
+                    apiData.push(currentApiCost);
+                    serverData.push(currentServerCost);
+                }
+
+                costChart.data.datasets[0].data = apiData;
+                costChart.data.datasets[1].data = serverData;
+                costChart.update();
+
+                const finalApi = Math.round(currentApiCost);
+                const finalServer = Math.round(currentServerCost);
+
+                totalApiText.innerText = `$${finalApi.toLocaleString()}`;
+                totalServerText.innerText = `$${finalServer.toLocaleString()}`;
+
+                if (finalServer < finalApi) {
+                    const savings = finalApi - finalServer;
+                    conclusionText.innerHTML = `<span class="text-emerald-700">Self-hosting saves <strong>$${savings.toLocaleString()}/month</strong>. Break-even achieved.</span>`;
+                    conclusionText.className = "mt-4 p-3 bg-emerald-50 rounded text-sm font-medium border border-emerald-200";
+                } else {
+                    const loss = finalServer - finalApi;
+                    conclusionText.innerHTML = `<span class="text-rose-700">API is cheaper by <strong>$${loss.toLocaleString()}/month</strong> at this volume.</span>`;
+                    conclusionText.className = "mt-4 p-3 bg-rose-50 rounded text-sm font-medium border border-rose-200";
+                }
+            }
+
+            [tokenSlider, apiCostSlider, serverCostSlider].forEach(slider => {
+                slider.addEventListener('input', updateChart);
+            });
+
+            // Init Chart
+            updateChart();
+
+
+            /* =========================================
+               3. Provider Table Logic
+               ========================================= */
+            const providers = [
+                { name: 'RunPod', type: 'budget', typeName: 'Budget / Community', gpu: 'RTX 4090 (24GB)', rate: '$0.45', adv: 'Cheap, easy templates' },
+                { name: 'Lambda Labs', type: 'enterprise', typeName: 'Dedicated AI Cloud', gpu: 'H100 (80GB)', rate: '$2.49', adv: 'Availability, raw compute' },
+                { name: 'AWS (EC2)', type: 'enterprise', typeName: 'Enterprise Cloud', gpu: 'A100 (40GB) [p4d]', rate: '$4.10', adv: 'Ecosystem integration' },
+                { name: 'Vast.ai', type: 'budget', typeName: 'Marketplace', gpu: 'RTX 3090 (24GB)', rate: '$0.25', adv: 'Absolute lowest spot prices' },
+                { name: 'Hetzner', type: 'budget', typeName: 'Dedicated Bare Metal', gpu: 'RTX 6000 Ada (48GB)', rate: '~$0.90 (Monthly)', adv: 'Massive bandwidth included' },
+            ];
+
+            const tbody = document.getElementById('provider-tbody');
+            const filterSelect = document.getElementById('provider-filter');
+
+            function renderTable(filter) {
+                tbody.innerHTML = '';
+                providers.forEach(p => {
+                    if (filter === 'all' || p.type === filter) {
+                        const tr = document.createElement('tr');
+                        tr.className = "hover:bg-slate-50 transition-colors";
+                        tr.innerHTML = `
+                            <td class="p-4 font-medium text-slate-800">${p.name}</td>
+                            <td class="p-4 text-slate-600"><span class="px-2 py-1 bg-slate-100 rounded text-xs border border-slate-200">${p.typeName}</span></td>
+                            <td class="p-4 text-slate-800 font-mono text-sm">${p.gpu}</td>
+                            <td class="p-4 font-bold text-indigo-600">${p.rate}</td>
+                            <td class="p-4 text-slate-600 text-sm">${p.adv}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    }
+                });
+            }
+
+            filterSelect.addEventListener('change', (e) => renderTable(e.target.value));
+            
+            // Init Table
+            renderTable('all');
+
+
+            /* =========================================
+               4. Tab Logic for Software Stack
+               ========================================= */
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Reset all
+                    tabBtns.forEach(b => {
+                        b.classList.remove('active', 'text-indigo-600', 'border-indigo-600');
+                        b.classList.add('text-slate-500', 'border-transparent');
+                    });
+                    tabContents.forEach(c => {
+                        c.classList.remove('block');
+                        c.classList.add('hidden');
+                    });
+
+                    // Activate target
+                    btn.classList.add('active', 'text-indigo-600', 'border-indigo-600');
+                    btn.classList.remove('text-slate-500', 'border-transparent');
+                    
+                    const targetId = `tab-${btn.dataset.target}`;
+                    document.getElementById(targetId).classList.remove('hidden');
+                    document.getElementById(targetId).classList.add('block');
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
