@@ -4,17 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPUHosting.Guide — Self-Host AI Models on GPU Infrastructure (2026)</title>
-    <meta name="description" content="The definitive 2026 guide to self-hosting LLMs. Calculate VRAM, compare GPU cloud providers, estimate costs, and deploy with copy-paste commands. Llama 4, DeepSeek V4, Qwen 3.">
-    <meta name="keywords" content="GPU hosting, self-host LLM, VRAM calculator, GPU cloud, RunPod, Lambda Labs, vLLM, Ollama, Llama 4, DeepSeek V4, Qwen 3, AI inference">
+    <meta name="description" content="The definitive 2026 guide to self-hosting LLMs. Calculate VRAM, compare GPU cloud providers, estimate costs, and deploy with copy-paste commands. Llama 4, DeepSeek V3.2, Qwen 3.5, gpt-oss.">
+    <meta name="keywords" content="GPU hosting, self-host LLM, VRAM calculator, GPU cloud, RunPod, Lambda Labs, vLLM, Ollama, Llama 4, DeepSeek V3.2, Qwen 3.5, gpt-oss, OpenAI open-weight, AI inference, AWS GPU, GCP GPU, Azure GPU">
     <meta property="og:title" content="GPUHosting.Guide — Self-Host AI Models on GPU Infrastructure">
     <meta property="og:description" content="Calculate VRAM, compare GPU providers, estimate costs. The complete 2026 guide to self-hosting open-weight LLMs.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://gpuhosting.lekker.design">
+    <meta property="og:url" content="https://gpuhosting.guide">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="GPUHosting.Guide — Self-Host AI Models on GPU Infrastructure">
     <meta name="twitter:description" content="Calculate VRAM, compare GPU providers, estimate costs. The complete 2026 guide to self-hosting open-weight LLMs.">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🖥️</text></svg>">
-    <link rel="canonical" href="https://gpuhosting.lekker.design">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2020/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🖥️</text></svg>">
+    <link rel="canonical" href="https://gpuhosting.guide">
+    <meta name='impact-site-verification' value='b8294e88-e2ad-42ed-b861-d905d2878fdd'>
+
+    <meta name="robots" content="index, follow">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3GTGPGDL3F"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-3GTGPGDL3F');
+      gtag('config', 'G-E9VPTS1J8F');
+    </script>
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
@@ -22,12 +35,12 @@
         "@context": "https://schema.org",
         "@type": "WebApplication",
         "name": "GPUHosting.Guide",
-        "url": "https://gpuhosting.lekker.design",
+        "url": "https://gpuhosting.guide",
         "description": "Interactive VRAM calculator, cost estimator, and GPU cloud provider comparison for self-hosting AI models.",
         "applicationCategory": "DeveloperApplication",
         "operatingSystem": "Web",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-        "dateModified": "2026-03-21"
+        "dateModified": "2026-03-27"
     }
     </script>
     <script type="application/ld+json">
@@ -61,80 +74,87 @@
             theme: {
                 extend: {
                     colors: {
-                        neon: { DEFAULT: '#00ffd5', dim: '#00c896', dark: '#009e78' },
-                        obsidian: { DEFAULT: '#0a0e1a', light: '#111827', card: '#0f1629', border: '#1a2744' }
+                        neon: { DEFAULT: '#DFFF00', dim: '#b8d900', dark: '#8fa300' },
+                        zinc: { 950: '#09090b', 900: '#18181b', 800: '#27272a', 700: '#3f3f46', 600: '#52525b', 500: '#71717a', 400: '#a1a1aa', 300: '#d4d4d8', 200: '#e4e4e7', 100: '#f4f4f5' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter Tight', 'system-ui', 'sans-serif'],
+                        mono: ['IBM Plex Mono', 'monospace'],
                     }
                 }
             }
         }
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Fonts: Inter Tight (headings) + IBM Plex Mono (technical) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 
-    <!-- Geist Font -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-mono/style.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script defer src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        body { font-family: 'Geist Sans', 'Geist', sans-serif; background-color: #0a0e1a; color: #c8d6e5; }
-        .font-mono, code, .code-block { font-family: 'Geist Mono', monospace; }
+        body { font-family: 'Inter Tight', system-ui, sans-serif; background-color: #09090b; color: #f4f4f5; }
+        .font-mono, code, .code-block { font-family: 'IBM Plex Mono', monospace; }
 
         /* ===== OBSIDIAN NEON THEME ===== */
 
-        /* Override Tailwind utility colors for dark-first */
-        .bg-slate-50, .bg-white { background-color: #0f1629; }
-        .bg-slate-100 { background-color: #111827; }
-        .text-slate-900 { color: #f0f4f8; }
-        .text-slate-800 { color: #e2e8f0; }
-        .text-slate-700 { color: #c8d6e5; }
-        .text-slate-600 { color: #8899a6; }
-        .text-slate-500 { color: #6b7c8d; }
-        .text-slate-400 { color: #556677; }
-        .border-slate-200, .border-slate-100 { border-color: #1a2744; }
-        .divide-slate-100 > :not([hidden]) ~ :not([hidden]) { border-color: #1a2744; }
-        .hover\:bg-slate-50:hover { background-color: rgba(0, 255, 213, 0.03); }
-        .shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,0.4); }
+        /* Override Tailwind utility colors — Zinc dark-first theme */
+        .bg-slate-50, .bg-white { background-color: #18181b !important; }
+        .bg-slate-100 { background-color: #27272a !important; }
+        .text-slate-900 { color: #f4f4f5 !important; }
+        .text-slate-800 { color: #f4f4f5 !important; }
+        .text-slate-700 { color: #d4d4d8 !important; }
+        .text-slate-600 { color: #a1a1aa !important; }
+        .text-slate-500 { color: #71717a !important; }
+        .text-slate-400 { color: #52525b !important; }
+        .text-slate-300 { color: #d4d4d8 !important; }
+        .border-slate-200, .border-slate-100 { border-color: #27272a !important; }
+        .divide-slate-100 > :not([hidden]) ~ :not([hidden]) { border-color: #27272a; }
+        .hover\:bg-slate-50:hover { background-color: rgba(223, 255, 0, 0.03); }
+        .shadow-sm { box-shadow: 0 1px 3px rgba(0,0,0,0.5); }
 
-        /* Neon accent overrides */
-        .text-indigo-600, .text-indigo-700 { color: #00ffd5; }
-        .text-indigo-800 { color: #00ffd5; }
-        .bg-indigo-600 { background-color: #00ffd5; color: #0a0e1a; }
-        .bg-indigo-50 { background-color: rgba(0, 255, 213, 0.06); }
-        .border-indigo-100, .border-indigo-200 { border-color: rgba(0, 255, 213, 0.15); }
-        .text-indigo-900 { color: #00ffd5; }
-        .bg-indigo-100 { background-color: rgba(0, 255, 213, 0.1); }
-        .text-indigo-300 { color: rgba(0, 255, 213, 0.6); }
-        .text-indigo-200 { color: rgba(0, 255, 213, 0.7); }
-        .hover\:text-indigo-600:hover { color: #00ffd5; }
-        .hover\:bg-indigo-700:hover { background-color: #00c896; color: #0a0e1a; }
-        .hover\:bg-indigo-50:hover { background-color: rgba(0, 255, 213, 0.08); }
-        .border-indigo-600 { border-color: #00ffd5; }
-        .selection\:bg-indigo-100::selection { background-color: rgba(0, 255, 213, 0.2); }
-        .selection\:text-indigo-900::selection { color: #00ffd5; }
+        /* Cyber Lime accent overrides */
+        .text-indigo-600, .text-indigo-700 { color: #DFFF00 !important; }
+        .text-indigo-800 { color: #DFFF00 !important; }
+        .text-indigo-900 { color: #DFFF00 !important; }
+        .bg-indigo-600 { background-color: #DFFF00 !important; color: #09090b !important; }
+        .bg-indigo-50 { background-color: rgba(223, 255, 0, 0.06) !important; }
+        .border-indigo-100, .border-indigo-200 { border-color: rgba(223, 255, 0, 0.15) !important; }
+        .bg-indigo-100 { background-color: rgba(223, 255, 0, 0.1); }
+        .text-indigo-300 { color: rgba(223, 255, 0, 0.8); }
+        .text-indigo-200 { color: rgba(223, 255, 0, 0.9); }
+        .hover\:text-indigo-600:hover { color: #DFFF00; }
+        .hover\:bg-indigo-700:hover { background-color: #b8d900; color: #09090b; }
+        .hover\:bg-indigo-50:hover { background-color: rgba(223, 255, 0, 0.08); }
+        .border-indigo-600 { border-color: #DFFF00; }
+        .selection\:bg-indigo-100::selection { background-color: rgba(223, 255, 0, 0.2); }
+        .selection\:text-indigo-900::selection { color: #DFFF00; }
 
         /* Emerald accents */
-        .bg-emerald-50 { background-color: rgba(0, 200, 150, 0.08); }
-        .bg-emerald-100 { background-color: rgba(0, 200, 150, 0.12); }
-        .text-emerald-600, .text-emerald-700 { color: #00c896; }
-        .border-emerald-200 { border-color: rgba(0, 200, 150, 0.2); }
+        .bg-emerald-50 { background-color: rgba(184, 217, 0, 0.08); }
+        .bg-emerald-100 { background-color: rgba(184, 217, 0, 0.12); }
+        .text-emerald-600, .text-emerald-700 { color: #34d9a8 !important; }
+        .border-emerald-200 { border-color: rgba(184, 217, 0, 0.2); }
 
         /* Amber accents */
-        .bg-amber-50 { background-color: rgba(245, 158, 11, 0.06); }
-        .bg-amber-100 { background-color: rgba(245, 158, 11, 0.1); }
-        .text-amber-700, .text-amber-800 { color: #fbbf24; }
-        .border-amber-200 { border-color: rgba(245, 158, 11, 0.2); }
+        .bg-amber-50 { background-color: rgba(251, 113, 133, 0.08); }
+        .bg-amber-100 { background-color: rgba(251, 113, 133, 0.15); }
+        .text-amber-700, .text-amber-800 { color: #fb7185 !important; }
+        .border-amber-200 { border-color: rgba(251, 113, 133, 0.3); }
 
         /* Rose accents */
         .bg-rose-50 { background-color: rgba(244, 63, 94, 0.06); }
-        .text-rose-600, .text-rose-700, .text-rose-800 { color: #fb7185; }
+        .text-rose-600, .text-rose-700, .text-rose-800 { color: #fb7185 !important; }
         .border-rose-200 { border-color: rgba(244, 63, 94, 0.2); }
 
         /* Blue accents */
         .bg-blue-50 { background-color: rgba(59, 130, 246, 0.06); }
-        .text-blue-700 { color: #60a5fa; }
+        .text-blue-700 { color: #60a5fa !important; }
         .border-blue-200 { border-color: rgba(59, 130, 246, 0.2); }
 
         /* Nav */
-        nav { background-color: rgba(10, 14, 26, 0.92) !important; backdrop-filter: blur(20px); border-color: #1a2744 !important; }
+        nav { background-color: rgba(10, 14, 26, 0.92) !important; backdrop-filter: blur(20px); border-color: #27272a !important; }
 
         /* Staggered entry animations */
         .stagger-in {
@@ -154,7 +174,7 @@
 
         /* Hero gradient */
         .hero-gradient {
-            background: linear-gradient(-45deg, #050810, #0a1628, #061a2e, #0d0f24, #050810);
+            background: linear-gradient(-45deg, #050505, #141414, #0f0f0f, #0d0d0d, #050505);
             background-size: 400% 400%;
             animation: gradientShift 12s ease infinite;
             position: relative;
@@ -162,8 +182,8 @@
         .hero-gradient::before {
             content: '';
             position: absolute; inset: 0;
-            background: radial-gradient(ellipse at 30% 50%, rgba(0,255,213,0.08) 0%, transparent 60%),
-                        radial-gradient(ellipse at 70% 30%, rgba(0,200,150,0.05) 0%, transparent 50%);
+            background: radial-gradient(ellipse at 30% 50%, rgba(223,255,0,0.08) 0%, transparent 60%),
+                        radial-gradient(ellipse at 70% 30%, rgba(184,217,0,0.05) 0%, transparent 50%);
             pointer-events: none;
         }
         @keyframes gradientShift {
@@ -173,13 +193,13 @@
         }
 
         .hero-grid {
-            background-image: radial-gradient(rgba(0,255,213,0.08) 1px, transparent 1px);
+            background-image: radial-gradient(rgba(223,255,0,0.08) 1px, transparent 1px);
             background-size: 40px 40px;
         }
 
         /* Neon gradient text for hero */
         .neon-text {
-            background: linear-gradient(135deg, #00ffd5, #00c896, #00ffd5);
+            background: linear-gradient(135deg, #DFFF00, #b8d900, #DFFF00);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -187,8 +207,8 @@
 
         .glow-pulse { animation: glowPulse 2.5s ease-in-out infinite; }
         @keyframes glowPulse {
-            0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 213, 0.3); }
-            50% { box-shadow: 0 0 40px rgba(0, 255, 213, 0.6); }
+            0%, 100% { box-shadow: 0 0 20px rgba(223, 255, 0, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(223, 255, 0, 0.6); }
         }
 
         /* CSS GPU Chip */
@@ -202,21 +222,21 @@
         }
         .gpu-chip-body {
             width: 80px; height: 80px;
-            background: linear-gradient(135deg, #00ffd5, #00c896, #009e78);
+            background: linear-gradient(135deg, #DFFF00, #b8d900, #8fa300);
             border-radius: 8px;
             position: absolute; top: 20px; left: 20px;
-            box-shadow: 0 0 30px rgba(0, 255, 213, 0.3), inset 0 1px 0 rgba(255,255,255,0.2);
+            box-shadow: 0 0 30px rgba(223, 255, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.2);
         }
         .gpu-chip-large .gpu-chip-body {
             width: 120px; height: 120px;
             top: 30px; left: 30px;
-            box-shadow: 0 0 50px rgba(0, 255, 213, 0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+            box-shadow: 0 0 50px rgba(223, 255, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.2);
         }
         .gpu-chip-body::before {
             content: 'GPU';
             position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            color: #0a0e1a;
+            color: #09090b;
             font-size: 14px; font-weight: 800;
             letter-spacing: 2px;
         }
@@ -230,7 +250,7 @@
             border: 1px solid rgba(10,14,26,0.3);
             border-radius: 4px;
         }
-        .gpu-pin { position: absolute; background: #00ffd5; border-radius: 1px; }
+        .gpu-pin { position: absolute; background: #DFFF00; border-radius: 1px; }
         .gpu-pin-t { width: 4px; height: 10px; top: 10px; }
         .gpu-pin-b { width: 4px; height: 10px; bottom: 10px; }
         .gpu-pin-l { width: 10px; height: 4px; left: 10px; }
@@ -247,7 +267,7 @@
         /* Circuit lines */
         .circuit-line {
             position: absolute;
-            background: rgba(0, 255, 213, 0.12);
+            background: rgba(223, 255, 0, 0.12);
             animation: circuitPulse 3s ease-in-out infinite;
         }
         @keyframes circuitPulse {
@@ -262,7 +282,7 @@
         }
         .server-unit {
             height: 10px;
-            background: linear-gradient(90deg, #1a2744, #243554);
+            background: linear-gradient(90deg, #27272a, #243554);
             border-radius: 2px;
             margin-bottom: 3px;
             position: relative;
@@ -273,8 +293,8 @@
             right: 4px; top: 3px;
             width: 4px; height: 4px;
             border-radius: 50%;
-            background: #00ffd5;
-            box-shadow: 0 0 6px #00ffd5;
+            background: #DFFF00;
+            box-shadow: 0 0 6px #DFFF00;
         }
         @keyframes rackBlink {
             0%, 100% { opacity: 0.6; }
@@ -290,8 +310,11 @@
         }
         .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
         .flip-card-front, .flip-card-back {
-            backface-visibility: hidden;
-            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden !important;
+            -webkit-backface-visibility: hidden !important;
+        }
+        .flip-card-front {
+            position: relative;
         }
         .flip-card-back {
             transform: rotateY(180deg);
@@ -306,40 +329,169 @@
             height: 40vh; max-height: 450px; min-height: 300px;
         }
 
-        .tab-active { border-bottom: 2px solid #00ffd5; color: #00ffd5; font-weight: 600; }
-        input[type=range] { accent-color: #00ffd5; }
+        .tab-active { border-bottom: 2px solid #DFFF00; color: #DFFF00; font-weight: 600; }
+
+        /* Quantization bento grid */
+        .quant-bento {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 1rem;
+        }
+        @media (max-width: 767px) {
+            .quant-bento { grid-template-columns: 1fr; }
+        }
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .quant-bento { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* Spotlight hover on quant cards */
+        .quant-card {
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+        }
+        .quant-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                320px circle at var(--qx, -999px) var(--qy, -999px),
+                rgba(223,255,0,0.07) 0%,
+                transparent 65%
+            );
+            pointer-events: none;
+            border-radius: inherit;
+            transition: opacity 0.3s ease;
+            opacity: 0;
+        }
+        .quant-card:hover::after { opacity: 1; }
+
+        /* Icon wrapper */
+        .quant-icon {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            margin-bottom: 1rem;
+        }
+
+        /* VRAM slider — thick track + glowing thumb */
+        input[type=range]#param-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: #27272a;
+            outline: none;
+            cursor: pointer;
+        }
+        input[type=range]#param-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #DFFF00;
+            cursor: pointer;
+            box-shadow: 0 0 0 3px rgba(223,255,0,0.15), 0 0 12px rgba(223,255,0,0.4);
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+        }
+        input[type=range]#param-slider::-webkit-slider-thumb:hover,
+        input[type=range]#param-slider:active::-webkit-slider-thumb {
+            box-shadow: 0 0 0 5px rgba(223,255,0,0.2), 0 0 20px rgba(223,255,0,0.6);
+            transform: scale(1.15);
+        }
+        input[type=range]#param-slider::-moz-range-thumb {
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background: #DFFF00;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 0 3px rgba(223,255,0,0.15), 0 0 12px rgba(223,255,0,0.4);
+        }
+        input[type=range]#param-slider::-webkit-slider-runnable-track {
+            height: 6px;
+            border-radius: 3px;
+            background: linear-gradient(to right, #DFFF00 var(--track-fill, 0%), #27272a var(--track-fill, 0%));
+        }
+
+        /* GPU recommendation focal box */
+        .gpu-rec-box {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid rgba(223,255,0,0.2);
+            background: rgba(18,18,18,0.6);
+        }
+        .gpu-rec-box::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 100%, rgba(223,255,0,0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        /* VRAM number roll animation */
+        #vram-output {
+            display: inline-block;
+            transition: opacity 0.1s ease;
+        }
+        #vram-output.rolling { opacity: 0.4; }
+
+        input[type=range] { accent-color: #DFFF00; }
 
         .verified-badge {
             font-size: 0.7rem; padding: 2px 6px; border-radius: 999px;
-            background-color: rgba(0, 255, 213, 0.1); color: #00ffd5; font-weight: 600; display: inline-block;
-            border: 1px solid rgba(0, 255, 213, 0.2);
+            background-color: rgba(223, 255, 0, 0.1); color: #DFFF00; font-weight: 600; display: inline-block;
+            border: 1px solid rgba(223, 255, 0, 0.2);
         }
 
         .code-block {
-            background: #060a14; color: #c8d6e5; border-radius: 0.5rem;
-            padding: 1rem 1.25rem; font-family: 'Geist Mono', monospace;
+            background: #050505; color: #a1a1aa; border-radius: 0.5rem;
+            padding: 1rem 1.25rem; font-family: 'IBM Plex Mono', monospace;
             font-size: 0.85rem; line-height: 1.6; overflow-x: auto; position: relative;
-            border: 1px solid #1a2744;
+            border: 1px solid #27272a; border-radius: 12px;
         }
-        .code-block .comment { color: #4a5f78; }
+        .code-block .comment { color: #52525b; }
 
         .copy-btn {
             position: absolute; top: 0.5rem; right: 0.5rem;
-            background: rgba(0,255,213,0.08); border: 1px solid rgba(0,255,213,0.2);
-            color: #00ffd5; padding: 0.25rem 0.5rem; border-radius: 0.375rem;
+            background: rgba(223,255,0,0.08); border: 1px solid rgba(223,255,0,0.2);
+            color: #DFFF00; padding: 0.25rem 0.5rem; border-radius: 0.375rem;
             font-size: 0.75rem; cursor: pointer; transition: all 0.2s;
         }
-        .copy-btn:hover { background: rgba(0,255,213,0.15); }
+        .copy-btn:hover { background: rgba(223,255,0,0.15); }
 
-        /* Glass card styling */
+        /* Glass card — gradient border + backdrop blur */
+        .glass-card {
+            background:
+                linear-gradient(rgba(24,24,27,0.5), rgba(24,24,27,0.5)) padding-box,
+                linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%) border-box;
+            border: 1px solid transparent;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 12px;
+            transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s ease, background 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.06);
+            background:
+                linear-gradient(rgba(24,24,27,0.65), rgba(24,24,27,0.65)) padding-box,
+                linear-gradient(135deg, rgba(255,255,255,0.18) 0%, rgba(223,255,0,0.08) 100%) border-box;
+        }
+
+        /* Legacy card-hover kept for spotlight cards */
         .card-hover {
             transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-            border-color: #1a2744;
+            border-color: #27272a;
         }
         .card-hover:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 32px rgba(0, 255, 213, 0.08);
-            border-color: rgba(0, 255, 213, 0.3);
+            box-shadow: 0 8px 32px rgba(223, 255, 0, 0.08);
+            border-color: rgba(223, 255, 0, 0.3);
         }
 
         .mobile-menu { display: none; }
@@ -347,20 +499,34 @@
 
         .affiliate-btn {
             transition: all 0.2s ease;
-            background-color: #00ffd5 !important;
-            color: #0a0e1a !important;
+            background-color: #DFFF00 !important;
+            color: #09090b !important;
         }
         .affiliate-btn:hover {
             transform: translateY(-1px);
-            box-shadow: 0 4px 16px rgba(0, 255, 213, 0.35);
-            background-color: #00c896 !important;
+            box-shadow: 0 4px 16px rgba(223, 255, 0, 0.35);
+            background-color: #b8d900 !important;
         }
 
-        .nav-link.active-section { color: #00ffd5; }
+        /* Ghost button — provider table */
+        .ghost-btn {
+            color: #a1a1aa;
+            border: 1px solid #3f3f46;
+            background: transparent;
+            transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+        }
+        .ghost-btn:hover {
+            background: #DFFF00;
+            color: #09090b;
+            border-color: #DFFF00;
+            transform: translateY(-1px);
+        }
+
+        .nav-link.active-section { color: #DFFF00; }
 
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0a0e1a; }
-        ::-webkit-scrollbar-thumb { background: #1a2744; border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: #09090b; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #243554; }
 
         /* Wizard */
@@ -369,29 +535,29 @@
         .wizard-option {
             transition: all 0.2s;
             cursor: pointer;
-            background-color: #0f1629 !important;
-            border-color: #1a2744;
+            background-color: #18181b !important;
+            border-color: #27272a;
         }
         .wizard-option:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 255, 213, 0.06);
-            border-color: rgba(0, 255, 213, 0.3);
+            box-shadow: 0 8px 25px rgba(223, 255, 0, 0.06);
+            border-color: rgba(223, 255, 0, 0.3);
         }
         .wizard-option.selected {
-            border-color: #00ffd5 !important;
-            background-color: rgba(0, 255, 213, 0.05) !important;
-            box-shadow: 0 0 20px rgba(0, 255, 213, 0.1);
+            border-color: #DFFF00 !important;
+            background-color: rgba(223, 255, 0, 0.05) !important;
+            box-shadow: 0 0 20px rgba(223, 255, 0, 0.1);
         }
         .wizard-progress-bar {
             transition: width 0.4s ease;
-            background-color: #00ffd5 !important;
+            background-color: #DFFF00 !important;
         }
 
         /* Flip hint */
         .flip-hint {
             position: absolute; top: 8px; right: 8px;
-            background: rgba(0, 255, 213, 0.1);
-            color: #00ffd5;
+            background: rgba(223, 255, 0, 0.1);
+            color: #DFFF00;
             font-size: 0.65rem;
             padding: 2px 8px;
             border-radius: 999px;
@@ -404,28 +570,28 @@
         /* Theme toggle */
         .theme-toggle {
             width: 44px; height: 24px;
-            background: #1a2744;
+            background: #27272a;
             border-radius: 12px;
             position: relative;
             cursor: pointer;
             transition: background 0.3s;
-            border: 1px solid rgba(0, 255, 213, 0.2);
+            border: 1px solid rgba(223, 255, 0, 0.2);
         }
         .theme-toggle::after {
             content: '';
             width: 18px; height: 18px;
-            background: #00ffd5;
+            background: #DFFF00;
             border-radius: 50%;
             position: absolute;
             top: 2px; left: 3px;
             transition: transform 0.3s;
-            box-shadow: 0 0 8px rgba(0, 255, 213, 0.4);
+            box-shadow: 0 0 8px rgba(223, 255, 0, 0.4);
         }
 
         /* Neon glow border for key sections */
         .neon-border {
-            border: 1px solid rgba(0, 255, 213, 0.15);
-            box-shadow: 0 0 0 1px rgba(0, 255, 213, 0.05);
+            border: 1px solid rgba(223, 255, 0, 0.15);
+            box-shadow: 0 0 0 1px rgba(223, 255, 0, 0.05);
         }
 
         /* Footer */
@@ -433,7 +599,7 @@
 
         /* Table rows */
         .hover\:bg-slate-50:hover, tr.hover\:bg-slate-50:hover {
-            background-color: rgba(0, 255, 213, 0.03) !important;
+            background-color: rgba(223, 255, 0, 0.03) !important;
         }
 
         /* Tag overrides for dark bg */
@@ -443,8 +609,8 @@
         .spotlight-card {
             position: relative;
             overflow: hidden;
-            background: #0f1629;
-            border: 1px solid #1a2744;
+            background: #18181b;
+            border: 1px solid #27272a;
             border-radius: 0.75rem;
             transition: border-color 0.3s ease;
         }
@@ -455,7 +621,7 @@
             left: var(--mouse-x, -100px);
             width: 300px;
             height: 300px;
-            background: radial-gradient(circle, rgba(0,255,213,0.12) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(223,255,0,0.12) 0%, transparent 70%);
             transform: translate(-50%, -50%);
             pointer-events: none;
             opacity: 0;
@@ -464,6 +630,10 @@
         }
         .spotlight-card:hover::before { opacity: 1; }
         .spotlight-card > * { position: relative; z-index: 1; }
+        /* Disable spotlight inside flip cards — it breaks backface-visibility */
+        .flip-card .spotlight-card { overflow: visible; }
+        .flip-card .spotlight-card::before { display: none; }
+        .flip-card .spotlight-card > * { position: static; z-index: auto; }
 
         /* ===== GRAIN/NOISE OVERLAY ===== */
         .grain-overlay {
@@ -482,37 +652,25 @@
         @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
         .marquee-track:hover { animation-play-state: paused; }
 
-        /* ===== BENTO GRID FOR MODEL CARDS ===== */
+        /* ===== MODEL CARDS GRID ===== */
         .model-bento-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 1.5rem;
-        }
-        .model-bento-grid > :first-child {
-            grid-column: span 2;
-        }
-        .model-bento-grid > :first-child .flip-card-inner {
-            min-height: 380px !important;
         }
         @media (max-width: 767px) {
             .model-bento-grid {
                 grid-template-columns: 1fr;
             }
-            .model-bento-grid > :first-child {
-                grid-column: span 1;
-            }
         }
-        @media (min-width: 768px) and (max-width: 1023px) {
+        @media (min-width: 1024px) {
             .model-bento-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .model-bento-grid > :first-child {
-                grid-column: span 2;
+                grid-template-columns: repeat(3, 1fr);
             }
         }
     </style>
 </head>
-<body class="antialiased" style="background:#0a0e1a; color:#c8d6e5;">
+<body class="antialiased" style="background:#09090b; color:#f4f4f5;">
 
     <!-- Grain/Noise Overlay -->
     <div class="grain-overlay"></div>
@@ -522,7 +680,22 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
-                    <a href="#" class="text-xl sm:text-2xl font-bold" style="color: #00ffd5;">GPUHosting<span class="text-slate-300">.guide</span></a>
+                    <a href="#" class="flex items-center gap-2 text-xl sm:text-2xl font-bold group">
+                        <svg width="32" height="32" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" class="drop-shadow-[0_0_8px_rgba(223,255,0,0.5)] group-hover:drop-shadow-[0_0_14px_rgba(223,255,0,0.8)] transition-all duration-300">
+                            <rect x="8" y="8" width="24" height="24" rx="4" fill="#141414" stroke="#DFFF00" stroke-width="2"/>
+                            <rect x="13" y="13" width="14" height="14" rx="2" fill="#DFFF00" opacity="0.15"/>
+                            <rect x="16" y="16" width="8" height="8" rx="1" fill="#DFFF00"/>
+                            <!-- Top pins -->
+                            <rect x="13" y="3" width="2" height="6" rx="1" fill="#DFFF00"/><rect x="19" y="3" width="2" height="6" rx="1" fill="#DFFF00"/><rect x="25" y="3" width="2" height="6" rx="1" fill="#DFFF00"/>
+                            <!-- Bottom pins -->
+                            <rect x="13" y="31" width="2" height="6" rx="1" fill="#DFFF00"/><rect x="19" y="31" width="2" height="6" rx="1" fill="#DFFF00"/><rect x="25" y="31" width="2" height="6" rx="1" fill="#DFFF00"/>
+                            <!-- Left pins -->
+                            <rect x="3" y="13" width="6" height="2" rx="1" fill="#DFFF00"/><rect x="3" y="19" width="6" height="2" rx="1" fill="#DFFF00"/><rect x="3" y="25" width="6" height="2" rx="1" fill="#DFFF00"/>
+                            <!-- Right pins -->
+                            <rect x="31" y="13" width="6" height="2" rx="1" fill="#DFFF00"/><rect x="31" y="19" width="6" height="2" rx="1" fill="#DFFF00"/><rect x="31" y="25" width="6" height="2" rx="1" fill="#DFFF00"/>
+                        </svg>
+                        <span style="color: #DFFF00;">GPU<span class="text-white">Hosting</span><span class="text-slate-400">.guide</span></span>
+                    </a>
                 </div>
                 <div class="hidden lg:flex space-x-5 items-center font-medium text-sm text-slate-600">
                     <a href="#models" class="nav-link hover:text-indigo-600 transition-colors">Models</a>
@@ -571,7 +744,7 @@
                 <div class="lg:w-[60%] text-left">
                     <div class="stagger-in" style="--stagger:0">
                         <div class="inline-block bg-neon/5 backdrop-blur-sm text-neon px-4 py-1.5 rounded-full text-sm font-semibold border border-neon/20 mb-6">
-                            Updated March 2026 — Llama 4 &middot; DeepSeek V4 &middot; Qwen 3 &middot; RTX 5090
+                            Updated April 2026 — Llama 4 &middot; DeepSeek V3.2 &middot; Qwen 3.5 &middot; gpt-oss &middot; RTX 5090
                         </div>
                     </div>
                     <h1 class="stagger-in text-4xl md:text-6xl font-extrabold tracking-tight text-white mb-6 leading-tight" style="--stagger:1">
@@ -649,32 +822,32 @@
     </section>
 
     <!-- Kinetic Marquee -->
-    <div class="overflow-hidden py-4 border-y border-[#1a2744] bg-[#060a14]">
-        <div class="marquee-track flex gap-12 text-sm font-mono text-[#556677] whitespace-nowrap" style="animation: marquee 30s linear infinite;">
+    <div class="overflow-hidden py-4 border-y border-[#27272a] bg-[#050505]">
+        <div class="marquee-track flex gap-12 text-sm font-mono text-[#52525b] whitespace-nowrap" style="animation: marquee 30s linear infinite;">
             <span>RTX 5090 — 2.6x faster than A100</span>
             <span>&bull;</span>
-            <span>RunPod: $1 = 175,301 tokens</span>
+            <span>RunPod: $1 = ~162,000 tokens (H100 SXM, Mar 2026)</span>
             <span>&bull;</span>
             <span>Llama 4 Maverick: 402B params, 17B active</span>
             <span>&bull;</span>
             <span>vLLM: 35x throughput vs llama.cpp</span>
             <span>&bull;</span>
-            <span>DeepSeek V4: $6M training cost vs GPT-4's $100M</span>
+            <span>DeepSeek V3: $6M training cost vs GPT-4's $100M</span>
             <span>&bull;</span>
-            <span>Qwen 3: 1M token context window</span>
+            <span>Qwen 3.5: 397B MoE, native vision, 1M context</span>
             <span>&bull;</span>
             <!-- Duplicate for seamless loop -->
             <span>RTX 5090 — 2.6x faster than A100</span>
             <span>&bull;</span>
-            <span>RunPod: $1 = 175,301 tokens</span>
+            <span>RunPod: $1 = ~162,000 tokens (H100 SXM, Mar 2026)</span>
             <span>&bull;</span>
             <span>Llama 4 Maverick: 402B params, 17B active</span>
             <span>&bull;</span>
             <span>vLLM: 35x throughput vs llama.cpp</span>
             <span>&bull;</span>
-            <span>DeepSeek V4: $6M training cost vs GPT-4's $100M</span>
+            <span>DeepSeek V3: $6M training cost vs GPT-4's $100M</span>
             <span>&bull;</span>
-            <span>Qwen 3: 1M token context window</span>
+            <span>Qwen 3.5: 397B MoE, native vision, 1M context</span>
             <span>&bull;</span>
         </div>
     </div>
@@ -849,8 +1022,10 @@
                     <tbody class="text-sm divide-y divide-slate-100">
                         <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">RTX 5090</td><td class="p-4"><span class="px-2 py-1 bg-emerald-50 text-emerald-700 rounded text-xs border border-emerald-200">Consumer</span></td><td class="p-4 font-mono">32GB GDDR7</td><td class="p-4 font-mono">1,792 GB/s</td><td class="p-4 font-bold text-indigo-600">$0.89</td><td class="p-4 font-bold text-emerald-600">$0.04</td><td class="p-4 text-slate-500">2.6x faster than A100. Best value 2026.</td></tr>
                         <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">RTX 6000 Ada</td><td class="p-4"><span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs border border-blue-200">Workstation</span></td><td class="p-4 font-mono">48GB GDDR6</td><td class="p-4 font-mono">960 GB/s</td><td class="p-4 font-bold text-indigo-600">$0.77</td><td class="p-4 text-slate-400">&mdash;</td><td class="p-4 text-slate-500">Sweet spot for 70B 4-bit.</td></tr>
-                        <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">A100 (80GB)</td><td class="p-4"><span class="px-2 py-1 bg-amber-50 text-amber-700 rounded text-xs border border-amber-200">Enterprise</span></td><td class="p-4 font-mono">80GB HBM2e</td><td class="p-4 font-mono">1,935 GB/s</td><td class="p-4 font-bold text-indigo-600">$1.64</td><td class="p-4 text-slate-400">&mdash;</td><td class="p-4 text-slate-500">Workhorse. Fits 70B FP16.</td></tr>
-                        <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">H100 (80GB)</td><td class="p-4"><span class="px-2 py-1 bg-amber-50 text-amber-700 rounded text-xs border border-amber-200">Enterprise</span></td><td class="p-4 font-mono">80GB HBM3</td><td class="p-4 font-mono">3,350 GB/s</td><td class="p-4 font-bold text-indigo-600">$2.49</td><td class="p-4 font-bold text-slate-700">$0.13</td><td class="p-4 text-slate-500">Fastest. NVLink SXM for multi-GPU.</td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">RTX PRO 6000 Blackwell Max-Q</td><td class="p-4"><span class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs border border-purple-200">Blackwell</span></td><td class="p-4 font-mono">96GB GDDR7 ECC</td><td class="p-4 font-mono text-slate-400">TBD</td><td class="p-4 font-bold text-indigo-600">~$1.59</td><td class="p-4 text-slate-400">&mdash;</td><td class="p-4 text-slate-500">2x the VRAM of RTX 6000 Ada. Available as Hetzner dedicated server.</td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">A100 SXM (80GB)</td><td class="p-4"><span class="px-2 py-1 bg-amber-50 text-amber-700 rounded text-xs border border-amber-200">Enterprise</span></td><td class="p-4 font-mono">80GB HBM2e</td><td class="p-4 font-mono">1,935 GB/s</td><td class="p-4 font-bold text-indigo-600">$1.39</td><td class="p-4 text-slate-400">&mdash;</td><td class="p-4 text-slate-500">Workhorse. Fits 70B FP16. PCIe from $1.19/hr.</td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">B200 (192GB)</td><td class="p-4"><span class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs border border-purple-200">Blackwell</span></td><td class="p-4 font-mono">192GB HBM3e</td><td class="p-4 font-mono">8,000 GB/s</td><td class="p-4 font-bold text-indigo-600">$2.25 — $4.95</td><td class="p-4 text-slate-400">&mdash;</td><td class="p-4 text-slate-500">Next-gen Blackwell. 2x H100 memory. Prices dropping as supply scales.</td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">H100 SXM (80GB)</td><td class="p-4"><span class="px-2 py-1 bg-amber-50 text-amber-700 rounded text-xs border border-amber-200">Enterprise</span></td><td class="p-4 font-mono">80GB HBM3</td><td class="p-4 font-mono">3,350 GB/s</td><td class="p-4 font-bold text-indigo-600">$2.69</td><td class="p-4 font-bold text-slate-700">$0.13</td><td class="p-4 text-slate-500">Fastest. NVLink SXM for multi-GPU.</td></tr>
                         <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">Apple M4 Max</td><td class="p-4"><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded text-xs border border-slate-200">Unified SoC</span></td><td class="p-4 font-mono">128GB Unified</td><td class="p-4 font-mono">~546 GB/s</td><td class="p-4 text-slate-400">N/A</td><td class="p-4 text-slate-400">N/A</td><td class="p-4 text-slate-500">Holds Llama 4 Scout. ~22 tok/s.</td></tr>
                     </tbody>
                 </table>
@@ -872,15 +1047,16 @@
                     <h3 class="text-lg font-bold mb-4">Configure Model Parameters</h3>
                     <div class="mb-6">
                         <label class="block text-sm font-medium text-slate-700 mb-2">Model Size: <span id="param-val" class="font-bold text-indigo-600">70</span> Billion Parameters</label>
-                        <input type="range" id="param-slider" min="7" max="405" value="70" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
-                        <div class="flex justify-between text-xs text-slate-500 mt-1"><span>7B</span><span>70B</span><span>235B</span><span>405B</span></div>
+                        <input type="range" id="param-slider" min="7" max="1000" value="70" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+                        <div class="flex justify-between text-xs text-slate-500 mt-1"><span>7B</span><span>120B</span><span>400B</span><span>670B</span><span>1T</span></div>
+                        <p class="text-xs text-slate-400 mt-1">For MoE models, use active params for speed estimate; total params for VRAM sizing.</p>
                     </div>
                     <div class="mb-6">
                         <label class="block text-sm font-medium text-slate-700 mb-2">Quantization (Precision)</label>
                         <div class="grid grid-cols-3 gap-2">
-                            <button class="quant-btn active py-2 rounded text-sm font-medium transition-colors" style="background:#00ffd5;color:#0a0e1a;border:1px solid #00ffd5;" data-multiplier="2">FP16</button>
-                            <button class="quant-btn py-2 rounded text-sm font-medium transition-colors" style="background:#0f1629;color:#c8d6e5;border:1px solid #1a2744;" data-multiplier="1">8-Bit</button>
-                            <button class="quant-btn py-2 rounded text-sm font-medium transition-colors" style="background:#0f1629;color:#c8d6e5;border:1px solid #1a2744;" data-multiplier="0.6">4-Bit</button>
+                            <button class="quant-btn active py-2 rounded text-sm font-medium transition-colors" style="background:#DFFF00;color:#09090b;border:1px solid #DFFF00;" data-multiplier="2">FP16</button>
+                            <button class="quant-btn py-2 rounded text-sm font-medium transition-colors" style="background:#18181b;color:#a1a1aa;border:1px solid #27272a;" data-multiplier="1">8-Bit</button>
+                            <button class="quant-btn py-2 rounded text-sm font-medium transition-colors" style="background:#18181b;color:#a1a1aa;border:1px solid #27272a;" data-multiplier="0.6">4-Bit</button>
                         </div>
                         <p class="text-xs text-slate-500 mt-2">FP16 = best quality. 4-Bit = least VRAM. Sub-4-bit risks severe quality loss.</p>
                     </div>
@@ -889,10 +1065,19 @@
                     <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wide mb-2">Estimated VRAM Required</h3>
                     <div class="text-5xl font-extrabold text-slate-900 mb-2"><span id="vram-output">168</span><span class="text-2xl text-slate-500"> GB</span></div>
                     <p class="text-sm text-slate-500 mb-6">Includes 20% overhead for context &amp; KV cache.</p>
-                    <div class="w-full p-4 bg-indigo-50 border border-indigo-100 rounded-lg">
-                        <h4 class="text-sm font-bold text-indigo-900 mb-1">Recommended GPU Setup:</h4>
-                        <p id="gpu-recommendation" class="text-indigo-700 font-medium">2x NVIDIA H100 (80GB) or 4x A100 (40GB)</p>
+                    <div class="gpu-rec-box w-full p-5">
+                        <h4 class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#71717a">Recommended GPU Setup</h4>
+                        <p id="gpu-recommendation" class="font-semibold" style="color:#DFFF00;font-size:0.95rem">2x NVIDIA H100 (80GB) or 4x A100 (40GB)</p>
                     </div>
+                </div>
+            </div>
+            <div class="fade-up mt-6 bg-slate-50 border border-slate-200 rounded-lg p-4">
+                <h4 class="text-sm font-bold text-slate-700 mb-3">Reference: Real-World Model VRAM</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs text-slate-600">
+                    <div class="bg-white rounded-lg p-3 border border-slate-200"><span class="font-bold text-slate-800 block">gpt-oss-20b</span><span class="text-slate-500">MoE, 3.6B active</span><div class="mt-1 font-mono text-indigo-600">~48GB FP16 → 16GB @ 4-bit</div><div class="text-slate-400 mt-0.5">Single RTX 4090 / laptop GPU</div></div>
+                    <div class="bg-white rounded-lg p-3 border border-slate-200"><span class="font-bold text-slate-800 block">gpt-oss-120b</span><span class="text-slate-500">MoE, 5.1B active</span><div class="mt-1 font-mono text-indigo-600">~288GB FP16 → ~86GB @ 4-bit</div><div class="text-slate-400 mt-0.5">Single H100/A100 80GB @ 4-bit</div></div>
+                    <div class="bg-white rounded-lg p-3 border border-slate-200"><span class="font-bold text-slate-800 block">Sarvam-30B</span><span class="text-slate-500">Dense, GQA</span><div class="mt-1 font-mono text-indigo-600">~72GB FP16 → ~22GB @ 4-bit</div><div class="text-slate-400 mt-0.5">Single A100 80GB or 2x A10G</div></div>
+                    <div class="bg-white rounded-lg p-3 border border-slate-200"><span class="font-bold text-slate-800 block">MiniMax M2.5 (230B)</span><span class="text-slate-500">MoE</span><div class="mt-1 font-mono text-indigo-600">~101GB @ 3-bit · ~243GB @ 8-bit</div><div class="text-slate-400 mt-0.5">1x 16GB GPU + 96GB system RAM</div></div>
                 </div>
             </div>
         </section>
@@ -919,7 +1104,7 @@
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-2">Server Cost (Hourly): $<span id="server-cost-val" class="font-bold text-indigo-600">1.20</span></label>
                             <input type="range" id="server-cost-slider" min="0.20" max="15.00" value="1.20" step="0.10" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
-                            <p class="text-xs text-slate-500 mt-1">RTX 4090 RunPod ~$0.45/hr | A100 ~$1.20/hr | H100 ~$2.49/hr</p>
+                            <p class="text-xs text-slate-500 mt-1">RTX 5090 RunPod ~$0.89/hr | A100 PCIe ~$1.19/hr | H100 SXM ~$2.69/hr</p>
                         </div>
                         <div class="pt-4 border-t border-slate-200">
                             <div class="text-sm"><span class="block text-slate-500 mb-1">30-Day API Cost:</span><span class="text-2xl font-bold text-rose-600" id="total-api-cost">$750</span></div>
@@ -934,7 +1119,7 @@
                 </div>
             </div>
             <div class="fade-up mt-6 bg-indigo-50 border border-indigo-100 rounded-lg p-4 text-sm text-indigo-800">
-                <strong>RunPod benchmark:</strong> $1 yields ~175,301 tokens vs Azure (67,559), GCP (42,637), or AWS (38,370).
+                <strong>RunPod benchmark:</strong> $1 yields ~162,000 tokens (H100 SXM @ $2.69/hr) vs Azure (67,559), GCP (42,637), or AWS (38,370). Recalculated from original 175,301 figure based on prior $2.49/hr pricing. Throughput varies by model and configuration. Prices verified March 2026.
             </div>
         </section>
 
@@ -945,21 +1130,22 @@
                 <h2 class="text-3xl font-bold text-slate-900 mt-1">Pick Your GPU Cloud Provider</h2>
                 <p class="mt-3 text-slate-600 max-w-3xl">Filter by enterprise reliability vs. budget-friendly options.</p>
             </div>
-            <div class="fade-up bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
+            <div class="fade-up glass-card overflow-x-auto">
                 <div class="p-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
-                    <span class="font-semibold text-slate-700">Verified March 2026</span>
+                    <span class="font-semibold text-slate-700">Verified April 2026</span>
                     <select id="provider-filter" class="text-sm border-slate-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2">
                         <option value="all">All Providers</option>
                         <option value="enterprise">Enterprise</option>
                         <option value="budget">Budget / Serverless</option>
                         <option value="dedicated">Dedicated / Bare Metal</option>
+                        <option value="hyperscaler">Enterprise / Hyperscaler</option>
                     </select>
                 </div>
                 <table class="w-full text-left border-collapse min-w-[800px]">
                     <thead><tr class="bg-slate-100 text-xs uppercase tracking-wider text-slate-600 border-b border-slate-200"><th class="p-4 font-semibold">Provider</th><th class="p-4 font-semibold">Type</th><th class="p-4 font-semibold">Flagship GPU</th><th class="p-4 font-semibold">Est. Rate</th><th class="p-4 font-semibold">Key Advantage</th><th class="p-4 font-semibold text-center">Get Started</th></tr></thead>
                     <tbody id="provider-tbody" class="text-sm divide-y divide-slate-100"></tbody>
                 </table>
-                <div class="p-4 text-xs text-slate-500 bg-slate-50 italic">Pricing reflects estimated on-demand pricing, March 2026. Links may contain affiliate referrals.</div>
+                <div class="p-4 text-xs text-slate-500 bg-slate-50 italic">Pricing reflects estimated on-demand pricing, April 2026. Links may contain affiliate referrals.</div>
             </div>
         </section>
 
@@ -970,30 +1156,99 @@
                 <h2 class="text-3xl font-bold text-slate-900 mt-1">Choose Your Quantization Format</h2>
                 <p class="mt-3 text-slate-600 max-w-3xl">Your format choice dictates which inference engine you can use.</p>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="fade-up spotlight-card card-hover bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <div class="flex items-center gap-3 mb-3"><span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold">MOST POPULAR</span><h3 class="text-lg font-bold text-slate-900">GGUF</h3></div>
-                    <p class="text-sm text-slate-600 mb-4">Hybrid CPU/GPU. Splits layers between VRAM and system RAM.</p>
-                    <ul class="text-sm text-slate-600 space-y-1.5"><li><strong>Engines:</strong> llama.cpp, Ollama</li><li><strong>Hardware:</strong> CPU/GPU hybrid</li><li><strong>Trade-off:</strong> CPU offload adds latency but prevents OOM</li></ul>
+            <div class="quant-bento">
+
+                <!-- GGUF — spans 2 cols (featured) -->
+                <div class="fade-up glass-card quant-card p-7 md:col-span-2" style="grid-column: span 2;">
+                    <div class="quant-icon" style="background:rgba(184,217,0,0.1)">
+                        <i data-lucide="layers" style="color:#DFFF00;width:20px;height:20px"></i>
+                    </div>
+                    <div class="flex items-center gap-3 mb-2">
+                        <h3 class="text-xl font-bold text-slate-900">GGUF</h3>
+                        <span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold">MOST POPULAR</span>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-5">Hybrid CPU/GPU inference. Splits model layers between VRAM and system RAM — the only format that lets you run a model larger than your GPU's VRAM without crashing.</p>
+                    <div class="grid grid-cols-3 gap-4 text-xs">
+                        <div><span class="block text-slate-500 mb-1 uppercase tracking-wider">Engines</span><span class="font-mono text-slate-300">llama.cpp, Ollama</span></div>
+                        <div><span class="block text-slate-500 mb-1 uppercase tracking-wider">Hardware</span><span class="font-mono text-slate-300">CPU / GPU hybrid</span></div>
+                        <div><span class="block text-slate-500 mb-1 uppercase tracking-wider">Trade-off</span><span class="font-mono text-slate-300">CPU offload adds latency</span></div>
+                    </div>
                 </div>
-                <div class="fade-up fade-up-delay-1 spotlight-card card-hover bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <div class="flex items-center gap-3 mb-3"><span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold">BEST QUALITY</span><h3 class="text-lg font-bold text-slate-900">EXL2</h3></div>
-                    <p class="text-sm text-slate-600 mb-4">Variable bits-per-weight per layer. Maximum quality at given bit budget.</p>
-                    <ul class="text-sm text-slate-600 space-y-1.5"><li><strong>Engines:</strong> ExLlamaV2</li><li><strong>Hardware:</strong> Pure GPU only</li><li><strong>Trade-off:</strong> Incompatible with vLLM</li></ul>
+
+                <!-- EXL2 -->
+                <div class="fade-up fade-up-delay-1 glass-card quant-card p-6">
+                    <div class="quant-icon" style="background:rgba(223,255,0,0.08)">
+                        <i data-lucide="sliders-horizontal" style="color:#DFFF00;width:20px;height:20px"></i>
+                    </div>
+                    <div class="flex items-center gap-2 mb-2">
+                        <h3 class="text-base font-bold text-slate-900">EXL2</h3>
+                        <span class="bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full text-xs font-bold">BEST QUALITY</span>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">Variable bits-per-weight per layer. Allocates more bits to sensitive attention layers, fewer to tolerant feed-forward layers.</p>
+                    <ul class="text-xs text-slate-500 space-y-1.5">
+                        <li><span class="text-slate-400">Engines:</span> <span class="font-mono">ExLlamaV2</span></li>
+                        <li><span class="text-slate-400">Hardware:</span> <span class="font-mono">Pure GPU only</span></li>
+                        <li><span class="text-slate-400">Trade-off:</span> <span class="font-mono">Incompatible with vLLM</span></li>
+                    </ul>
                 </div>
-                <div class="fade-up spotlight-card card-hover bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <div class="flex items-center gap-3 mb-3"><span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-bold">ENTERPRISE</span><h3 class="text-lg font-bold text-slate-900">AWQ</h3></div>
-                    <p class="text-sm text-slate-600 mb-4">Activation-aware. The go-to for production vLLM deployments.</p>
-                    <ul class="text-sm text-slate-600 space-y-1.5"><li><strong>Engines:</strong> vLLM, HF TGI</li><li><strong>Hardware:</strong> Pure GPU only</li><li><strong>Trade-off:</strong> Slightly lower quality than EXL2, full vLLM support</li></ul>
+
+                <!-- AWQ -->
+                <div class="fade-up fade-up-delay-1 glass-card quant-card p-6">
+                    <div class="quant-icon" style="background:rgba(251,191,36,0.1)">
+                        <i data-lucide="zap" style="color:#fbbf24;width:20px;height:20px"></i>
+                    </div>
+                    <div class="flex items-center gap-2 mb-2">
+                        <h3 class="text-base font-bold text-slate-900">AWQ</h3>
+                        <span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full text-xs font-bold">ENTERPRISE</span>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">Activation-aware weight quantization. The standard for production vLLM deployments.</p>
+                    <ul class="text-xs text-slate-500 space-y-1.5">
+                        <li><span class="text-slate-400">Engines:</span> <span class="font-mono">vLLM, HF TGI</span></li>
+                        <li><span class="text-slate-400">Hardware:</span> <span class="font-mono">Pure GPU only</span></li>
+                        <li><span class="text-slate-400">Trade-off:</span> <span class="font-mono">Slightly below EXL2 quality</span></li>
+                    </ul>
                 </div>
-                <div class="fade-up fade-up-delay-1 spotlight-card card-hover bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <div class="flex items-center gap-3 mb-3"><span class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs font-bold">LEGACY</span><h3 class="text-lg font-bold text-slate-900">GPTQ</h3></div>
-                    <p class="text-sm text-slate-600 mb-4">Post-training uniform. Widely supported but replaced by AWQ.</p>
-                    <ul class="text-sm text-slate-600 space-y-1.5"><li><strong>Engines:</strong> vLLM, HF TGI, AutoGPTQ</li><li><strong>Hardware:</strong> Pure GPU only</li><li><strong>Trade-off:</strong> AWQ generally produces better results</li></ul>
+
+                <!-- GPTQ -->
+                <div class="fade-up fade-up-delay-2 glass-card quant-card p-6">
+                    <div class="quant-icon" style="background:rgba(113,113,122,0.15)">
+                        <i data-lucide="history" style="color:#71717a;width:20px;height:20px"></i>
+                    </div>
+                    <div class="flex items-center gap-2 mb-2">
+                        <h3 class="text-base font-bold text-slate-900">GPTQ</h3>
+                        <span class="bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full text-xs font-bold">LEGACY</span>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-4">Post-training uniform quantization. Widely supported but largely superseded by AWQ in new deployments.</p>
+                    <ul class="text-xs text-slate-500 space-y-1.5">
+                        <li><span class="text-slate-400">Engines:</span> <span class="font-mono">vLLM, TGI, AutoGPTQ</span></li>
+                        <li><span class="text-slate-400">Hardware:</span> <span class="font-mono">Pure GPU only</span></li>
+                        <li><span class="text-slate-400">Trade-off:</span> <span class="font-mono">AWQ beats it on quality</span></li>
+                    </ul>
                 </div>
+
+                <!-- FP8 — spans full width (featured) -->
+                <div class="fade-up fade-up-delay-1 glass-card quant-card p-7" style="grid-column: 1 / -1; border-color: rgba(168,85,247,0.2);">
+                    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%, rgba(168,85,247,0.06) 0%, transparent 60%);pointer-events:none;border-radius:inherit"></div>
+                    <div class="quant-icon" style="background:rgba(168,85,247,0.12)">
+                        <i data-lucide="cpu" style="color:#a855f7;width:20px;height:20px"></i>
+                    </div>
+                    <div class="flex items-center gap-3 mb-2">
+                        <h3 class="text-xl font-bold text-slate-900">FP8</h3>
+                        <span class="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-bold">HOPPER / BLACKWELL</span>
+                    </div>
+                    <p class="text-sm text-slate-600 mb-5">Native 8-bit floating point precision on H100, H200, B200, and RTX 5090. Near-FP16 quality with ~50% memory reduction — and unlike AWQ/GPTQ, requires no calibration dataset.</p>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs">
+                        <div><span class="block text-slate-500 mb-1 uppercase tracking-wider">Engines</span><span class="font-mono text-slate-300">vLLM, TensorRT-LLM, SGLang</span></div>
+                        <div><span class="block text-slate-500 mb-1 uppercase tracking-wider">Hardware</span><span class="font-mono text-slate-300">H100 / H200 / B200 / RTX 5090</span></div>
+                        <div><span class="block text-slate-500 mb-1 uppercase tracking-wider">Memory</span><span class="font-mono text-slate-300">~50% vs FP16, near-lossless</span></div>
+                        <div><span class="block text-slate-500 mb-1 uppercase tracking-wider">Calibration</span><span class="font-mono text-slate-300">Not required</span></div>
+                        <div><span class="block text-slate-500 mb-1 uppercase tracking-wider">Trade-off</span><span class="font-mono text-slate-300">No support on A100, RTX 4090</span></div>
+                    </div>
+                </div>
+
             </div>
             <div class="fade-up mt-6 bg-rose-50 border border-rose-200 rounded-lg p-4 text-sm text-rose-800">
-                <strong>Warning:</strong> Sub-4-bit (IQ1) causes severe degradation. Only extremely robust models survive extreme compression.
+                <strong>Warning:</strong> Sub-4-bit (IQ1) causes severe degradation. Only extremely robust models survive extreme compression. FP8 requires Hopper (H100/H200) or Blackwell (B200/RTX 5090) — falls back to FP16 on older hardware.
             </div>
         </section>
 
@@ -1004,18 +1259,20 @@
                 <h2 class="text-3xl font-bold text-slate-900 mt-1">Choose Your Inference Engine</h2>
                 <p class="mt-3 text-slate-600 max-w-3xl">vLLM for production, Ollama for simplicity, TGI for HuggingFace, llama.cpp for edge.</p>
             </div>
-            <div class="fade-up bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="fade-up glass-card overflow-hidden">
                 <div class="flex border-b border-slate-200 bg-slate-50 overflow-x-auto">
-                    <button class="tab-btn active px-6 py-4 text-sm font-medium border-b-2 whitespace-nowrap" style="color:#00ffd5;border-color:#00ffd5;" data-target="vllm">vLLM</button>
+                    <button class="tab-btn active px-6 py-4 text-sm font-medium border-b-2 whitespace-nowrap" style="color:#DFFF00;border-color:#DFFF00;" data-target="vllm">vLLM</button>
                     <button class="tab-btn px-6 py-4 text-sm font-medium text-slate-500 hover:text-slate-300 border-b-2 border-transparent whitespace-nowrap" data-target="ollama">Ollama</button>
                     <button class="tab-btn px-6 py-4 text-sm font-medium text-slate-500 hover:text-slate-300 border-b-2 border-transparent whitespace-nowrap" data-target="tgi">HF TGI</button>
                     <button class="tab-btn px-6 py-4 text-sm font-medium text-slate-500 hover:text-slate-300 border-b-2 border-transparent whitespace-nowrap" data-target="llamacpp">llama.cpp</button>
+                    <button class="tab-btn px-6 py-4 text-sm font-medium text-slate-500 hover:text-slate-300 border-b-2 border-transparent whitespace-nowrap" data-target="sglang">SGLang</button>
                 </div>
                 <div class="p-6">
                     <div id="tab-vllm" class="tab-content block"><h3 class="text-xl font-bold text-slate-900 mb-2">vLLM — Production Throughput King</h3><p class="text-slate-600 mb-4">PagedAttention for KV cache. 35x throughput vs llama.cpp. Drop-in OpenAI API.</p><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><ul class="list-disc pl-5 text-sm text-slate-600 space-y-1"><li><strong>Concurrency:</strong> 64+ users</li><li><strong>Formats:</strong> AWQ, GPTQ</li><li><strong>Setup:</strong> Medium (Docker)</li></ul><ul class="list-disc pl-5 text-sm text-slate-600 space-y-1"><li><strong>FP8/NVFP4:</strong> Native</li><li><strong>API:</strong> OpenAI compatible</li><li><strong>Best for:</strong> Production APIs</li></ul></div></div>
                     <div id="tab-ollama" class="tab-content hidden"><h3 class="text-xl font-bold text-slate-900 mb-2">Ollama — One-Line Simplicity</h3><p class="text-slate-600 mb-4">The Docker of LLMs. One command to run any model.</p><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><ul class="list-disc pl-5 text-sm text-slate-600 space-y-1"><li><strong>Concurrency:</strong> 1-4 users</li><li><strong>Formats:</strong> GGUF</li><li><strong>Setup:</strong> Very Easy</li></ul><ul class="list-disc pl-5 text-sm text-slate-600 space-y-1"><li><strong>Platforms:</strong> Linux/Mac/Win</li><li><strong>API:</strong> Native + OpenAI</li><li><strong>Best for:</strong> Dev/testing</li></ul></div></div>
                     <div id="tab-tgi" class="tab-content hidden"><h3 class="text-xl font-bold text-slate-900 mb-2">HuggingFace TGI — Enterprise</h3><p class="text-slate-600 mb-4">Rust + Python. First to support new architectures.</p><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><ul class="list-disc pl-5 text-sm text-slate-600 space-y-1"><li><strong>Concurrency:</strong> Production-grade</li><li><strong>Formats:</strong> AWQ, GPTQ, BnB</li><li><strong>Setup:</strong> Hard</li></ul><ul class="list-disc pl-5 text-sm text-slate-600 space-y-1"><li><strong>API:</strong> Custom</li><li><strong>Advantage:</strong> HF Hub native</li><li><strong>Best for:</strong> HF pipelines</li></ul></div></div>
                     <div id="tab-llamacpp" class="tab-content hidden"><h3 class="text-xl font-bold text-slate-900 mb-2">llama.cpp — Edge &amp; Local</h3><p class="text-slate-600 mb-4">Fastest single-user latency. Catastrophic scaling past 4 users.</p><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><ul class="list-disc pl-5 text-sm text-slate-600 space-y-1"><li><strong>Concurrency:</strong> 1-4 max</li><li><strong>Formats:</strong> GGUF, k-quants</li><li><strong>Setup:</strong> Easy</li></ul><ul class="list-disc pl-5 text-sm text-slate-600 space-y-1"><li><strong>Advantage:</strong> Lowest ITL</li><li><strong>API:</strong> Built-in server</li><li><strong>Best for:</strong> Local/edge</li></ul></div></div>
+                    <div id="tab-sglang" class="tab-content hidden"><h3 class="text-xl font-bold text-slate-900 mb-2">SGLang — Agentic &amp; Structured Output</h3><p class="text-slate-600 mb-4">RadixAttention for KV-cache reuse across requests. Purpose-built for multi-turn agents and tool-calling workloads.</p><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><ul class="list-disc pl-5 text-sm text-slate-600 space-y-1"><li><strong>Concurrency:</strong> Production-grade</li><li><strong>Formats:</strong> FP8, AWQ, GPTQ</li><li><strong>Setup:</strong> Medium (Docker/pip)</li></ul><ul class="list-disc pl-5 text-sm text-slate-600 space-y-1"><li><strong>FP8:</strong> Native (Hopper/Blackwell)</li><li><strong>API:</strong> OpenAI compatible</li><li><strong>Best for:</strong> Agents, structured gen, tool-calling</li></ul></div></div>
                 </div>
             </div>
         </section>
@@ -1063,7 +1320,7 @@ curl http://localhost:8000/v1/chat/completions \
   -d '{"model":"meta-llama/Llama-3.1-70B-Instruct","messages":[{"role":"user","content":"Hello!"}],"max_tokens":256}'</div></div></div></div>
 
             <div class="fade-up mb-8"><div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden"><div class="bg-amber-50 border-b border-amber-200 px-6 py-4 flex items-center justify-between"><div><h3 class="text-lg font-bold text-slate-900">Option C: RunPod Serverless</h3><p class="text-sm text-slate-600">Variable traffic, zero idle cost</p></div><span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-bold">SERVERLESS</span></div><div class="p-6"><div class="code-block" id="code-runpod"><button class="copy-btn" onclick="copyCode('code-runpod')">Copy</button>
-<span class="comment"># 1. Create account at runpod.io</span>
+<span class="comment"># 1. Create account at runpod.io/?ref=852l1ola</span>
 <span class="comment"># 2. Serverless > New Endpoint > vLLM Worker</span>
 <span class="comment"># 3. GPU: RTX 4090 (7B) or A100 (70B)</span>
 <span class="comment"># 4. Min Workers: 0, Max Workers: 10</span>
@@ -1086,18 +1343,47 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
             </div>
         </section>
 
+    <!-- Bluehost callout -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 mb-4">
+        <div class="glass-card px-8 py-6">
+            <p class="text-xs font-mono text-neon uppercase tracking-widest mb-4">Complete your stack</p>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <div class="flex-1 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-zinc-800/50 rounded-xl px-6 py-4">
+                    <div>
+                        <h3 class="font-bold text-white">Web Hosting</h3>
+                        <p class="text-sm text-zinc-400 mt-0.5">Frontend + API gateway from <span class="text-white font-mono font-semibold">$3.79/mo</span></p>
+                    </div>
+                    <a href="https://bluehost.sjv.io/9VVDN4" target="_blank" rel="noopener sponsored"
+                       class="shrink-0 ghost-btn text-sm px-5 py-2 rounded-lg font-semibold whitespace-nowrap">
+                        Bluehost →
+                    </a>
+                </div>
+                <div class="flex-1 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-zinc-800/50 rounded-xl px-6 py-4">
+                    <div>
+                        <h3 class="font-bold text-white">Domain Registration</h3>
+                        <p class="text-sm text-zinc-400 mt-0.5">Domains from <span class="text-white font-mono font-semibold">$1.18/yr</span> + free WHOIS privacy</p>
+                    </div>
+                    <a href="https://namecheap.pxf.io/rEErVj" target="_blank" rel="noopener sponsored"
+                       class="shrink-0 ghost-btn text-sm px-5 py-2 rounded-lg font-semibold whitespace-nowrap">
+                        Namecheap →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     </main>
 
     <!-- Footer -->
     <footer class="bg-slate-900 text-slate-400 py-12 mt-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-                <div><div class="text-lg font-bold text-white mb-3">GPUHosting<span style="color:#00ffd5">.guide</span></div><p class="text-sm">The complete 2026 guide to self-hosting open-weight AI models on GPU infrastructure.</p></div>
+                <div><div class="text-lg font-bold text-white mb-3 flex items-center gap-2"><svg width="24" height="24" viewBox="0 0 40 40" fill="none"><rect x="8" y="8" width="24" height="24" rx="4" fill="#141414" stroke="#DFFF00" stroke-width="2"/><rect x="16" y="16" width="8" height="8" rx="1" fill="#DFFF00"/><rect x="13" y="3" width="2" height="6" rx="1" fill="#DFFF00"/><rect x="19" y="3" width="2" height="6" rx="1" fill="#DFFF00"/><rect x="25" y="3" width="2" height="6" rx="1" fill="#DFFF00"/><rect x="13" y="31" width="2" height="6" rx="1" fill="#DFFF00"/><rect x="19" y="31" width="2" height="6" rx="1" fill="#DFFF00"/><rect x="25" y="31" width="2" height="6" rx="1" fill="#DFFF00"/><rect x="3" y="13" width="6" height="2" rx="1" fill="#DFFF00"/><rect x="3" y="19" width="6" height="2" rx="1" fill="#DFFF00"/><rect x="3" y="25" width="6" height="2" rx="1" fill="#DFFF00"/><rect x="31" y="13" width="6" height="2" rx="1" fill="#DFFF00"/><rect x="31" y="19" width="6" height="2" rx="1" fill="#DFFF00"/><rect x="31" y="25" width="6" height="2" rx="1" fill="#DFFF00"/></svg><span style="color:#DFFF00">GPU<span class="text-white">Hosting</span><span class="text-slate-400">.guide</span></span></div><p class="text-sm">The complete 2026 guide to self-hosting open-weight AI models on GPU infrastructure.</p></div>
                 <div><div class="font-semibold text-slate-300 mb-3">Quick Links</div><div class="space-y-2 text-sm"><a href="#wizard" class="block hover:text-white transition-colors">Find My Setup</a><a href="#vram" class="block hover:text-white transition-colors">VRAM Calculator</a><a href="#calculator" class="block hover:text-white transition-colors">Cost Calculator</a><a href="#deploy" class="block hover:text-white transition-colors">Deployment Guides</a></div></div>
-                <div><div class="font-semibold text-slate-300 mb-3">Affiliate Disclosure</div><p class="text-sm text-slate-500">Some links on this page are affiliate links. We may earn a commission if you sign up through our links, at no extra cost to you. This helps support free content.</p></div>
+                <div><div class="font-semibold text-slate-300 mb-3">Affiliate Disclosure</div><p class="text-sm text-slate-500">Some links on this page are affiliate links (RunPod, Lambda Labs, DigitalOcean, Bluehost, Namecheap). We may earn a commission if you sign up through our links, at no extra cost to you. This helps support free content.</p></div>
             </div>
             <div class="border-t border-slate-800 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-sm">
-                <p>gpuhosting.guide &copy; 2026. Data verified March 2026. Built for developers, by developers.</p>
+                <p>gpuhosting.guide &copy; 2026. Data verified April 2026. Built for developers, by developers.</p>
                 <a href="mailto:corrections@gpuhosting.guide?subject=Inaccuracy%20Report" class="text-slate-500 hover:text-neon transition-colors">Report Inaccuracy</a>
             </div>
         </div>
@@ -1109,6 +1395,18 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
         /* =========================================
            Scroll Animations (fade-up + stagger-in)
            ========================================= */
+        /* Init Lucide icons */
+        lucide.createIcons();
+
+        /* Spotlight hover on quant cards */
+        document.querySelectorAll('.quant-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                card.style.setProperty('--qx', (e.clientX - rect.left) + 'px');
+                card.style.setProperty('--qy', (e.clientY - rect.top) + 'px');
+            });
+        });
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
         }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
@@ -1188,7 +1486,7 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
                             char = this.chars[Math.floor(Math.random() * this.chars.length)];
                             this.queue[i].char = char;
                         }
-                        output += '<span style="color:rgba(0,255,213,0.4)">' + char + '</span>';
+                        output += '<span style="color:rgba(223,255,0,0.5)">' + char + '</span>';
                     } else { output += from; }
                 }
                 this.el.innerHTML = output;
@@ -1221,10 +1519,14 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
            ========================================= */
         const models = [
             { name: 'Meta Llama 4', arch: 'MoE Architecture', front: ['Scout: 109B total, 17B active (16 experts)', 'Maverick: 402B total, 17B active', 'License: Llama 4 Community (Commercial OK)', 'Benchmarks: Maverick 89.7% DevQualityEval'], best: 'General purpose, enterprise, multimodal', back: ['Native multimodal image inputs', 'Maverick latency: 8.6s/task (vs Claude Haiku 5.15s)', 'Strong Ruby/Go code gen (91.65% Ruby)', 'Regression in Java test generation vs Llama 3.1', 'MoE routing enables precise expert activation'] },
-            { name: 'DeepSeek V4', arch: 'MoE — ~1T Parameters', front: ['~1 trillion params, 37B active/token', 'License: MIT (Highly permissive)', 'MHLA: 5-13% memory of standard attention', 'Training cost: ~$6M (vs GPT-4\'s $80-100M)'], best: 'Coding, complex reasoning, long code parsing', back: ['Successor to R1 (wiped $500B+ from Nvidia market cap)', 'Multi-head latent attention (MHLA)', 'Excels at parsing long complex code prompts', 'Requires prompt chaining for best results', 'Security concerns: PLA integration noted'] },
-            { name: 'Alibaba Qwen 3', arch: 'Dense + MoE (0.6B - 235B)', front: ['Flagship: 235B MoE, 22B active (90% cost reduction)', 'License: Apache 2.0', 'Training: 36 trillion tokens', 'Context: Up to 1M tokens (large)'], best: 'Multilingual, coding, STEM, agentic', back: ['0.6B to 235B — most granular size range', '1M token context: ingest entire code repos', 'Double training data vs Qwen 2.5', '235B requires 4x H100 with NVLink', 'Exceptional math/STEM benchmarks'] },
+            { name: 'DeepSeek V3.2 (+ V4 Upcoming)', arch: 'MoE — Current: V3.2', front: ['V3.2: Released Dec 2025, MIT license', 'V3.2: 671B MoE, 37B active/token', 'V4: NOT yet released as of March 2026', 'V4 leaked specs: ~1T MoE, multimodal (unconfirmed)'], best: 'Coding, complex reasoning, long code parsing', back: ['V3.2 is current production model — use this today', 'V3 wiped $500B+ from Nvidia market cap Jan 2025', 'Multi-head latent attention (MHLA) — 5-13% memory vs standard', 'V4 expected specs (aggregators, NOT DeepSeek official): ~1T params, ~32B active, 1M context, multimodal', 'Security concerns remain: PLA integration noted by US Congress'] },
+            { name: 'Alibaba Qwen 3.5', arch: 'Dense + MoE (0.8B - 397B)', front: ['Flagship: 397B MoE, 17B active/token', 'License: Apache 2.0', 'Native vision/multimodal capabilities', 'Context: Up to 1M tokens'], best: 'Multilingual, coding, STEM, agentic, vision', back: ['0.8B to 397B-A17B — widest size range available', '1M token context: ingest entire code repos', 'GPQA: 87.37% | MMLU-Pro: 87.18% | LiveCodeBench: 85.33%', 'MoE with dense routing for multimodal tokens', 'Flagship released Feb 16 2026; 397B requires 4x H100'] },
             { name: 'Mistral / Mixtral', arch: 'Dense + MoE', front: ['Sizes: 7B, Mixtral 8x7B, 8x22B, NeMo 12B', 'License: Apache 2.0 (small), Custom (large)', 'Mixtral 8x22B rivals Llama 70B'], best: 'Fast inference, limited hardware, multilingual', back: ['Best efficiency at small parameter counts', 'Mixtral MoE: only 2 of 8 experts active', '7B fits on a single RTX 3060 (12GB)', 'Strong European multilingual support', 'Apache 2.0 for all small models'] },
-            { name: 'Kimi K2', arch: 'MoE — 1T Parameters', front: ['~1 trillion params (MoE)', 'Native <think> tag for deep reasoning', 'Math and multi-step deduction specialist'], best: 'Complex reasoning, mathematical analysis', back: ['Forces deep logic via <think> tag injection', 'Automatic inference-time reasoning', 'Competes with DeepSeek R1 on math', 'Massive context window support', 'Open-weight with research license'] },
+            { name: 'Kimi K2.5', arch: 'MoE — 1.04T Parameters', front: ['1.04T total params, 32B active/token', 'Open-weight — weights on HuggingFace', 'Native <think> tag for deep reasoning', 'Trained on 15T mixed visual + text tokens'], best: 'Complex reasoning, mathematical analysis, vision', back: ['Released Jan 27 2026 by Moonshot AI', 'Open-weight: fully downloadable and self-hostable', 'Forces deep logic via <think> tag injection', 'Trained on 15T tokens of visual and textual data', 'Kimi K2 instruct v0905 deprecated on Groq Mar 23 2026'] },
+            { name: 'OpenAI gpt-oss-120b', arch: 'MoE — 120B Parameters', front: ['120B total params, 5.1B active/token', 'License: Apache 2.0', 'Fits on a single 80GB GPU (H100/A100)', 'Matches o4-mini on reasoning benchmarks'], best: 'Reasoning, coding, enterprise deployment', back: ['OpenAI\'s first open-weight model since GPT-2', 'Apache 2.0 — fully commercial permissive', 'Single H100 deployment — no multi-GPU needed', 'Competes with frontier closed-source models', 'Massive milestone: OpenAI enters open-weight space'] },
+            { name: 'OpenAI gpt-oss-20b', arch: 'MoE — 20B Parameters', front: ['20B total params, 3.6B active/token', 'License: Apache 2.0', 'Runs on 16GB VRAM — single RTX 4090', 'Matches o3-mini on common benchmarks'], best: 'Edge deployment, laptops, low-budget setups', back: ['Runs on a single RTX 4090 or laptop GPU', 'Apache 2.0 — fully commercial permissive', 'Smallest capable reasoning model from OpenAI', 'Ideal for local dev and on-device inference', 'Part of OpenAI\'s first open-weight release'] },
+            { name: 'MiniMax M2.5', arch: 'MoE — 230B Parameters', front: ['230B total params', 'SWE-Bench Verified: 80.2% | BrowseComp: 76.3%', '3-bit quant: ~101GB (1x 16GB GPU + 96GB RAM)', 'Released: February 12, 2026'], best: 'Agentic coding, web browsing tasks, software engineering', back: ['80.2% SWE-Bench Verified — top-tier coding agent performance', '37% faster than MiniMax M2 predecessor', '3-bit dynamic quant: runs at 25+ tok/s with GPU + system RAM offload', '8-bit precision requires 243GB — multi-GPU or high-RAM dedicated server', 'BrowseComp 76.3% — strong autonomous web research capability'] },
+            { name: 'Sarvam-105B', arch: 'MoE + MLA — 106B Parameters', front: ['106B total params, 10.3B active/token', 'License: Apache 2.0', 'Supports 22 Indian languages natively', 'Released: March 6, 2026 by Sarvam AI'], best: 'Multilingual (Indian languages), reasoning, STEM', back: ['India\'s flagship open-source reasoning model', 'MoE with Multi-Head Latent Attention (MLA) — same as DeepSeek', 'Apache 2.0 — fully commercial permissive', 'Sibling: Sarvam-30B (dense, GQA) — fits on 1x A100 or 2x A10G, supports 4-bit quant', 'Available on HuggingFace: sarvamai/sarvam-105b'] },
             { name: 'Llama 3.x (Legacy)', arch: 'Dense Architecture', front: ['Sizes: 8B, 70B, 405B (dense)', 'License: Llama Community License', '70B is the gold standard for self-hosting'], best: 'Proven stability, huge fine-tune ecosystem', back: ['Largest ecosystem of community fine-tunes', '405B rivals GPT-4 class quality', 'Dense = simpler deployment than MoE', 'Superseded by Llama 4 but still widely deployed', 'Massive tooling/library support'] }
         ];
 
@@ -1234,18 +1536,18 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
             const card = document.createElement('div');
             card.className = `fade-up ${delayClass} flip-card`;
             card.innerHTML = `
-                <div class="flip-card-inner" style="min-height:320px">
-                    <div class="flip-card-front spotlight-card card-hover bg-white p-6 rounded-xl shadow-sm border border-slate-200 h-full">
+                <div class="flip-card-inner" style="min-height:340px">
+                    <div class="flip-card-front spotlight-card card-hover bg-white p-5 rounded-xl shadow-sm border border-slate-200 h-full flex flex-col">
                         <div class="flip-hint">Click to flip</div>
-                        <div class="flex justify-between items-start mb-4"><h3 class="text-lg font-bold text-indigo-700">${m.name}</h3><span class="verified-badge">03/2026</span></div>
-                        <div class="text-xs text-slate-500 mb-3 font-medium">${m.arch}</div>
-                        <ul class="space-y-2 text-sm text-slate-600 mb-4">${m.front.map(f => '<li>' + f + '</li>').join('')}</ul>
-                        <div class="bg-indigo-50 p-3 rounded border border-indigo-100 text-sm"><strong>Best for:</strong> ${m.best}</div>
+                        <div class="flex justify-between items-start mb-2"><h3 class="text-lg font-bold text-indigo-700">${m.name}</h3><span class="verified-badge">03/2026</span></div>
+                        <div class="text-xs text-slate-500 mb-2 font-medium">${m.arch}</div>
+                        <ul class="space-y-1.5 text-sm text-slate-600 flex-grow">${m.front.map(f => '<li>' + f + '</li>').join('')}</ul>
+                        <div class="bg-indigo-50 p-3 rounded border border-indigo-100 text-sm mt-3"><strong>Best for:</strong> ${m.best}</div>
                     </div>
-                    <div class="flip-card-back p-6 rounded-xl shadow-sm text-white h-full flex flex-col" style="background: linear-gradient(135deg, #0a1628, #0f1f3a); border: 1px solid rgba(0,255,213,0.25);">
+                    <div class="flip-card-back p-5 rounded-xl shadow-sm text-white h-full flex flex-col" style="background: linear-gradient(135deg, #141414, #18181b); border: 1px solid rgba(223,255,0,0.25);">
                         <h3 class="text-lg font-bold mb-3 neon-text">${m.name} — Deep Dive</h3>
                         <ul class="space-y-2 text-sm text-slate-300 flex-grow">${m.back.map(b => '<li class="flex gap-2"><span class="text-neon shrink-0">&rarr;</span>' + b + '</li>').join('')}</ul>
-                        <div class="text-xs text-neon/50 mt-4 text-center">Click to flip back</div>
+                        <div class="text-xs mt-4 text-center" style="color:rgba(223,255,0,0.5)">Click to flip back</div>
                     </div>
                 </div>`;
             card.addEventListener('click', () => card.classList.toggle('flipped'));
@@ -1321,13 +1623,20 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
                 { label: 'Provider', value: provider, color: 'blue', icon: '&#x2601;&#xFE0F;' }
             ];
 
-            document.getElementById('wizard-results').innerHTML = results.map(r =>
-                '<div class="spotlight-card bg-' + r.color + '-50 border border-' + r.color + '-200 rounded-xl p-5 text-center">' +
+            const colorMap = {
+                indigo: { border: '#DFFF00', text: '#DFFF00' },
+                emerald: { border: '#34d9a8', text: '#34d9a8' },
+                amber: { border: '#fbbf24', text: '#fbbf24' },
+                blue: { border: '#60a5fa', text: '#60a5fa' }
+            };
+            document.getElementById('wizard-results').innerHTML = results.map(r => {
+                const c = colorMap[r.color] || colorMap.indigo;
+                return '<div class="spotlight-card rounded-xl p-5 text-center" style="background:#18181b;border:1px solid ' + c.border + '33;">' +
                     '<div class="text-2xl mb-2">' + r.icon + '</div>' +
-                    '<div class="text-xs uppercase tracking-wider text-' + r.color + '-600 font-bold mb-1">' + r.label + '</div>' +
-                    '<div class="font-bold text-slate-900">' + r.value + '</div>' +
-                '</div>'
-            ).join('');
+                    '<div class="text-xs uppercase tracking-wider font-bold mb-1" style="color:' + c.text + '">' + r.label + '</div>' +
+                    '<div class="font-bold" style="color:#f4f4f5">' + r.value + '</div>' +
+                '</div>';
+            }).join('');
 
             // Attach spotlight tracking to result cards
             document.querySelectorAll('#wizard-results .spotlight-card').forEach(card => {
@@ -1356,27 +1665,54 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
         const vramOutputText = document.getElementById('vram-output');
         const gpuRecText = document.getElementById('gpu-recommendation');
         let currentMultiplier = 2;
+        let vramRafId = null;
 
+        function animateVRAM(from, to) {
+            if (vramRafId) cancelAnimationFrame(vramRafId);
+            const duration = 180;
+            const start = performance.now();
+            function step(now) {
+                const p = Math.min((now - start) / duration, 1);
+                const ease = 1 - Math.pow(1 - p, 3);
+                vramOutputText.innerText = Math.round(from + (to - from) * ease);
+                if (p < 1) vramRafId = requestAnimationFrame(step);
+            }
+            vramRafId = requestAnimationFrame(step);
+        }
+
+        function updateTrackFill() {
+            const min = parseFloat(paramSlider.min), max = parseFloat(paramSlider.max), val = parseFloat(paramSlider.value);
+            const pct = ((val - min) / (max - min) * 100).toFixed(1) + '%';
+            paramSlider.style.setProperty('--track-fill', pct);
+        }
+
+        let prevVram = 168;
         function updateVRAM() {
             const params = parseFloat(paramSlider.value);
             paramValText.innerText = params;
+            updateTrackFill();
             const totalVram = Math.ceil(params * currentMultiplier * 1.2);
-            vramOutputText.innerText = totalVram;
+            animateVRAM(prevVram, totalVram);
+            prevVram = totalVram;
             let rec = "";
             if (totalVram <= 24) rec = "1x RTX 4090 (24GB) or 1x RTX 5090 (32GB)";
             else if (totalVram <= 32) rec = "1x RTX 5090 (32GB)";
             else if (totalVram <= 48) rec = "1x RTX 6000 Ada (48GB) or 2x RTX 5090";
             else if (totalVram <= 80) rec = "1x A100 (80GB) or 1x H100 (80GB)";
+            else if (totalVram <= 96) rec = "1x RTX PRO 6000 Blackwell (96GB) or 2x H100 (80GB)";
             else if (totalVram <= 128) rec = "Apple M4 Max (128GB) or 2x H100 (80GB)";
             else if (totalVram <= 160) rec = "2x H100 (80GB) or 4x A100 (40GB)";
-            else rec = Math.ceil(totalVram / 80) + 'x H100 (80GB) — Enterprise Cluster';
+            else if (totalVram <= 192) rec = "1x B200 (192GB) or 3x H100 (80GB)";
+            else if (totalVram <= 320) rec = "4x H100 SXM (80GB) with NVLink — required for Qwen 3.5 397B";
+            else if (totalVram <= 640) rec = Math.ceil(totalVram / 80) + 'x H100 (80GB) — Multi-node cluster';
+            else rec = Math.ceil(totalVram / 192) + 'x B200 (192GB) or ' + Math.ceil(totalVram / 80) + 'x H100 (80GB) — Enterprise cluster';
             gpuRecText.innerText = rec;
         }
         paramSlider.addEventListener('input', updateVRAM);
         quantBtns.forEach(btn => btn.addEventListener('click', (e) => {
-            quantBtns.forEach(b => { b.classList.remove('active'); b.style.background='#0f1629'; b.style.color='#c8d6e5'; b.style.borderColor='#1a2744'; });
+            quantBtns.forEach(b => { b.classList.remove('active'); b.style.background='#18181b'; b.style.color='#a1a1aa'; b.style.borderColor='#27272a'; });
             e.target.classList.add('active');
-            e.target.style.background='#00ffd5'; e.target.style.color='#0a0e1a'; e.target.style.borderColor='#00ffd5';
+            e.target.style.background='#DFFF00'; e.target.style.color='#09090b'; e.target.style.borderColor='#DFFF00';
             currentMultiplier = parseFloat(e.target.dataset.multiplier);
             updateVRAM();
         }));
@@ -1395,15 +1731,15 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
             type: 'line',
             data: { labels: days, datasets: [
                 { label: 'API Cost ($)', data: [], borderColor: '#fb7185', backgroundColor: 'rgba(251,113,133,0.08)', fill: true, tension: 0.1, borderWidth: 2 },
-                { label: 'Self-Hosted ($)', data: [], borderColor: '#00ffd5', backgroundColor: 'rgba(0,255,213,0.08)', fill: true, tension: 0.1, borderWidth: 2 }
+                { label: 'Self-Hosted ($)', data: [], borderColor: '#DFFF00', backgroundColor: 'rgba(223,255,0,0.08)', fill: true, tension: 0.1, borderWidth: 2 }
             ]},
             options: {
                 responsive: true, maintainAspectRatio: false,
                 interaction: { mode: 'index', intersect: false },
-                plugins: { tooltip: { backgroundColor: '#0f1629', borderColor: '#1a2744', borderWidth: 1, titleColor: '#f0f4f8', bodyColor: '#c8d6e5', callbacks: { label: (c) => c.dataset.label + ': $' + c.parsed.y.toLocaleString() } }, legend: { position: 'top', labels: { color: '#8899a6' } } },
+                plugins: { tooltip: { backgroundColor: '#18181b', borderColor: '#27272a', borderWidth: 1, titleColor: '#f4f4f5', bodyColor: '#a1a1aa', callbacks: { label: (c) => c.dataset.label + ': $' + c.parsed.y.toLocaleString() } }, legend: { position: 'top', labels: { color: '#8899a6' } } },
                 scales: {
-                    y: { beginAtZero: true, title: { display: true, text: 'Cumulative Cost (USD)', color: '#8899a6' }, ticks: { color: '#556677' }, grid: { color: '#1a2744' } },
-                    x: { title: { display: true, text: 'Days', color: '#8899a6' }, ticks: { color: '#556677' }, grid: { color: '#1a2744' } }
+                    y: { beginAtZero: true, title: { display: true, text: 'Cumulative Cost (USD)', color: '#8899a6' }, ticks: { color: '#52525b' }, grid: { color: '#27272a' } },
+                    x: { title: { display: true, text: 'Days', color: '#8899a6' }, ticks: { color: '#52525b' }, grid: { color: '#27272a' } }
                 }
             }
         });
@@ -1430,23 +1766,25 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
            Provider Table
            ========================================= */
         const providers = [
-            { name:'RunPod', type:'budget', typeName:'Serverless / On-Demand', gpu:'RTX 4090 / A100 / H100', rate:'$0.45 — $2.49', adv:'Best tokens/$. Zero idle cost.', link:'https://runpod.io' },
-            { name:'Lambda Labs', type:'enterprise', typeName:'Dedicated AI Cloud', gpu:'H100 (80GB)', rate:'$2.49', adv:'Reserved capacity, raw compute.', link:'https://lambdalabs.com' },
-            { name:'Vultr', type:'budget', typeName:'Cloud / GPU Instances', gpu:'A100 / AMD MI355X', rate:'$0.90 — $2.80', adv:'Global edge, AMD GPU support.', link:'https://www.vultr.com' },
-            { name:'DigitalOcean', type:'enterprise', typeName:'Managed Cloud', gpu:'H100 (GPU Droplets)', rate:'$2.50+', adv:'Simple UX, managed K8s.', link:'https://www.digitalocean.com' },
+            { name:'RunPod', type:'budget', typeName:'Serverless / On-Demand', gpu:'RTX 5090 / A100 / H100', rate:'$0.89 — $2.69', adv:'Best tokens/$. Zero idle cost.', link:'https://runpod.io?ref=852l1ola' },
+            { name:'Lambda Labs', type:'enterprise', typeName:'Dedicated AI Cloud', gpu:'A100 (80GB) / H100 (80GB) / B200 (192GB)', rate:'$2.49 — $3.79', adv:'Reserved capacity, raw compute. A100 ~$2.49/hr, H100 ~$2.99/hr, B200 Blackwell 192GB ~$3.79/hr (new).', link:'https://lambdalabs.com' },
+            { name:'Vultr', type:'budget', typeName:'Cloud / GPU Instances', gpu:'A100 / AMD MI355X', rate:'$0.90 — $2.80', adv:'Global edge, AMD GPU support.', link:'https://www.vultr.com/?ref=9885946-9J' },
+            { name:'DigitalOcean', type:'enterprise', typeName:'Managed Cloud', gpu:'H100 / H200 / AMD MI300X', rate:'$0.76 — $7.99/GPU/hr', adv:'Simple UX, managed K8s. Per-second billing (5-min minimum). Reserved pricing from $1.88-$5.65/GPU/hr.', link:'https://m.do.co/c/0ac1da4ad477' },
             { name:'Liquid Web', type:'dedicated', typeName:'Dedicated Bare Metal', gpu:'Custom Config', rate:'From $199/mo', adv:'Managed support, enterprise SLAs.', link:'https://www.liquidweb.com' },
-            { name:'Hetzner', type:'dedicated', typeName:'Dedicated Bare Metal', gpu:'RTX 6000 Ada (48GB)', rate:'~$200/mo', adv:'Massive bandwidth. Cheapest bare metal.', link:'https://www.hetzner.com' },
-            { name:'AWS (EC2)', type:'enterprise', typeName:'Enterprise Cloud', gpu:'A100 / H100 [p4d/p5]', rate:'$4.10 — $12+', adv:'Full ecosystem, SageMaker.', link:'https://aws.amazon.com' },
-            { name:'Vast.ai', type:'budget', typeName:'Marketplace', gpu:'RTX 3090 / 4090', rate:'$0.25+', adv:'Absolute lowest spot prices.', link:'https://vast.ai' },
+            { name:'Hetzner', type:'dedicated', typeName:'Dedicated Bare Metal', gpu:'RTX 6000 Ada (48GB) / RTX PRO 6000 Blackwell (96GB)', rate:'~$200/mo — ~$989/mo', adv:'Cheapest bare metal. GEX44: RTX 6000 Ada 48GB ~$200/mo. GEX131: RTX PRO 6000 Blackwell Max-Q 96GB GDDR7 ECC, Intel Xeon Gold 5412U 24-core, 256GB DDR5, 2x 960GB NVMe — €889/mo (~$989/mo, ~$1.59/hr equiv). No setup fee. Cheapest Blackwell-gen dedicated server available.', link:'https://www.hetzner.com' },
+            { name:'AWS (EC2)', type:'hyperscaler', typeName:'Hyperscaler', gpu:'A100 (p4d) / H100 (p5)', rate:'$6.88 — $12.30/GPU/hr', adv:'Full ecosystem, SageMaker, spot from ~$2-2.50/hr. Must purchase full multi-GPU instances — no single-GPU option. 3-6x cost premium vs specialized GPU clouds.', link:'https://aws.amazon.com' },
+            { name:'Google Cloud (GCP)', type:'hyperscaler', typeName:'Hyperscaler', gpu:'A100 (a2) / H100', rate:'$3.28 — $10.60/GPU/hr', adv:'A100 at $3.28/GPU-hr (a2-highgpu-8g), H100 ~$10.60/hr. Tight GKE/Vertex AI integration. 3-6x cost premium vs specialized GPU clouds.', link:'https://cloud.google.com' },
+            { name:'Microsoft Azure', type:'hyperscaler', typeName:'Hyperscaler', gpu:'H100 (ND v5)', rate:'~$10 — $12/GPU/hr', adv:'H100 ND v5 series. Enterprise compliance, Active Directory, hybrid cloud. 3-6x cost premium vs specialized GPU clouds.', link:'https://azure.microsoft.com' },
+            { name:'Vast.ai', type:'budget', typeName:'Marketplace', gpu:'RTX 3090 / 4090 / RTX 5090 / A100 / H100', rate:'$0.25 — $1.65+ (spot)', adv:'Lowest spot prices. RTX 5090 from ~$0.51/hr, A100 from ~$1.00/hr, H100 from ~$1.49/hr. Marketplace prices vary with supply/demand.', link:'https://cloud.vast.ai/?ref_id=447231' },
         ];
         const tbody=document.getElementById('provider-tbody'), filterSelect=document.getElementById('provider-filter');
-        const typeColors={budget:'bg-emerald-50 text-emerald-700 border-emerald-200',enterprise:'bg-blue-50 text-blue-700 border-blue-200',dedicated:'bg-amber-50 text-amber-700 border-amber-200'};
+        const typeColors={budget:'bg-emerald-50 text-emerald-700 border-emerald-200',enterprise:'bg-blue-50 text-blue-700 border-blue-200',dedicated:'bg-amber-50 text-amber-700 border-amber-200',hyperscaler:'bg-slate-100 text-slate-700 border-slate-300'};
         function renderTable(f){
             tbody.innerHTML='';
             providers.forEach(p=>{
                 if(f==='all'||p.type===f){
                     const tr=document.createElement('tr');tr.className="hover:bg-slate-50 transition-colors";
-                    tr.innerHTML='<td class="p-4 font-bold text-slate-800">'+p.name+'</td><td class="p-4"><span class="px-2 py-1 '+typeColors[p.type]+' rounded text-xs border">'+p.typeName+'</span></td><td class="p-4 text-slate-800 font-mono text-sm">'+p.gpu+'</td><td class="p-4 font-bold" style="color:#00ffd5">'+p.rate+'</td><td class="p-4 text-slate-600 text-sm">'+p.adv+'</td><td class="p-4 text-center"><a href="'+p.link+'" target="_blank" rel="noopener noreferrer" class="affiliate-btn inline-block text-xs font-bold px-4 py-2 rounded-lg">Visit &rarr;</a></td>';
+                    tr.innerHTML='<td class="py-6 px-4 font-bold text-slate-800">'+p.name+'</td><td class="py-6 px-4"><span class="px-2 py-1 '+typeColors[p.type]+' rounded text-xs border">'+p.typeName+'</span></td><td class="py-6 px-4 font-bold text-slate-800" style="font-family:\'IBM Plex Mono\',monospace;font-size:0.8rem;letter-spacing:-0.01em">'+p.gpu+'</td><td class="py-6 px-4 font-bold" style="color:#DFFF00;font-family:\'IBM Plex Mono\',monospace;font-size:0.85rem">'+p.rate+'</td><td class="py-6 px-4 text-sm" style="color:#71717a">'+p.adv+'</td><td class="py-6 px-4 text-center"><a href="'+p.link+'" target="_blank" rel="noopener noreferrer" class="ghost-btn inline-block text-xs font-semibold px-4 py-2 rounded-lg">Visit &rarr;</a></td>';
                     tbody.appendChild(tr);
                 }
             });
@@ -1461,7 +1799,7 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
         tabBtns.forEach(btn=>btn.addEventListener('click',()=>{
             tabBtns.forEach(b=>{b.classList.remove('active');b.style.color='';b.style.borderColor='';b.classList.add('text-slate-500','border-transparent');});
             tabContents.forEach(c=>{c.classList.remove('block');c.classList.add('hidden');});
-            btn.classList.add('active');btn.classList.remove('text-slate-500','border-transparent');btn.style.color='#00ffd5';btn.style.borderColor='#00ffd5';
+            btn.classList.add('active');btn.classList.remove('text-slate-500','border-transparent');btn.style.color='#DFFF00';btn.style.borderColor='#DFFF00';
             const t=document.getElementById('tab-'+btn.dataset.target);t.classList.remove('hidden');t.classList.add('block');
         }));
 
