@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPUHosting.Guide — Self-Host AI Models on GPU Infrastructure (2026)</title>
-    <meta name="description" content="The definitive 2026 guide to self-hosting LLMs. Calculate VRAM, compare GPU cloud providers, estimate costs, and deploy with copy-paste commands. Llama 4, DeepSeek V3.2, Qwen 3.5, gpt-oss.">
-    <meta name="keywords" content="GPU hosting, self-host LLM, VRAM calculator, GPU cloud, RunPod, Lambda Labs, vLLM, Ollama, Llama 4, DeepSeek V3.2, Qwen 3.5, gpt-oss, OpenAI open-weight, AI inference, AWS GPU, GCP GPU, Azure GPU">
+    <meta name="description" content="The definitive 2026 guide to self-hosting LLMs. Calculate VRAM, compare GPU cloud providers, estimate costs, and deploy with copy-paste commands. Llama 4, DeepSeek V3.2, Qwen 3.5, gpt-oss, Gemma 4.">
+    <meta name="keywords" content="GPU hosting, self-host LLM, VRAM calculator, GPU cloud, RunPod, Lambda Labs, vLLM, Ollama, Llama 4, DeepSeek V3.2, Qwen 3.5, gpt-oss, Gemma 4, Gemma 4 hosting, OpenAI open-weight, AI inference, AWS GPU, GCP GPU, Azure GPU">
     <meta property="og:title" content="GPUHosting.Guide — Self-Host AI Models on GPU Infrastructure">
     <meta property="og:description" content="Calculate VRAM, compare GPU providers, estimate costs. The complete 2026 guide to self-hosting open-weight LLMs.">
     <meta property="og:type" content="website">
@@ -744,7 +744,7 @@
                 <div class="lg:w-[60%] text-left">
                     <div class="stagger-in" style="--stagger:0">
                         <div class="inline-block bg-neon/5 backdrop-blur-sm text-neon px-4 py-1.5 rounded-full text-sm font-semibold border border-neon/20 mb-6">
-                            Updated April 2026 — Llama 4 &middot; DeepSeek V3.2 &middot; Qwen 3.5 &middot; gpt-oss &middot; RTX 5090
+                            Updated April 2026 — Llama 4 &middot; DeepSeek V3.2 &middot; Qwen 3.5 &middot; gpt-oss &middot; Gemma 4 &middot; RTX 5090
                         </div>
                     </div>
                     <h1 class="stagger-in text-4xl md:text-6xl font-extrabold tracking-tight text-white mb-6 leading-tight" style="--stagger:1">
@@ -836,6 +836,10 @@
             <span>&bull;</span>
             <span>Qwen 3.5: 397B MoE, native vision, 1M context</span>
             <span>&bull;</span>
+            <span>Gemma 4 26B MoE: 3.8B active params, runs on 8GB VRAM</span>
+            <span>&bull;</span>
+            <span>DeepInfra: Gemma 4 31B at $0.19/M tokens blended</span>
+            <span>&bull;</span>
             <!-- Duplicate for seamless loop -->
             <span>RTX 5090 — 2.6x faster than A100</span>
             <span>&bull;</span>
@@ -848,6 +852,10 @@
             <span>DeepSeek V3: $6M training cost vs GPT-4's $100M</span>
             <span>&bull;</span>
             <span>Qwen 3.5: 397B MoE, native vision, 1M context</span>
+            <span>&bull;</span>
+            <span>Gemma 4 26B MoE: 3.8B active params, runs on 8GB VRAM</span>
+            <span>&bull;</span>
+            <span>DeepInfra: Gemma 4 31B at $0.19/M tokens blended</span>
             <span>&bull;</span>
         </div>
     </div>
@@ -1521,6 +1529,7 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
             { name: 'Meta Llama 4', arch: 'MoE Architecture', front: ['Scout: 109B total, 17B active (16 experts)', 'Maverick: 402B total, 17B active', 'License: Llama 4 Community (Commercial OK)', 'Benchmarks: Maverick 89.7% DevQualityEval'], best: 'General purpose, enterprise, multimodal', back: ['Native multimodal image inputs', 'Maverick latency: 8.6s/task (vs Claude Haiku 5.15s)', 'Strong Ruby/Go code gen (91.65% Ruby)', 'Regression in Java test generation vs Llama 3.1', 'MoE routing enables precise expert activation'] },
             { name: 'DeepSeek V3.2 (+ V4 Upcoming)', arch: 'MoE — Current: V3.2', front: ['V3.2: Released Dec 2025, MIT license', 'V3.2: 671B MoE, 37B active/token', 'V4: NOT yet released as of March 2026', 'V4 leaked specs: ~1T MoE, multimodal (unconfirmed)'], best: 'Coding, complex reasoning, long code parsing', back: ['V3.2 is current production model — use this today', 'V3 wiped $500B+ from Nvidia market cap Jan 2025', 'Multi-head latent attention (MHLA) — 5-13% memory vs standard', 'V4 expected specs (aggregators, NOT DeepSeek official): ~1T params, ~32B active, 1M context, multimodal', 'Security concerns remain: PLA integration noted by US Congress'] },
             { name: 'Alibaba Qwen 3.5', arch: 'Dense + MoE (0.8B - 397B)', front: ['Flagship: 397B MoE, 17B active/token', 'License: Apache 2.0', 'Native vision/multimodal capabilities', 'Context: Up to 1M tokens'], best: 'Multilingual, coding, STEM, agentic, vision', back: ['0.8B to 397B-A17B — widest size range available', '1M token context: ingest entire code repos', 'GPQA: 87.37% | MMLU-Pro: 87.18% | LiveCodeBench: 85.33%', 'MoE with dense routing for multimodal tokens', 'Flagship released Feb 16 2026; 397B requires 4x H100'] },
+            { name: 'Google Gemma 4', arch: 'Dense + MoE (E2B, E4B, 26B A4B, 31B)', front: ['Released April 3, 2026, Apache 2.0', '26B MoE: only 3.8B active params per token', '31B Dense: fits single H100 at BF16', 'Context: 256K tokens (workstation variants)'], best: 'Self-hosting on consumer GPUs, chat, coding', back: ['26B MoE is 8GB VRAM sweet spot (RTX 3070+)', '181 tok/s on Ollama, 131 tok/s on vLLM (26B Q4/BF16)', 'Known vLLM RTX 4090 throttling bug — use Ollama on consumer cards', 'Free on OpenRouter (7 provider backends, 256K context)', 'DeepInfra cheapest paid: $0.19/M blended (31B)'] },
             { name: 'Mistral / Mixtral', arch: 'Dense + MoE', front: ['Sizes: 7B, Mixtral 8x7B, 8x22B, NeMo 12B', 'License: Apache 2.0 (small), Custom (large)', 'Mixtral 8x22B rivals Llama 70B'], best: 'Fast inference, limited hardware, multilingual', back: ['Best efficiency at small parameter counts', 'Mixtral MoE: only 2 of 8 experts active', '7B fits on a single RTX 3060 (12GB)', 'Strong European multilingual support', 'Apache 2.0 for all small models'] },
             { name: 'Kimi K2.5', arch: 'MoE — 1.04T Parameters', front: ['1.04T total params, 32B active/token', 'Open-weight — weights on HuggingFace', 'Native <think> tag for deep reasoning', 'Trained on 15T mixed visual + text tokens'], best: 'Complex reasoning, mathematical analysis, vision', back: ['Released Jan 27 2026 by Moonshot AI', 'Open-weight: fully downloadable and self-hostable', 'Forces deep logic via <think> tag injection', 'Trained on 15T tokens of visual and textual data', 'Kimi K2 instruct v0905 deprecated on Groq Mar 23 2026'] },
             { name: 'OpenAI gpt-oss-120b', arch: 'MoE — 120B Parameters', front: ['120B total params, 5.1B active/token', 'License: Apache 2.0', 'Fits on a single 80GB GPU (H100/A100)', 'Matches o4-mini on reasoning benchmarks'], best: 'Reasoning, coding, enterprise deployment', back: ['OpenAI\'s first open-weight model since GPT-2', 'Apache 2.0 — fully commercial permissive', 'Single H100 deployment — no multi-GPU needed', 'Competes with frontier closed-source models', 'Massive milestone: OpenAI enters open-weight space'] },
@@ -1610,7 +1619,18 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
             else if (wizardState[2] === 'team') { engine = 'vLLM'; quant = 'AWQ 4-bit'; gpu = '1x A100 80GB'; provider = 'RunPod'; }
             else { engine = 'Ollama'; quant = 'GGUF Q4_K_M'; gpu = 'RTX 4090'; provider = 'RunPod'; }
 
-            if (wizardState[3] === 'low') { gpu = 'RTX 4090'; provider = 'Vast.ai / RunPod'; model = model.includes('235B') ? 'Qwen 3 32B' : model; }
+            if (wizardState[3] === 'low') {
+                gpu = 'RTX 4090'; provider = 'Vast.ai / RunPod';
+                model = model.includes('235B') ? 'Qwen 3 32B' : model;
+                // Gemma 4 26B MoE is the quality-per-dollar winner at 8GB VRAM for personal chat/coding
+                if (wizardState[2] === 'personal' && (wizardState[1] === 'chat' || wizardState[1] === 'coding')) {
+                    model = 'Gemma 4 26B A4B (MoE)';
+                    gpu = 'RTX 3070 / 4060 Ti (8GB)';
+                    engine = 'Ollama';
+                    quant = 'GGUF Q4_K_M';
+                    provider = 'Ollama local / OpenRouter free';
+                }
+            }
             else if (wizardState[3] === 'high') { if (wizardState[2] !== 'personal') { gpu = '2x H100 SXM'; provider = 'Lambda Labs'; } }
 
             if (wizardState[4] === 'quality') { quant = wizardState[2] === 'personal' ? 'EXL2 4.5bpw' : 'AWQ 4-bit'; if (wizardState[2] === 'personal') engine = 'ExLlamaV2'; }
