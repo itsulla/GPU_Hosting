@@ -1030,7 +1030,7 @@
                     <tbody class="text-sm divide-y divide-slate-100">
                         <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">RTX 5090</td><td class="p-4"><span class="px-2 py-1 bg-emerald-50 text-emerald-700 rounded text-xs border border-emerald-200">Consumer</span></td><td class="p-4 font-mono">32GB GDDR7</td><td class="p-4 font-mono">1,792 GB/s</td><td class="p-4 font-bold text-indigo-600">$0.89</td><td class="p-4 font-bold text-emerald-600">$0.04</td><td class="p-4 text-slate-500">2.6x faster than A100. Best value 2026.</td></tr>
                         <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">RTX 6000 Ada</td><td class="p-4"><span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs border border-blue-200">Workstation</span></td><td class="p-4 font-mono">48GB GDDR6</td><td class="p-4 font-mono">960 GB/s</td><td class="p-4 font-bold text-indigo-600">$0.77</td><td class="p-4 text-slate-400">&mdash;</td><td class="p-4 text-slate-500">Sweet spot for 70B 4-bit.</td></tr>
-                        <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">RTX PRO 6000 Blackwell Max-Q</td><td class="p-4"><span class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs border border-purple-200">Blackwell</span></td><td class="p-4 font-mono">96GB GDDR7 ECC</td><td class="p-4 font-mono text-slate-400">TBD</td><td class="p-4 font-bold text-indigo-600">~$1.59</td><td class="p-4 text-slate-400">&mdash;</td><td class="p-4 text-slate-500">2x the VRAM of RTX 6000 Ada. Available as Hetzner dedicated server.</td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">RTX PRO 6000 Blackwell Max-Q</td><td class="p-4"><span class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs border border-purple-200">Blackwell</span></td><td class="p-4 font-mono">96GB GDDR7 ECC</td><td class="p-4 font-mono text-slate-400">~960 GB/s</td><td class="p-4 font-bold text-indigo-600">~$1.59–1.91</td><td class="p-4 font-mono text-slate-700">~56 tok/s</td><td class="p-4 text-slate-500">~56 tok/s on Qwen3.6-27B Q4_K_XL. vLLM sm_120 not yet supported — use Ollama. RunPod ~$1.91/hr.</td></tr>
                         <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">A100 SXM (80GB)</td><td class="p-4"><span class="px-2 py-1 bg-amber-50 text-amber-700 rounded text-xs border border-amber-200">Enterprise</span></td><td class="p-4 font-mono">80GB HBM2e</td><td class="p-4 font-mono">1,935 GB/s</td><td class="p-4 font-bold text-indigo-600">$1.39</td><td class="p-4 text-slate-400">&mdash;</td><td class="p-4 text-slate-500">Workhorse. Fits 70B FP16. PCIe from $1.19/hr.</td></tr>
                         <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">B200 (192GB)</td><td class="p-4"><span class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs border border-purple-200">Blackwell</span></td><td class="p-4 font-mono">192GB HBM3e</td><td class="p-4 font-mono">8,000 GB/s</td><td class="p-4 font-bold text-indigo-600">$2.25 — $4.95</td><td class="p-4 text-slate-400">&mdash;</td><td class="p-4 text-slate-500">Next-gen Blackwell. 2x H100 memory. Prices dropping as supply scales.</td></tr>
                         <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">H100 SXM (80GB)</td><td class="p-4"><span class="px-2 py-1 bg-amber-50 text-amber-700 rounded text-xs border border-amber-200">Enterprise</span></td><td class="p-4 font-mono">80GB HBM3</td><td class="p-4 font-mono">3,350 GB/s</td><td class="p-4 font-bold text-indigo-600">$2.69</td><td class="p-4 font-bold text-slate-700">$0.13</td><td class="p-4 text-slate-500">Fastest. NVLink SXM for multi-GPU.</td></tr>
@@ -1076,6 +1076,17 @@
                     <div class="gpu-rec-box w-full p-5">
                         <h4 class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#71717a">Recommended GPU Setup</h4>
                         <p id="gpu-recommendation" class="font-semibold" style="color:#DFFF00;font-size:0.95rem">2x NVIDIA H100 (80GB) or 4x A100 (40GB)</p>
+                    </div>
+                    <div id="vram-cta" class="w-full mt-4 rounded-xl p-4 flex items-center justify-between gap-4" style="background:rgba(223,255,0,0.06);border:1px solid rgba(223,255,0,0.25)">
+                        <div class="text-left">
+                            <div class="text-xs font-mono uppercase tracking-widest mb-1" style="color:#DFFF00">Rent this setup hourly</div>
+                            <div id="vram-cta-text" class="text-sm font-semibold text-white">RunPod · RTX 5090 from $0.89/hr</div>
+                        </div>
+                        <a id="vram-cta-link" href="https://runpod.io?ref=852l1ola" target="_blank" rel="noopener sponsored"
+                           class="shrink-0 inline-block text-xs font-bold px-4 py-2 rounded-lg whitespace-nowrap"
+                           style="background:#DFFF00;color:#09090b">
+                            Launch →
+                        </a>
                     </div>
                 </div>
             </div>
@@ -1128,6 +1139,21 @@
             </div>
             <div class="fade-up mt-6 bg-indigo-50 border border-indigo-100 rounded-lg p-4 text-sm text-indigo-800">
                 <strong>RunPod benchmark:</strong> $1 yields ~162,000 tokens (H100 SXM @ $2.69/hr) vs Azure (67,559), GCP (42,637), or AWS (38,370). Recalculated from original 175,301 figure based on prior $2.49/hr pricing. Throughput varies by model and configuration. Prices verified March 2026.
+            </div>
+
+            <!-- Dynamic CTA: shifts based on which side wins the break-even -->
+            <div id="cost-cta" class="fade-up mt-4 rounded-xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                 style="background:linear-gradient(135deg,rgba(223,255,0,0.10),rgba(184,217,0,0.04));border:1px solid rgba(223,255,0,0.25)">
+                <div>
+                    <div id="cost-cta-eyebrow" class="text-xs font-mono uppercase tracking-widest mb-1" style="color:#DFFF00">Next step</div>
+                    <h4 id="cost-cta-title" class="text-lg font-bold text-white">Spin up an RTX 5090 on RunPod — billed by the second</h4>
+                    <p id="cost-cta-sub" class="text-sm mt-1" style="color:#a1a1aa">Stop paying per-token. Self-hosted from $0.89/hr · no idle cost when stopped.</p>
+                </div>
+                <a id="cost-cta-link" href="https://runpod.io?ref=852l1ola" target="_blank" rel="noopener sponsored"
+                   class="shrink-0 inline-block text-sm font-bold px-5 py-3 rounded-lg whitespace-nowrap"
+                   style="background:#DFFF00;color:#09090b">
+                    <span id="cost-cta-btn">Launch on RunPod →</span>
+                </a>
             </div>
         </section>
 
@@ -1293,7 +1319,7 @@
                 <p class="mt-3 text-slate-600 max-w-3xl">Production-ready deployment commands for the three most common setups.</p>
             </div>
 
-            <div class="fade-up mb-8"><div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden"><div class="bg-emerald-50 border-b border-emerald-200 px-6 py-4 flex items-center justify-between"><div><h3 class="text-lg font-bold text-slate-900">Option A: Ollama (2 minutes)</h3><p class="text-sm text-slate-600">Single-user, dev/testing</p></div><span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold">BEGINNER</span></div><div class="p-6"><div class="code-block" id="code-ollama"><button class="copy-btn" onclick="copyCode('code-ollama')">Copy</button>
+            <div class="fade-up mb-8"><div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden"><div class="bg-emerald-50 border-b border-emerald-200 px-6 py-4 flex items-center justify-between"><div><h3 class="text-lg font-bold text-slate-900">Option A: Ollama (2 minutes)</h3><p class="text-sm text-slate-600">Single-user, dev/testing</p></div><span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold">BEGINNER</span></div><div class="p-6"><div class="mb-4 rounded-lg px-4 py-3 flex items-center justify-between gap-3 text-sm" style="background:rgba(223,255,0,0.05);border:1px solid rgba(223,255,0,0.18)"><span class="text-zinc-300"><strong style="color:#DFFF00">No GPU yet?</strong> Spin up an RTX 4090 or 5090 by the second — no idle cost when stopped.</span><a href="https://runpod.io?ref=852l1ola" target="_blank" rel="noopener sponsored" class="shrink-0 text-xs font-bold px-3 py-1.5 rounded whitespace-nowrap" style="background:#DFFF00;color:#09090b">RunPod →</a></div><div class="code-block" id="code-ollama"><button class="copy-btn" onclick="copyCode('code-ollama')">Copy</button>
 <span class="comment"># Install Ollama</span>
 curl -fsSL https://ollama.com/install.sh | sh
 
@@ -1311,7 +1337,7 @@ curl http://localhost:11434/v1/chat/completions \
 <span class="comment"># Serve on all interfaces (VPS):</span>
 OLLAMA_HOST=0.0.0.0 ollama serve</div></div></div></div>
 
-            <div class="fade-up mb-8"><div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden"><div class="bg-indigo-50 border-b border-indigo-200 px-6 py-4 flex items-center justify-between"><div><h3 class="text-lg font-bold text-slate-900">Option B: vLLM + Docker</h3><p class="text-sm text-slate-600">High concurrency, production APIs</p></div><span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold">PRODUCTION</span></div><div class="p-6"><div class="code-block" id="code-vllm"><button class="copy-btn" onclick="copyCode('code-vllm')">Copy</button>
+            <div class="fade-up mb-8"><div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden"><div class="bg-indigo-50 border-b border-indigo-200 px-6 py-4 flex items-center justify-between"><div><h3 class="text-lg font-bold text-slate-900">Option B: vLLM + Docker</h3><p class="text-sm text-slate-600">High concurrency, production APIs</p></div><span class="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold">PRODUCTION</span></div><div class="p-6"><div class="mb-4 rounded-lg px-4 py-3 flex items-center justify-between gap-3 text-sm" style="background:rgba(223,255,0,0.05);border:1px solid rgba(223,255,0,0.18)"><span class="text-zinc-300"><strong style="color:#DFFF00">Production-ready GPU?</strong> A100 / H100 / 2× H100 SXM with NVLink — per-second billing.</span><span class="shrink-0 flex gap-2"><a href="https://runpod.io?ref=852l1ola" target="_blank" rel="noopener sponsored" class="text-xs font-bold px-3 py-1.5 rounded whitespace-nowrap" style="background:#DFFF00;color:#09090b">RunPod →</a><a href="https://m.do.co/c/0ac1da4ad477" target="_blank" rel="noopener sponsored" class="text-xs font-bold px-3 py-1.5 rounded whitespace-nowrap border" style="color:#DFFF00;border-color:rgba(223,255,0,0.4)">DigitalOcean →</a></span></div><div class="code-block" id="code-vllm"><button class="copy-btn" onclick="copyCode('code-vllm')">Copy</button>
 <span class="comment"># vLLM with Docker (requires NVIDIA Container Toolkit)</span>
 docker run --runtime nvidia --gpus all \
   -v ~/.cache/huggingface:/root/.cache/huggingface \
@@ -1327,7 +1353,7 @@ curl http://localhost:8000/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{"model":"meta-llama/Llama-3.1-70B-Instruct","messages":[{"role":"user","content":"Hello!"}],"max_tokens":256}'</div></div></div></div>
 
-            <div class="fade-up mb-8"><div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden"><div class="bg-amber-50 border-b border-amber-200 px-6 py-4 flex items-center justify-between"><div><h3 class="text-lg font-bold text-slate-900">Option C: RunPod Serverless</h3><p class="text-sm text-slate-600">Variable traffic, zero idle cost</p></div><span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-bold">SERVERLESS</span></div><div class="p-6"><div class="code-block" id="code-runpod"><button class="copy-btn" onclick="copyCode('code-runpod')">Copy</button>
+            <div class="fade-up mb-8"><div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden"><div class="bg-amber-50 border-b border-amber-200 px-6 py-4 flex items-center justify-between"><div><h3 class="text-lg font-bold text-slate-900">Option C: RunPod Serverless</h3><p class="text-sm text-slate-600">Variable traffic, zero idle cost</p></div><span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-bold">SERVERLESS</span></div><div class="p-6"><div class="mb-4 rounded-lg px-4 py-3 flex items-center justify-between gap-3 text-sm" style="background:rgba(223,255,0,0.05);border:1px solid rgba(223,255,0,0.18)"><span class="text-zinc-300"><strong style="color:#DFFF00">Step 1:</strong> create a RunPod account (referral link below) — required for the curl commands.</span><a href="https://runpod.io?ref=852l1ola" target="_blank" rel="noopener sponsored" class="shrink-0 text-xs font-bold px-3 py-1.5 rounded whitespace-nowrap" style="background:#DFFF00;color:#09090b">Create account →</a></div><div class="code-block" id="code-runpod"><button class="copy-btn" onclick="copyCode('code-runpod')">Copy</button>
 <span class="comment"># 1. Create account at runpod.io/?ref=852l1ola</span>
 <span class="comment"># 2. Serverless > New Endpoint > vLLM Worker</span>
 <span class="comment"># 3. GPU: RTX 4090 (7B) or A100 (70B)</span>
@@ -1339,6 +1365,55 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
   -H "Content-Type: application/json" \
   -d '{"input":{"prompt":"Hello!","max_tokens":512,"temperature":0.7}}'</div></div></div></div>
 
+            <div class="fade-up mb-8"><div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden"><div class="px-6 py-4 flex items-center justify-between" style="background:rgba(109,40,217,0.15);border-bottom:1px solid rgba(139,92,246,0.25)"><div><h3 class="text-lg font-bold text-white">Option D: RunPod + Codex CLI (Private Coding Agent)</h3><p class="text-sm text-zinc-400">Self-hosted agentic coding at ~$1.91/hr — hardware-tested on RTX PRO 6000 Blackwell</p></div><span class="px-3 py-1 rounded-full text-xs font-bold text-violet-300" style="background:rgba(139,92,246,0.2);border:1px solid rgba(139,92,246,0.35)">CODING AGENT</span></div><div class="p-6"><div class="mb-4 rounded-lg px-4 py-3 flex items-center justify-between gap-3 text-sm" style="background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.25)"><span class="text-zinc-300"><strong class="text-violet-300">Hardware:</strong> RTX PRO 6000 Blackwell Max-Q (96GB) — available on RunPod at ~$1.91/hr.</span><a href="https://runpod.io?ref=852l1ola" target="_blank" rel="noopener sponsored" class="shrink-0 text-xs font-bold px-3 py-1.5 rounded whitespace-nowrap text-violet-200" style="background:rgba(139,92,246,0.35);border:1px solid rgba(139,92,246,0.5)">Launch pod →</a></div><div class="code-block" id="code-codex"><button class="copy-btn" onclick="copyCode('code-codex')">Copy</button>
+<span class="comment"># ── On RunPod pod (JupyterLab terminal) ──────────────────────</span>
+<span class="comment"># 1. Install Ollama</span>
+curl -fsSL https://ollama.com/install.sh | sh
+
+<span class="comment"># 2. Start Ollama on port 8000 (persistent volume)</span>
+OLLAMA_MODELS=/workspace/ollama-models OLLAMA_HOST=0.0.0.0:8000 \
+  nohup ollama serve > /workspace/ollama.log 2>&1 &
+
+<span class="comment"># 3. Pull Qwen3.6-27B with tool-calling support</span>
+OLLAMA_HOST=0.0.0.0:8000 ollama pull qwen3.6:27b
+
+<span class="comment"># Verify tool capabilities (must show: completion, vision, tools, thinking)</span>
+OLLAMA_HOST=0.0.0.0:8000 ollama show qwen3.6:27b
+
+<span class="comment"># ── On your Mac ───────────────────────────────────────────────</span>
+<span class="comment"># 4. Open SSH tunnel (keep this terminal open)</span>
+ssh -L 8000:localhost:8000 -o ServerAliveInterval=60 \
+  root@YOUR_POD_IP -p YOUR_PORT -i ~/.ssh/id_ed25519
+
+<span class="comment"># 5. Install Codex CLI (new terminal)</span>
+npm install -g @openai/codex@latest
+
+<span class="comment"># 6. Create Codex config</span>
+mkdir -p ~/.codex && cat > ~/.codex/config.toml << 'EOF'
+model_provider = "runpod"
+model = "qwen3.6:27b"
+model_context_window = 32768
+model_max_output_tokens = 4096
+
+[model_providers.runpod]
+name = "RunPod Ollama"
+base_url = "http://localhost:8000/v1"
+wire_api = "responses"
+stream_idle_timeout_ms = 1800000
+EOF
+
+export OPENAI_API_KEY="dummy"   # required even for local
+
+<span class="comment"># 7. Launch coding agent</span>
+codex --profile runpod</div>
+<div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+  <div class="rounded-lg p-3" style="background:rgba(109,40,217,0.1);border:1px solid rgba(139,92,246,0.2)"><div class="font-semibold text-violet-300 mb-1">Cost</div><div class="text-zinc-400">~$1.91/hr active · $0.015/hr stopped. Stop pod between sessions — don't Terminate (wipes volume).</div></div>
+  <div class="rounded-lg p-3" style="background:rgba(109,40,217,0.1);border:1px solid rgba(139,92,246,0.2)"><div class="font-semibold text-violet-300 mb-1">Performance</div><div class="text-zinc-400">~56 tok/s on RTX PRO 6000. First request 30-90s (system prompt prefill). Use <code class="font-mono text-xs text-violet-300">wire_api = "responses"</code> — required for Codex v0.118+.</div></div>
+  <div class="rounded-lg p-3" style="background:rgba(109,40,217,0.1);border:1px solid rgba(139,92,246,0.2)"><div class="font-semibold text-violet-300 mb-1">Why Ollama?</div><div class="text-zinc-400">vLLM has no Blackwell sm_120 kernels for Qwen3.6 yet. llama.cpp hits tool-calling bugs with Codex v0.88+. Ollama handles both.</div></div>
+</div>
+<p class="text-xs text-slate-400 mt-3">Guide credit: <a href="https://gist.github.com/goodalexander/cccf89d677cece9599ee3a3f29f7f279" target="_blank" rel="noopener" class="hover:text-slate-600 underline">goodalexander/runpod-codex-qwen3.6</a></p>
+</div></div></div>
+
             <div class="fade-up bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
                 <div class="bg-slate-50 border-b border-slate-200 px-6 py-4"><h3 class="text-lg font-bold text-slate-900">Quick Reference: Which Setup?</h3></div>
                 <div class="overflow-x-auto"><table class="w-full text-left border-collapse min-w-[600px]"><thead><tr class="text-xs uppercase tracking-wider text-slate-600 border-b border-slate-200"><th class="p-4 font-semibold">Scenario</th><th class="p-4 font-semibold">Engine</th><th class="p-4 font-semibold">Quant</th><th class="p-4 font-semibold">GPU</th></tr></thead><tbody class="text-sm divide-y divide-slate-100">
@@ -1347,6 +1422,7 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
                     <tr class="hover:bg-slate-50"><td class="p-4">Production (100+)</td><td class="p-4 font-medium">vLLM</td><td class="p-4">AWQ 4-bit</td><td class="p-4">2x H100 SXM</td></tr>
                     <tr class="hover:bg-slate-50"><td class="p-4">Variable traffic</td><td class="p-4 font-medium">RunPod Serverless</td><td class="p-4">AWQ 4-bit</td><td class="p-4">Auto-scaled</td></tr>
                     <tr class="hover:bg-slate-50"><td class="p-4">Max quality</td><td class="p-4 font-medium">ExLlamaV2</td><td class="p-4">EXL2 4.5bpw</td><td class="p-4">RTX 6000 Ada</td></tr>
+                    <tr class="hover:bg-slate-50" style="background:rgba(109,40,217,0.07)"><td class="p-4">Coding agent (private)</td><td class="p-4 font-medium">Ollama + Codex CLI</td><td class="p-4">GGUF Q4_K_XL</td><td class="p-4">RTX PRO 6000 Blackwell (96GB)</td></tr>
                 </tbody></table></div>
             </div>
         </section>
@@ -1358,8 +1434,18 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
             <div class="flex flex-col sm:flex-row gap-4">
                 <div class="flex-1 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-zinc-800/50 rounded-xl px-6 py-4">
                     <div>
-                        <h3 class="font-bold text-white">Web Hosting</h3>
-                        <p class="text-sm text-zinc-400 mt-0.5">Frontend + API gateway from <span class="text-white font-mono font-semibold">$3.79/mo</span></p>
+                        <h3 class="font-bold text-white">VPS Hosting</h3>
+                        <p class="text-sm text-zinc-400 mt-0.5">Fast VPS from <span class="text-white font-mono font-semibold">$4.99/mo</span> — great for API gateways</p>
+                    </div>
+                    <a href="https://www.hostinger.com?REFERRALCODE=SNPULRICHICN" target="_blank" rel="noopener sponsored"
+                       class="shrink-0 ghost-btn text-sm px-5 py-2 rounded-lg font-semibold whitespace-nowrap">
+                        Hostinger →
+                    </a>
+                </div>
+                <div class="flex-1 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-zinc-800/50 rounded-xl px-6 py-4">
+                    <div>
+                        <h3 class="font-bold text-white">Shared Hosting</h3>
+                        <p class="text-sm text-zinc-400 mt-0.5">Frontend + static sites from <span class="text-white font-mono font-semibold">$3.79/mo</span></p>
                     </div>
                     <a href="https://bluehost.sjv.io/9VVDN4" target="_blank" rel="noopener sponsored"
                        class="shrink-0 ghost-btn text-sm px-5 py-2 rounded-lg font-semibold whitespace-nowrap">
@@ -1388,7 +1474,7 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                 <div><div class="text-lg font-bold text-white mb-3 flex items-center gap-2"><svg width="24" height="24" viewBox="0 0 40 40" fill="none"><rect x="8" y="8" width="24" height="24" rx="4" fill="#141414" stroke="#DFFF00" stroke-width="2"/><rect x="16" y="16" width="8" height="8" rx="1" fill="#DFFF00"/><rect x="13" y="3" width="2" height="6" rx="1" fill="#DFFF00"/><rect x="19" y="3" width="2" height="6" rx="1" fill="#DFFF00"/><rect x="25" y="3" width="2" height="6" rx="1" fill="#DFFF00"/><rect x="13" y="31" width="2" height="6" rx="1" fill="#DFFF00"/><rect x="19" y="31" width="2" height="6" rx="1" fill="#DFFF00"/><rect x="25" y="31" width="2" height="6" rx="1" fill="#DFFF00"/><rect x="3" y="13" width="6" height="2" rx="1" fill="#DFFF00"/><rect x="3" y="19" width="6" height="2" rx="1" fill="#DFFF00"/><rect x="3" y="25" width="6" height="2" rx="1" fill="#DFFF00"/><rect x="31" y="13" width="6" height="2" rx="1" fill="#DFFF00"/><rect x="31" y="19" width="6" height="2" rx="1" fill="#DFFF00"/><rect x="31" y="25" width="6" height="2" rx="1" fill="#DFFF00"/></svg><span style="color:#DFFF00">GPU<span class="text-white">Hosting</span><span class="text-slate-400">.guide</span></span></div><p class="text-sm">The complete 2026 guide to self-hosting open-weight AI models on GPU infrastructure.</p></div>
                 <div><div class="font-semibold text-slate-300 mb-3">Quick Links</div><div class="space-y-2 text-sm"><a href="#wizard" class="block hover:text-white transition-colors">Find My Setup</a><a href="#vram" class="block hover:text-white transition-colors">VRAM Calculator</a><a href="#calculator" class="block hover:text-white transition-colors">Cost Calculator</a><a href="#deploy" class="block hover:text-white transition-colors">Deployment Guides</a></div></div>
-                <div><div class="font-semibold text-slate-300 mb-3">Affiliate Disclosure</div><p class="text-sm text-slate-500">Some links on this page are affiliate links (RunPod, Lambda Labs, DigitalOcean, Bluehost, Namecheap). We may earn a commission if you sign up through our links, at no extra cost to you. This helps support free content.</p></div>
+                <div><div class="font-semibold text-slate-300 mb-3">Affiliate Disclosure</div><p class="text-sm text-slate-500">Some links on this page are affiliate links (RunPod, Lambda Labs, DigitalOcean, Hostinger, Bluehost, Namecheap). We may earn a commission if you sign up through our links, at no extra cost to you. This helps support free content.</p></div>
             </div>
             <div class="border-t border-slate-800 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-sm">
                 <p>gpuhosting.guide &copy; 2026. Data verified April 2026. Built for developers, by developers.</p>
@@ -1398,6 +1484,20 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
     </footer>
 
     <script>
+    /* =========================================
+       Affiliate config — single source of truth.
+       Update IDs here once when programs are joined.
+       ========================================= */
+    const AFFILIATES = {
+        runpod:      { name: 'RunPod',      url: 'https://runpod.io?ref=852l1ola',          tagline: 'RTX 5090 from $0.89/hr · zero idle cost'      },
+        vultr:       { name: 'Vultr',       url: 'https://www.vultr.com/?ref=9885946-9J',   tagline: 'Global edge GPU instances from $0.90/hr'      },
+        digitalocean:{ name: 'DigitalOcean',url: 'https://m.do.co/c/0ac1da4ad477',          tagline: 'Managed H100 droplets, per-second billing'    },
+        vast:        { name: 'Vast.ai',     url: 'https://cloud.vast.ai/?ref_id=447231',    tagline: 'Spot marketplace · RTX 5090 from ~$0.51/hr'   },
+        hostinger:   { name: 'Hostinger',   url: 'https://www.hostinger.com?REFERRALCODE=SNPULRICHICN', tagline: 'VPS for API gateways from $4.99/mo' },
+        bluehost:    { name: 'Bluehost',    url: 'https://bluehost.sjv.io/9VVDN4',          tagline: 'Static frontend hosting from $3.79/mo'        },
+        namecheap:   { name: 'Namecheap',   url: 'https://namecheap.pxf.io/rEErVj',         tagline: 'Domains & SSL'                                },
+    };
+
     document.addEventListener('DOMContentLoaded', () => {
 
         /* =========================================
@@ -1534,6 +1634,7 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
             { name: 'Kimi K2.5', arch: 'MoE — 1.04T Parameters', front: ['1.04T total params, 32B active/token', 'Open-weight — weights on HuggingFace', 'Native <think> tag for deep reasoning', 'Trained on 15T mixed visual + text tokens'], best: 'Complex reasoning, mathematical analysis, vision', back: ['Released Jan 27 2026 by Moonshot AI', 'Open-weight: fully downloadable and self-hostable', 'Forces deep logic via <think> tag injection', 'Trained on 15T tokens of visual and textual data', 'Kimi K2 instruct v0905 deprecated on Groq Mar 23 2026'] },
             { name: 'OpenAI gpt-oss-120b', arch: 'MoE — 120B Parameters', front: ['120B total params, 5.1B active/token', 'License: Apache 2.0', 'Fits on a single 80GB GPU (H100/A100)', 'Matches o4-mini on reasoning benchmarks'], best: 'Reasoning, coding, enterprise deployment', back: ['OpenAI\'s first open-weight model since GPT-2', 'Apache 2.0 — fully commercial permissive', 'Single H100 deployment — no multi-GPU needed', 'Competes with frontier closed-source models', 'Massive milestone: OpenAI enters open-weight space'] },
             { name: 'OpenAI gpt-oss-20b', arch: 'MoE — 20B Parameters', front: ['20B total params, 3.6B active/token', 'License: Apache 2.0', 'Runs on 16GB VRAM — single RTX 4090', 'Matches o3-mini on common benchmarks'], best: 'Edge deployment, laptops, low-budget setups', back: ['Runs on a single RTX 4090 or laptop GPU', 'Apache 2.0 — fully commercial permissive', 'Smallest capable reasoning model from OpenAI', 'Ideal for local dev and on-device inference', 'Part of OpenAI\'s first open-weight release'] },
+            { name: 'Qwen 3.6 27B', arch: 'Dense — 27B Parameters (Thinking)', front: ['27B dense (not MoE) — full params every token', 'Q4_K_XL GGUF: ~17GB — fits RTX 4090 (24GB)', 'Capabilities: completion, vision, tools, thinking', 'License: Qwen (permissive commercial use)'], best: 'Private coding agent, tool calling, Blackwell hardware', back: ['Thinking model: every response starts with <think> block (500-1500 tokens)', '~56 tok/s on RTX PRO 6000 Blackwell Max-Q | ~90 tok/s on H100', 'Tool calling verified: completion + vision + tools + thinking all advertised', 'vLLM does NOT support Blackwell sm_120 for this model yet — use Ollama', 'Deploy: ollama pull qwen3.6:27b (handles Blackwell + tool calling correctly)', 'Ideal for self-hosted Codex CLI replacement at ~$1.91/hr on RunPod'] },
             { name: 'MiniMax M2.5', arch: 'MoE — 230B Parameters', front: ['230B total params', 'SWE-Bench Verified: 80.2% | BrowseComp: 76.3%', '3-bit quant: ~101GB (1x 16GB GPU + 96GB RAM)', 'Released: February 12, 2026'], best: 'Agentic coding, web browsing tasks, software engineering', back: ['80.2% SWE-Bench Verified — top-tier coding agent performance', '37% faster than MiniMax M2 predecessor', '3-bit dynamic quant: runs at 25+ tok/s with GPU + system RAM offload', '8-bit precision requires 243GB — multi-GPU or high-RAM dedicated server', 'BrowseComp 76.3% — strong autonomous web research capability'] },
             { name: 'Sarvam-105B', arch: 'MoE + MLA — 106B Parameters', front: ['106B total params, 10.3B active/token', 'License: Apache 2.0', 'Supports 22 Indian languages natively', 'Released: March 6, 2026 by Sarvam AI'], best: 'Multilingual (Indian languages), reasoning, STEM', back: ['India\'s flagship open-source reasoning model', 'MoE with Multi-Head Latent Attention (MLA) — same as DeepSeek', 'Apache 2.0 — fully commercial permissive', 'Sibling: Sarvam-30B (dense, GQA) — fits on 1x A100 or 2x A10G, supports 4-bit quant', 'Available on HuggingFace: sarvamai/sarvam-105b'] },
             { name: 'Llama 3.x (Legacy)', arch: 'Dense Architecture', front: ['Sizes: 8B, 70B, 405B (dense)', 'License: Llama Community License', '70B is the gold standard for self-hosting'], best: 'Proven stability, huge fine-tune ecosystem', back: ['Largest ecosystem of community fine-tunes', '405B rivals GPT-4 class quality', 'Dense = simpler deployment than MoE', 'Superseded by Llama 4 but still widely deployed', 'Massive tooling/library support'] }
@@ -1727,6 +1828,20 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
             else if (totalVram <= 640) rec = Math.ceil(totalVram / 80) + 'x H100 (80GB) — Multi-node cluster';
             else rec = Math.ceil(totalVram / 192) + 'x B200 (192GB) or ' + Math.ceil(totalVram / 80) + 'x H100 (80GB) — Enterprise cluster';
             gpuRecText.innerText = rec;
+
+            /* CTA: pick provider + copy based on VRAM tier */
+            const ctaText = document.getElementById('vram-cta-text');
+            const ctaLink = document.getElementById('vram-cta-link');
+            if (ctaText && ctaLink) {
+                let pick;
+                if (totalVram <= 32)       pick = { aff: AFFILIATES.vast,         copy: 'Vast.ai · RTX 5090 spot from ~$0.51/hr' };
+                else if (totalVram <= 48)  pick = { aff: AFFILIATES.runpod,       copy: 'RunPod · RTX 6000 Ada (48GB) from $0.77/hr' };
+                else if (totalVram <= 96)  pick = { aff: AFFILIATES.runpod,       copy: 'RunPod · A100/H100/RTX PRO 6000 Blackwell hourly' };
+                else if (totalVram <= 192) pick = { aff: AFFILIATES.digitalocean, copy: 'DigitalOcean · H100/H200 droplets, per-second billing' };
+                else                       pick = { aff: AFFILIATES.runpod,       copy: 'RunPod · multi-GPU H100 SXM clusters with NVLink' };
+                ctaText.innerText = pick.copy;
+                ctaLink.href = pick.aff.url;
+            }
         }
         paramSlider.addEventListener('input', updateVRAM);
         quantBtns.forEach(btn => btn.addEventListener('click', (e) => {
@@ -1778,6 +1893,29 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
             const cc=document.getElementById('cost-conclusion');
             if(fS<fA){cc.innerHTML='<span class="text-emerald-700">Self-hosting saves <strong>$'+(fA-fS).toLocaleString()+'/month</strong>.</span>';cc.className="mt-4 p-3 bg-emerald-50 rounded text-sm font-medium border border-emerald-200";}
             else{cc.innerHTML='<span class="text-rose-700">API is cheaper by <strong>$'+(fS-fA).toLocaleString()+'/month</strong>.</span>';cc.className="mt-4 p-3 bg-rose-50 rounded text-sm font-medium border border-rose-200";}
+
+            /* Dynamic CTA: tailored to which side wins */
+            const ctaEyebrow=document.getElementById('cost-cta-eyebrow');
+            const ctaTitle=document.getElementById('cost-cta-title');
+            const ctaSub=document.getElementById('cost-cta-sub');
+            const ctaLink=document.getElementById('cost-cta-link');
+            const ctaBtn=document.getElementById('cost-cta-btn');
+            if(ctaEyebrow && ctaTitle && ctaSub && ctaLink && ctaBtn){
+                if(fS<fA){
+                    const savings=(fA-fS).toLocaleString();
+                    ctaEyebrow.innerText='You save $'+savings+'/mo';
+                    ctaTitle.innerText='Self-hosting wins at your volume — launch a pod in ~60s';
+                    ctaSub.innerText='RunPod RTX 5090 from $0.89/hr · vLLM/Ollama templates pre-built · billed by the second.';
+                    ctaLink.href=AFFILIATES.runpod.url;
+                    ctaBtn.innerText='Launch on RunPod →';
+                } else {
+                    ctaEyebrow.innerText='Variable workload? Try serverless';
+                    ctaTitle.innerText='RunPod Serverless — pay only when you generate tokens';
+                    ctaSub.innerText='Scale to zero when idle, burst to thousands of GPUs on demand. No fixed monthly cost.';
+                    ctaLink.href=AFFILIATES.runpod.url;
+                    ctaBtn.innerText='Try Serverless →';
+                }
+            }
         }
         [tokenSlider,apiCostSlider,serverCostSlider].forEach(s=>s.addEventListener('input',updateChart));
         updateChart();
