@@ -481,7 +481,7 @@
 
   function calculateVram(totalParamsB, activeParamsB, bytesPerParam) {
     const validNumber = (value) => typeof value === 'number' && Number.isFinite(value);
-    if (!validNumber(totalParamsB) || totalParamsB <= 0 || !validNumber(activeParamsB) || activeParamsB < 0 || activeParamsB > totalParamsB || ![0.5, 1, 2].includes(bytesPerParam)) {
+    if (!validNumber(totalParamsB) || totalParamsB <= 0 || totalParamsB > 3000 || !validNumber(activeParamsB) || activeParamsB <= 0 || activeParamsB > totalParamsB || ![0.5, 1, 2].includes(bytesPerParam)) {
       throw new RangeError('Invalid VRAM calculator inputs');
     }
     const weightsOnlyGB = totalParamsB * bytesPerParam;

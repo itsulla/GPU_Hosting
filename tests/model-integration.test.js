@@ -102,7 +102,7 @@ test('executes the 3000B VRAM calculator boundary for each supported precision',
 
 test('calculator weight residency is independent of active parameters and rejects invalid inputs', () => {
   assert.deepEqual(calculateVram(3000, 1, 2), calculateVram(3000, 3000, 2));
-  for (const args of [[0, 0, 2], [-1, 1, 2], [3000, -1, 2], [3000, 3001, 2], [3000, 1, 0], [3000, 1, 3], [NaN, 1, 2], [3000, 1, Infinity]]) {
+  for (const args of [[0, 0, 2], [-1, 1, 2], [3000, -1, 2], [3000, 0, 2], [3000, 3001, 2], [3001, 1, 2], [3000, 1, 0], [3000, 1, 3], [NaN, 1, 2], [3000, 1, Infinity]]) {
     assert.throws(() => calculateVram(...args), /invalid/i, `expected invalid input to fail: ${args}`);
   }
 });

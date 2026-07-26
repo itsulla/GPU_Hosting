@@ -5,7 +5,6 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const crypto = require('node:crypto');
-const childProcess = require('node:child_process');
 const { parse } = require('csv-parse/sync');
 const { MODEL_REGISTRY } = require('../model-registry.js');
 
@@ -15,6 +14,15 @@ const LEDGER = fs.readFileSync(path.join(ROOT, 'research/2026-07-26/official-led
 const ARCHIVE = fs.readFileSync(path.join(ROOT, 'research/archive/Prompt Research Project Analysis.md'), 'utf8');
 const EXPECTED_HEADERS = ['Model', 'Model ID', 'Developer', 'Category', 'Architecture', 'Total Params', 'Active Params', 'Context', 'License', 'Weights Status', 'Availability Caveat', 'Best For', 'Evidence Type', 'Last Verified', 'Source URL'];
 const OBSOLETE = ['DeepSeek V3.2', 'Qwen 3.5', 'Kimi K2.5', 'MiniMax M2.5', 'generic Mistral', 'Mixtral'];
+const NON_MODEL_SHEET_HASHES = Object.freeze({
+  'Affiliate Programs': 'a8c7d3ff2cfda7879e7f24db54bd84fb23ab23a9451cc86142fba1a0c5570bc5',
+  'GPU Hardware Specs': '64d1e96dc8c6c5850bff780eb8b581824bae352e704efcba2be063efa934f8ee',
+  'Cloud Provider Pricing': 'bd08d7e70b59640f084013a768206308817f03e0d1f7373b1a1152da3f974ff6',
+  'API and Self-Hosted Cost Comparison Inputs': 'e86f763ea890f071557f32ab4f2b4d620fc881735d0b07a3776cc237656d1533',
+  'Content Verification Schedule': '5d65bbd1541220b56dba35fb60d0b08f34d2bb0e2ce896ed38707a1560bbed72',
+  'SEO & Traffic Tracking': '6741b0055ef48edfe73d9ed4b70f2fc264abea8a0ca7a2454b2273f065329b53',
+  'Monthly Revenue Tracking': 'bfddb9c47f67187e52d259aefa10b9abaab9ff88147133ed2781cd66ee7f26c3',
+});
 
 function csvRows(text) { return parse(text, { relax_column_count: false, skip_empty_lines: true }); }
 
@@ -95,12 +103,12 @@ test('tracker retains eight rectangular sheets and only the model schedule is re
 
 test('all seven non-model tracker sheets remain byte-for-byte identical to the baseline', () => {
   const current = fs.readFileSync(path.join(ROOT, 'GPUHosting_Tracker.csv'), 'utf8');
-  const baseline = childProcess.execFileSync('git', ['show', 'ca490b58c526dc7307621579f4c63a788f1422e7:GPUHosting_Tracker.csv'], { cwd: ROOT, encoding: 'utf8' });
   const currentBlocks = new Map(sheetBlocks(current).map((block) => [block.match(/^SHEET: ([^\r\n]+)/)[1], block]));
-  const baselineBlocks = new Map(sheetBlocks(baseline).map((block) => [block.match(/^SHEET: ([^\r\n]+)/)[1], block]));
-  for (const [name, block] of baselineBlocks) {
-    if (name === 'Model Specifications') continue;
-    assert.equal(crypto.createHash('sha256').update(currentBlocks.get(name) || '').digest('hex'), crypto.createHash('sha256').update(block).digest('hex'), `${name} changed from baseline`);
+  const actualNames = [...currentBlocks.keys()].filter((name) => name !== 'Model Specifications').sort();
+  assert.deepEqual(actualNames, Object.keys(NON_MODEL_SHEET_HASHES).sort(), 'non-model sheet boundaries changed from baseline');
+  for (const [name, expectedHash] of Object.entries(NON_MODEL_SHEET_HASHES)) {
+    const actualHash = crypto.createHash('sha256').update(currentBlocks.get(name) || '').digest('hex');
+    assert.equal(actualHash, expectedHash, `${name} changed from baseline`);
   }
 });
 
