@@ -1,0 +1,35 @@
+{
+  "intent": "how_to",
+  "freshness_mode": "evergreen_ok",
+  "cluster_mode": "workflow",
+  "subqueries": [
+    {
+      "label": "primary",
+      "search_query": "LLM inference serving deployment vLLM Ollama quantization",
+      "ranking_query": "What changed in the practical LLM inference serving and deployment stack, including vLLM, Ollama, and quantization formats?",
+      "sources": ["reddit", "x", "youtube", "tiktok", "instagram", "hackernews", "polymarket"],
+      "weight": 1.0
+    },
+    {
+      "label": "engines",
+      "search_query": "vLLM Ollama SGLang TensorRT-LLM llama.cpp production serving",
+      "ranking_query": "How do practitioners currently divide production use cases among vLLM, Ollama, SGLang, TensorRT-LLM, and llama.cpp?",
+      "sources": ["reddit", "x", "youtube", "hackernews"],
+      "weight": 0.9
+    },
+    {
+      "label": "quantization",
+      "search_query": "GGUF AWQ GPTQ quantization inference compatibility performance",
+      "ranking_query": "What are the current compatibility, quality, memory, and performance trade-offs among GGUF, AWQ, and GPTQ?",
+      "sources": ["reddit", "x", "youtube", "hackernews"],
+      "weight": 0.8
+    },
+    {
+      "label": "rented-gpu-workflow",
+      "search_query": "deploy vLLM Ollama rented GPU Docker OpenAI endpoint security",
+      "ranking_query": "Which deployment steps, security controls, observability practices, and failure modes matter when running vLLM or Ollama on a rented GPU?",
+      "sources": ["reddit", "x", "youtube", "hackernews"],
+      "weight": 0.8
+    }
+  ]
+}

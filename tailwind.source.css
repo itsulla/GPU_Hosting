@@ -1,0 +1,3 @@
+/* Utility layer compiled for classes used in index.html.
+   Run `npm run build` after changing utility classes. */
+@tailwind utilities;

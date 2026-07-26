@@ -1,0 +1,35 @@
+{
+  "intent": "factual",
+  "freshness_mode": "balanced_recent",
+  "cluster_mode": "none",
+  "subqueries": [
+    {
+      "label": "primary",
+      "search_query": "LLM inference VRAM GPU sizing",
+      "ranking_query": "What changed in practitioner guidance for sizing VRAM and choosing GPUs for LLM inference?",
+      "sources": ["reddit", "x", "youtube", "tiktok", "instagram", "hackernews", "polymarket"],
+      "weight": 1.0
+    },
+    {
+      "label": "memory-tiers",
+      "search_query": "24GB 32GB 48GB 80GB 96GB GPU LLM inference",
+      "ranking_query": "Which GPUs are practitioners recommending at the major VRAM tiers, and for which model sizes and workloads?",
+      "sources": ["reddit", "x", "youtube", "hackernews"],
+      "weight": 0.8
+    },
+    {
+      "label": "blackwell-and-alternatives",
+      "search_query": "RTX 5090 Blackwell workstation AMD GPU LLM inference benchmark",
+      "ranking_query": "How are current Blackwell, AMD, workstation, and used datacenter GPUs changing inference hardware recommendations?",
+      "sources": ["reddit", "x", "youtube", "hackernews"],
+      "weight": 0.8
+    },
+    {
+      "label": "kv-cache-concurrency",
+      "search_query": "KV cache context concurrency multimodal VRAM inference",
+      "ranking_query": "What real-world memory overhead and concurrency issues are simple model-weight VRAM calculators missing?",
+      "sources": ["reddit", "x", "youtube", "hackernews"],
+      "weight": 0.7
+    }
+  ]
+}

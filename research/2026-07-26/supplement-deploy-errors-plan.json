@@ -1,0 +1,11 @@
+{
+  "intent": "how_to",
+  "freshness_mode": "balanced_recent",
+  "cluster_mode": "workflow",
+  "subqueries": [
+    {"label":"primary","search_query":"AI generated app deployment failure Vercel Railway Netlify","ranking_query":"Which concrete deployment failures recur when AI-generated applications move from local development to Vercel, Railway, or Netlify?","sources":["reddit","x","youtube","tiktok","instagram","hackernews","polymarket"],"weight":1.0},
+    {"label":"builders","search_query":"Cursor Bolt Lovable Replit deployment production issue","ranking_query":"What production gaps and deployment errors are users of AI coding tools and app builders encountering?","sources":["reddit","x","youtube","hackernews"],"weight":0.9},
+    {"label":"configuration","search_query":"Vercel Railway environment variables database migration auth callback deployment error","ranking_query":"Which environment, database, migration, domain, and authentication configuration mistakes are causing deployment failures?","sources":["reddit","x","youtube","hackernews"],"weight":0.8},
+    {"label":"operations","search_query":"AI app works locally production deployment logs secrets Docker","ranking_query":"Which observability, secrets, build, runtime, and container issues appear only after AI-generated applications reach production?","sources":["reddit","x","youtube","hackernews"],"weight":0.8}
+  ]
+}

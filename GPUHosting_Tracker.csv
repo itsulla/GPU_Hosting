@@ -1,0 +1,85 @@
+SHEET: Affiliate Programs
+Provider,Signup URL,Commission,Cookie Duration,Payment Threshold,Payment Method,Status,Affiliate ID,Login URL,Notes
+RunPod,runpod.io (dashboard referral),Credits-based referral,Unknown,Unknown,Credits,Not Applied,,,"Most recommended provider on site, priority #1"
+Vast.ai,vast.ai (account settings),Credits-based referral,Unknown,Unknown,Credits,Not Applied,,,"Budget GPU option, high volume"
+Lambda Labs,lambdalabs.com (contact sales),Referral credits,Unknown,Unknown,Credits,Not Applied,,,"Enterprise GPU cloud"
+Vultr,vultr.com/promo/affiliate,$100 per qualified signup,30 days,$25,PayPal/Wire,Not Applied,,,"Easy approval, solid GPU instances"
+DigitalOcean,digitalocean.com/affiliates,$200 per signup (spend $25+),Unknown,$25,PayPal,Not Applied,,,"Best payout ratio, GPU Droplets"
+Hetzner,hetzner.com (account referral),Credits-based,Unknown,Unknown,Credits,Not Applied,,,"Popular with self-hosters"
+Liquid Web,liquidweb.com/affiliate,150% of month 1 (up to $1500),90 days,$50,Check/Wire,Not Applied,,,"Whale play — one enterprise sale = $1500"
+Linode (Akamai),linode.com/affiliate-program,$100 per qualified signup,90 days,$100,PayPal,Not Applied,,,"Trusted brand, GPU instances"
+OVHcloud,ovhcloud.com/en/partner-program,Varies,Unknown,Unknown,Unknown,Not Applied,,,"GPU dedicated servers"
+Amazon Associates,affiliate-program.amazon.com,1-4% on hardware,24 hours,$10,Direct Deposit,Not Applied,,,"RTX 4090/5090 hardware purchases"
+Newegg,newegg.com/affiliate,2.5%,7 days,$50,Check,Not Applied,,,"GPU hardware sales"
+AWS,affiliate-program.amazon.com,1-3%,24 hours,$10,Direct Deposit,Not Applied,,,"Low commission but massive trust"
+Google Cloud,cloud.google.com/affiliate,Varies,Unknown,Unknown,Unknown,Not Applied,,,"TPU + GPU offerings"
+
+SHEET: Model Specifications
+Model,Developer,Architecture,Total Params,Active Params,License,Context Window,Training Data,Training Cost,Key Benchmark,Best For,Last Verified,Source URL,Status
+Meta Llama 4 Scout,Meta,MoE (16 experts),109B,17B,Llama 4 Community (Commercial OK),Unknown,Unknown,Unknown,"Maverick 89.7% DevQualityEval","General purpose, enterprise, multimodal",03/2026,llama.meta.com,Needs Verification
+Meta Llama 4 Maverick,Meta,MoE,402B,17B,Llama 4 Community (Commercial OK),Unknown,Unknown,Unknown,"8.6s/task latency, 91.65% Ruby codegen","General purpose, enterprise, multimodal",03/2026,llama.meta.com,Needs Verification
+DeepSeek V4,DeepSeek,MoE,~1T,37B,MIT (Highly permissive),Unknown,Unknown,~$6M,MHLA 5-13% memory of standard attention,"Coding, complex reasoning, long code parsing",03/2026,github.com/deepseek-ai,Needs Verification
+Alibaba Qwen 3,Alibaba,Dense + MoE (0.6B-235B),235B (flagship),22B (flagship),Apache 2.0,Up to 1M tokens,36T tokens,Unknown,90% cost reduction vs dense,"Multilingual, coding, STEM, agentic",03/2026,github.com/QwenLM,Needs Verification
+Mistral / Mixtral,Mistral AI,Dense + MoE,"7B / 8x7B / 8x22B",2 of 8 experts,"Apache 2.0 (small), Custom (large)",Unknown,Unknown,Unknown,8x22B rivals Llama 70B,"Fast inference, limited hardware, multilingual",03/2026,mistral.ai,Needs Verification
+Kimi K2,Moonshot AI,MoE,~1T,Unknown,Unknown,Unknown,Unknown,Unknown,Native <think> tag,"Complex reasoning, mathematical analysis",03/2026,Unknown,Needs Verification
+Llama 3.x (Legacy),Meta,Dense,"8B / 70B / 405B",All (dense),Llama Community License,Unknown,Unknown,Unknown,405B rivals GPT-4 class,"Proven stability, huge fine-tune ecosystem",03/2026,llama.meta.com,Verified
+
+SHEET: GPU Hardware Specs
+GPU,VRAM,Memory Type,Bandwidth (GB/s),Published Cloud Price Snapshot,Tokens per $1,Decision Note,Evidence Class,Last Verified,Source,Status
+Nvidia RTX 5090,32GB,GDDR7,1792,"RunPod $0.69 Community / $0.99 Secure",Not published,"High-bandwidth 32GB option; benchmark exact model, precision, context, and runtime",Official specification + current price snapshot,07/26/2026,"nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5090/; runpod.io/pricing",Checked
+Nvidia RTX 6000 Ada,48GB,GDDR6,960,Check live quote,Not published,"48GB capacity class; validate exact format, KV cache, and runtime headroom",Official specification,07/26/2026,nvidia.com/en-us/design-visualization/rtx-6000/,Checked spec / price pending
+Nvidia RTX PRO 6000 Blackwell,96GB,GDDR7 ECC,Variant-specific,Check live quote,Not published,"Workstation, Max-Q, and Server variants are not interchangeable",Official specification,07/26/2026,nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-6000-blackwell/,Checked spec / price pending
+Nvidia A100 PCIe,80GB,HBM2e,1935,"RunPod $1.19 Community / $1.39 Secure",Not published,"A 70B FP16 model needs about 140GB for weights alone and does not fit one 80GB GPU",Official specification + current price snapshot,07/26/2026,"nvidia.com/en-us/data-center/a100/; runpod.io/pricing",Checked
+Nvidia H100 SXM,80GB,HBM3,3350,"RunPod $2.69 Community / $2.99 Secure",Not published,"High-performance SXM option; validate topology and workload",Official specification + current price snapshot,07/26/2026,"nvidia.com/en-us/data-center/h100/; runpod.io/pricing",Checked
+Nvidia H200,141GB,HBM3e,4800,"RunPod $3.59 Community / $4.39 Secure",Not published,"Higher-capacity Hopper option; compare topology and runtime support",Official specification + current price snapshot,07/26/2026,"nvidia.com/en-us/data-center/h200/; runpod.io/pricing",Checked
+B200 provider listing,180GB listed,HBM3e,Pending NVIDIA single-GPU datasheet,RunPod $5.89,Not published,"RunPod and Lambda list 180GB configurations; do not generalize as a universal single-B200 specification",Current provider listing,07/26/2026,"runpod.io/pricing; lambda.ai/pricing",Configuration-specific
+
+SHEET: Cloud Provider Pricing
+Provider,GPU Scope,Published Rate / Quote,Billing Plane,Tokens per $1,Decision Note,Affiliate Status,Last Verified,Pricing Page URL,Status
+RunPod,"RTX 4090 / 5090 / A100 / H100 / H200 / B200",$0.34 - $5.89/GPU-hr,Fixed GPU + Serverless,Not published,"Community and Secure rates differ; storage is billed separately",Linked,07/26/2026,runpod.io/pricing,Checked
+Vast.ai,Host- and offer-dependent,Live marketplace offers,Marketplace,Not published,"Price, host verification, location, storage, and interruption risk vary by offer",Linked,07/26/2026,vast.ai/pricing,Variable
+Lambda,"A6000 / A100 / H100 / B200","1x examples $1.09 - $6.99/GPU-hr",GPU Cloud + Clusters,Not published,"1x and cluster rows use different configurations and commitment assumptions",Not linked,07/26/2026,lambda.ai/pricing,Checked
+CoreWeave,"A100 / H100 / H200 / B200 / GB200",System + spot pricing,GPU systems + inference,Not published,"Normalize full-system, spot, storage, and network costs",Not linked,07/26/2026,coreweave.com/gpu-cloud-pricing,Checked
+Crusoe Cloud,"L40S / A100 / H100 / H200 / MI300X","VM examples $1.50 - $4.29/GPU-hr",GPU VM + managed inference,Not published,"Raw VMs and per-token serverless inference are separate products",Not linked,07/26/2026,crusoe.ai/cloud/pricing,Checked
+Modal,T4 through B300,Per-second active compute,Serverless GPU,Not published,"Cold starts, concurrency, CPU/RAM, scaledown, and retained volumes determine TCO",Not linked,07/26/2026,modal.com/pricing,Checked
+Vultr,Availability varies,Check live regional quote,Cloud GPU,Not published,"Record exact GPU, region, storage, and network terms",Linked,07/26/2026,vultr.com/pricing,Refresh before quoting
+DigitalOcean / Paperspace,Availability varies,Check live account quote,Managed cloud,Not published,"Verify SKU, region, and minimum billing before quoting",Linked,07/26/2026,digitalocean.com/pricing,Refresh before quoting
+Hetzner,Dedicated GPU server shapes,Check current monthly quote,Dedicated bare metal,Not published,"Compare contract, setup fee, power envelope, replacement SLA, and utilization",Not linked,07/26/2026,hetzner.com,Refresh before quoting
+AWS / GCP / Azure,Region- and shape-dependent,Use official calculators,Hyperscaler,Not published,"Quota, topology, commitment, storage, egress, and managed-service layer dominate",Not linked,07/26/2026,"aws.amazon.com/ec2/pricing/on-demand/; cloud.google.com/products/calculator; azure.microsoft.com/pricing/calculator/",Refresh before quoting
+
+SHEET: API and Self-Hosted Cost Comparison Inputs
+Scenario,Rate Input,Type,Required Assumptions,Last Verified,Source / Method
+Hosted API,User-entered blended cost per 1M tokens,Hosted API,"Quality-equivalent model; input/output/cache mix; batch discounts; uptime",07/26/2026,Current official provider price page
+Self-hosted GPU,User-entered hourly compute + monthly overhead,Self-hosted,"Provisioned hours; storage; egress; observability; redundancy; operations",07/26/2026,Site calculator scenario
+Break-even result,Scenario output—not a universal token threshold,Estimate,"All assumptions above plus achieved throughput and utilization",07/26/2026,Site calculator formula
+
+SHEET: Content Verification Schedule
+Data Category,Verification Frequency,Priority,Last Checked,Next Check Due,How to Verify,Risk if Stale
+GPU Cloud Pricing,Weekly,Critical,07/26/2026,08/02/2026,Check each provider pricing page directly,Users lose trust immediately — pricing is the #1 reason they visit
+API Pricing,Monthly,High,07/26/2026,08/26/2026,Check each named provider's official pricing page,Calculator scenarios become misleading
+Model Specifications,Before publication,High,Needs refresh,Before publication,"Official model card, repository, license, and release notes",Technical audience will catch errors fast
+Hardware Specs (VRAM/bandwidth),Quarterly,Medium,07/26/2026,10/26/2026,Manufacturer specification or current datasheet,Variant confusion creates false fit claims
+Benchmark Claims,Before publication,High,Needs reproducible run,Before publication,"Publish workload, prompt, model hash, runtime, flags, GPU, concurrency, and raw output",Unscoped performance claims mislead users
+Affiliate Commission Rates,Before promotion,Medium,Needs dashboard check,Before promotion,Check each affiliate dashboard,Could publish invalid commercial terms
+New Model Releases,Weekly,High,Needs official refresh,Before publication,"Official model card, repository, and release announcement",Site feels outdated or publishes unreleased models
+Provider New GPU Offerings,Monthly,Medium,07/26/2026,08/26/2026,Check provider pricing and product pages,Missing or mislabeling current configurations
+Quantization Formats,Quarterly,Medium,07/26/2026,10/26/2026,Current runtime documentation and release notes,Support and performance change by version
+VRAM Calculator Formula,Quarterly,High,07/26/2026,10/26/2026,"Component model: weights, quantization metadata, KV cache, runtime workspaces, concurrency, and headroom",A fixed 20% allowance is not a KV-cache model
+
+SHEET: SEO & Traffic Tracking
+Target Keyword,Monthly Search Volume (est.),Current Ranking,Target Page/Section,Competitor URLs,Notes
+how much vram for llama 70b,High,Not indexed,VRAM Calculator,,Submit to Google Search Console
+runpod vs vast.ai,Medium,Not indexed,Provider Matrix,,Good comparison keyword
+self host llm cost,Medium,Not indexed,Cost Calculator,,High intent — calculator converts
+vllm docker setup,Medium,Not indexed,Deploy section,,Copy-paste commands = high value
+gpu cloud provider comparison 2026,Medium,Not indexed,Provider Matrix,,Update year in title tag annually
+best gpu for llm inference,High,Not indexed,Hardware section,,Competitive keyword
+cheapest gpu cloud,Medium,Not indexed,Provider Matrix,,Price-sensitive audience
+llama 4 vram requirements,High,Not indexed,VRAM Calculator,,New model = low competition
+
+SHEET: Monthly Revenue Tracking
+Month,Provider,Clicks,Signups,Revenue,Commission Type,Notes
+03/2026,Example: Vultr,0,0,$0,$100 per signup,Not yet active
+03/2026,Example: DigitalOcean,0,0,$0,$200 per signup,Not yet active
+03/2026,Example: RunPod,0,0,$0,Credits,Not yet active
+03/2026,Example: Liquid Web,0,0,$0,Up to $1500,Not yet active

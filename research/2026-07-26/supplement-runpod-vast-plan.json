@@ -1,0 +1,11 @@
+{
+  "intent": "comparison",
+  "freshness_mode": "balanced_recent",
+  "cluster_mode": "debate",
+  "subqueries": [
+    {"label":"primary","search_query":"RunPod Vast.ai GPU cloud pricing reliability","ranking_query":"What concrete pricing, reliability, security, storage, availability, and support trade-offs are practitioners reporting between RunPod and Vast.ai?","sources":["reddit","x","youtube","tiktok","instagram","hackernews","polymarket"],"weight":1.0},
+    {"label":"runpod","search_query":"RunPod GPU pod serverless reliability storage complaint","ranking_query":"What are current practitioner experiences and failure modes with RunPod Pods and Serverless?","sources":["reddit","x","youtube","hackernews"],"weight":0.8},
+    {"label":"vast","search_query":"Vast.ai GPU marketplace reliability host security storage complaint","ranking_query":"What are current practitioner experiences and failure modes with the Vast.ai marketplace?","sources":["reddit","x","youtube","hackernews"],"weight":0.8},
+    {"label":"switching","search_query":"moved switched RunPod Vast.ai GPU cloud","ranking_query":"Why are practitioners switching between RunPod and Vast.ai, if they are?","sources":["reddit","x","youtube","hackernews"],"weight":0.7}
+  ]
+}

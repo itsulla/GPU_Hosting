@@ -1,0 +1,11 @@
+{
+  "intent": "comparison",
+  "freshness_mode": "balanced_recent",
+  "cluster_mode": "debate",
+  "subqueries": [
+    {"label":"primary","search_query":"vLLM Ollama production inference serving","ranking_query":"How do current practitioners distinguish vLLM and Ollama for production inference, local use, throughput, compatibility, and operational complexity?","sources":["reddit","x","youtube","tiktok","instagram","hackernews","polymarket"],"weight":1.0},
+    {"label":"vllm","search_query":"vLLM production serving throughput deployment issue","ranking_query":"What recent production strengths and failure modes are reported for vLLM?","sources":["reddit","x","youtube","hackernews"],"weight":0.8},
+    {"label":"ollama","search_query":"Ollama production server deployment concurrency issue","ranking_query":"What recent production strengths and failure modes are reported for Ollama?","sources":["reddit","x","youtube","hackernews"],"weight":0.8},
+    {"label":"alternatives","search_query":"vLLM Ollama SGLang llama.cpp inference server choice","ranking_query":"When do practitioners choose SGLang or llama.cpp instead of vLLM or Ollama?","sources":["reddit","x","youtube","hackernews"],"weight":0.7}
+  ]
+}

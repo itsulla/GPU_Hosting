@@ -1,0 +1,35 @@
+{
+  "intent": "how_to",
+  "freshness_mode": "balanced_recent",
+  "cluster_mode": "workflow",
+  "subqueries": [
+    {
+      "label": "primary",
+      "search_query": "AI app deployment hosting Vercel Railway Netlify VPS",
+      "ranking_query": "What changed in how developers deploy and operate AI-generated web applications across managed platforms and VPS hosts?",
+      "sources": ["reddit", "x", "youtube", "tiktok", "instagram", "hackernews", "polymarket"],
+      "weight": 1.0
+    },
+    {
+      "label": "vibe-coded-apps",
+      "search_query": "Cursor Claude Code Bolt Lovable Replit app deployment failure",
+      "ranking_query": "Which deployment failures and production gaps recur in applications created with AI coding tools and app builders?",
+      "sources": ["reddit", "x", "youtube", "hackernews"],
+      "weight": 0.9
+    },
+    {
+      "label": "production-operations",
+      "search_query": "web app deployment environment variables database migrations domains auth callbacks logs secrets",
+      "ranking_query": "Which production configuration and operational problems cause the most pain after an AI-generated application works locally?",
+      "sources": ["reddit", "x", "youtube", "hackernews"],
+      "weight": 0.8
+    },
+    {
+      "label": "private-inference-bridge",
+      "search_query": "web app private OpenAI compatible vLLM endpoint authentication networking",
+      "ranking_query": "How are teams securely connecting deployed applications to private OpenAI-compatible inference endpoints?",
+      "sources": ["reddit", "x", "youtube", "hackernews"],
+      "weight": 0.8
+    }
+  ]
+}

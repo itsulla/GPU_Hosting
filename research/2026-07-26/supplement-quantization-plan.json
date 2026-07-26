@@ -1,0 +1,11 @@
+{
+  "intent": "comparison",
+  "freshness_mode": "balanced_recent",
+  "cluster_mode": "debate",
+  "subqueries": [
+    {"label":"primary","search_query":"GGUF AWQ GPTQ LLM quantization compatibility performance","ranking_query":"What current evidence distinguishes GGUF, AWQ, and GPTQ by runtime, hardware, memory, quality, and performance?","sources":["reddit","x","youtube","tiktok","instagram","hackernews","polymarket"],"weight":1.0},
+    {"label":"gguf","search_query":"GGUF llama.cpp Ollama quantization performance compatibility","ranking_query":"Where is GGUF currently preferred and what limitations do practitioners report?","sources":["reddit","x","youtube","hackernews"],"weight":0.8},
+    {"label":"awq","search_query":"AWQ vLLM quantization production performance compatibility","ranking_query":"Where is AWQ currently preferred and what limitations do practitioners report?","sources":["reddit","x","youtube","hackernews"],"weight":0.8},
+    {"label":"gptq","search_query":"GPTQ vLLM Transformers quantization deprecated compatibility","ranking_query":"Where is GPTQ still used, and is there credible evidence of declining support or replacement?","sources":["reddit","x","youtube","hackernews"],"weight":0.8}
+  ]
+}

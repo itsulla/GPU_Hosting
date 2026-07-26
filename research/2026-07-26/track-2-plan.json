@@ -1,0 +1,35 @@
+{
+  "intent": "comparison",
+  "freshness_mode": "balanced_recent",
+  "cluster_mode": "debate",
+  "subqueries": [
+    {
+      "label": "primary",
+      "search_query": "GPU cloud hosting inference pricing reliability",
+      "ranking_query": "What changed in the GPU cloud hosting market, and what are practitioners reporting about price, availability, reliability, and operational burden?",
+      "sources": ["reddit", "x", "youtube", "tiktok", "instagram", "hackernews", "polymarket"],
+      "weight": 1.0
+    },
+    {
+      "label": "runpod-vast",
+      "search_query": "RunPod Vast.ai GPU cloud comparison",
+      "ranking_query": "What evidence supports the current trade-offs between RunPod and Vast.ai beyond their headline hourly prices?",
+      "sources": ["reddit", "x", "youtube", "hackernews"],
+      "weight": 0.9
+    },
+    {
+      "label": "marketplace-managed-api",
+      "search_query": "GPU marketplace managed inference endpoint token API",
+      "ranking_query": "When are practitioners choosing GPU marketplaces, managed endpoints, or token APIs, and what failure modes drive those choices?",
+      "sources": ["reddit", "x", "youtube", "hackernews"],
+      "weight": 0.8
+    },
+    {
+      "label": "break-even",
+      "search_query": "self hosted LLM inference API cost break even utilization batching",
+      "ranking_query": "Which utilization, batching, concurrency, storage, engineering, and SLA assumptions determine whether self-hosted inference beats API pricing?",
+      "sources": ["reddit", "x", "youtube", "hackernews"],
+      "weight": 0.8
+    }
+  ]
+}
