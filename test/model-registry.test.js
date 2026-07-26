@@ -98,7 +98,7 @@ test('required current self-hostable models carry the supplied verified facts', 
     'openai-gpt-oss-20b': [21, 3.6, 131072, 'Apache-2.0'],
     'llama-4-scout': [109, 17, 10000000, 'Llama 4 Community License'],
     'llama-4-maverick': [400, 17, 1000000, 'Llama 4 Community License'],
-    'mistral-small-4': [119, 6, 262144, 'Apache-2.0'],
+    'mistral-small-4': [119, 6.5, 262144, 'Apache-2.0'],
     'mistral-large-3': [675, 41, 262144, 'Apache-2.0'],
     'sarvam-105b': [106, 10.3, 131072, 'Apache-2.0'],
   };

@@ -30,7 +30,7 @@ Parameter and context values in the tables are official specification/documentat
 | OpenAI gpt-oss-20b | `openai/gpt-oss-20b` | 21B total / 3.6B active; 131072 context | Apache-2.0 / Released | Publish as public-weights; marketing name “20b” is not the total | https://huggingface.co/openai/gpt-oss-20b |
 | Meta Llama 4 Scout | `meta-llama/Llama-4-Scout-17B-16E-Instruct` | 109B total / 17B active; 10000000 context | Llama 4 Community License / Released | Publish as public-weights | https://www.llama.com/models/llama-4/ |
 | Meta Llama 4 Maverick | `meta-llama/Llama-4-Maverick-17B-128E-Instruct` | 400B total / 17B active; 1000000 context | Llama 4 Community License / Released | Publish as public-weights | https://www.llama.com/models/llama-4/ |
-| Mistral Small 4 | `mistralai/Mistral-Small-4-119B-2603` | 119B total / 6B active; 262144 context | Apache-2.0 / Released | Publish as public-weights | https://huggingface.co/mistralai/Mistral-Small-4-119B-2603 |
+| Mistral Small 4 | `mistralai/Mistral-Small-4-119B-2603` | 119B total / 6.5B active; 262144 context | Apache-2.0 / Released | Publish as public-weights | https://huggingface.co/mistralai/Mistral-Small-4-119B-2603 |
 | Mistral Large 3 | `mistralai/Mistral-Large-3-675B-Instruct-2512` | 675B total / 41B active; 262144 context | Apache-2.0 / Released | Publish as public-weights; cluster-scale | https://huggingface.co/mistralai/Mistral-Large-3-675B-Instruct-2512 |
 | Sarvam-105B | `sarvamai/sarvam-105b` | 106B total / 10.3B active; 131072 context | Apache-2.0 / Released | Publish as public-weights | https://huggingface.co/sarvamai/sarvam-105b |
 
