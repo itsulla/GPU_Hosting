@@ -2,6 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const { calculateVram } = require('../model-registry.js');
 
 const repoRoot = path.resolve(__dirname, '..');
 const indexPath = path.join(repoRoot, 'index.html');
@@ -91,6 +92,19 @@ test('supports 3T VRAM planning with coarse precision bytes and honest cluster-s
   assert.match(index, /KV cache[^<]*(?:not|exclude|separate)/i);
   assert.match(appSource, /cluster[- ]scale/i);
   assert.match(appSource, /(?:validate|check|verify).{0,100}(?:topology|shard|runtime)/i);
+});
+
+test('executes the 3000B VRAM calculator boundary for each supported precision', () => {
+  assert.deepEqual(calculateVram(3000, 3000, 2), { weightsOnlyGB: 6000, suggestedCapacityGB: 7200 });
+  assert.deepEqual(calculateVram(3000, 3000, 1), { weightsOnlyGB: 3000, suggestedCapacityGB: 3600 });
+  assert.deepEqual(calculateVram(3000, 3000, 0.5), { weightsOnlyGB: 1500, suggestedCapacityGB: 1800 });
+});
+
+test('calculator weight residency is independent of active parameters and rejects invalid inputs', () => {
+  assert.deepEqual(calculateVram(3000, 1, 2), calculateVram(3000, 3000, 2));
+  for (const args of [[0, 0, 2], [-1, 1, 2], [3000, -1, 2], [3000, 3001, 2], [3000, 1, 0], [3000, 1, 3], [NaN, 1, 2], [3000, 1, Infinity]]) {
+    assert.throws(() => calculateVram(...args), /invalid/i, `expected invalid input to fail: ${args}`);
+  }
 });
 
 test('sizes weights from total parameters while exposing active parameters separately for compute planning', () => {

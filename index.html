@@ -1036,8 +1036,9 @@ codex --profile runpod</div>
             paramValText.innerText = params; activeParamValText.innerText = activeParams;
             // Weight memory uses total parameters, never active parameters; active parameters are compute planning only.
             updateTrackFill();
-            const weightsOnly = params * currentMultiplier;
-            const totalVram = Math.ceil(weightsOnly * 1.2);
+            const vram = GPUHostingModelRegistry.calculateVram(params, activeParams, currentMultiplier);
+            const weightsOnly = vram.weightsOnlyGB;
+            const totalVram = vram.suggestedCapacityGB;
             animateVRAM(prevVram, totalVram);
             prevVram = totalVram;
             weightsOnlyOutputText.innerText = 'Weights estimate: ' + Math.ceil(weightsOnly) + ' GB before runtime allocations.';

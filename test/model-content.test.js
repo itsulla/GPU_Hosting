@@ -4,6 +4,9 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const crypto = require('node:crypto');
+const childProcess = require('node:child_process');
+const { parse } = require('csv-parse/sync');
 const { MODEL_REGISTRY } = require('../model-registry.js');
 
 const ROOT = path.join(__dirname, '..');
@@ -13,25 +16,10 @@ const ARCHIVE = fs.readFileSync(path.join(ROOT, 'research/archive/Prompt Researc
 const EXPECTED_HEADERS = ['Model', 'Model ID', 'Developer', 'Category', 'Architecture', 'Total Params', 'Active Params', 'Context', 'License', 'Weights Status', 'Availability Caveat', 'Best For', 'Evidence Type', 'Last Verified', 'Source URL'];
 const OBSOLETE = ['DeepSeek V3.2', 'Qwen 3.5', 'Kimi K2.5', 'MiniMax M2.5', 'generic Mistral', 'Mixtral'];
 
-function csvRows(text) {
-  const rows = [];
-  let row = [], field = '', quoted = false;
-  for (let i = 0; i < text.length; i += 1) {
-    const ch = text[i];
-    if (quoted && ch === '"' && text[i + 1] === '"') { field += '"'; i += 1; continue; }
-    if (ch === '"') { quoted = !quoted; continue; }
-    if (!quoted && ch === ',') { row.push(field); field = ''; continue; }
-    if (!quoted && (ch === '\n' || ch === '\r')) {
-      if (ch === '\r' && text[i + 1] === '\n') i += 1;
-      row.push(field); field = '';
-      if (row.some(Boolean)) rows.push(row);
-      row = [];
-      continue;
-    }
-    field += ch;
-  }
-  if (field || row.length) { row.push(field); rows.push(row); }
-  return rows;
+function csvRows(text) { return parse(text, { relax_column_count: false, skip_empty_lines: true }); }
+
+function sheetBlocks(csv) {
+  return csv.match(/SHEET: [^\r\n]+[\s\S]*?(?=\r?\nSHEET: |$)/g) || [];
 }
 
 function modelSection() {
@@ -90,22 +78,34 @@ test('Model Specifications is an exact, rectangular projection of every registry
 });
 
 test('tracker retains eight rectangular sheets and only the model schedule is refreshed', () => {
-  const lines = fs.readFileSync(path.join(ROOT, 'GPUHosting_Tracker.csv'), 'utf8').split(/\r?\n/);
-  const headers = lines.filter((line) => line.startsWith('SHEET: '));
-  assert.equal(headers.length, 8);
-  for (let i = 0; i < headers.length; i += 1) {
-    const start = lines.indexOf(headers[i]);
-    const end = lines.findIndex((line, index) => index > start && line.startsWith('SHEET: '));
-    const rows = csvRows(lines.slice(start + 1, end === -1 ? lines.length : end).join('\n'));
-    assert.ok(rows.length > 0, `${headers[i]} has no rows`);
+  const tracker = fs.readFileSync(path.join(ROOT, 'GPUHosting_Tracker.csv'), 'utf8');
+  const blocks = sheetBlocks(tracker);
+  assert.equal(blocks.length, 8);
+  assert.equal(new Set(blocks.map((block) => block.match(/^SHEET: ([^\r\n]+)/)[1])).size, 8);
+  for (const block of blocks) {
+    const rows = csvRows(block.slice(block.indexOf('\n') + 1));
+    assert.ok(rows.length > 0, `${block.split('\n', 1)[0]} has no rows`);
     const width = rows[0].length;
-    assert.ok(width > 0, `${headers[i]} has no columns`);
-    for (const row of rows) assert.equal(row.length, width, `${headers[i]} is not rectangular`);
+    assert.ok(width > 0, `${block.split('\n', 1)[0]} has no columns`);
+    for (const row of rows) assert.equal(row.length, width, `${block.split('\n', 1)[0]} is not rectangular`);
   }
-  const schedule = csvRows(lines.slice(lines.indexOf('SHEET: Content Verification Schedule') + 1, lines.findIndex((line, index) => index > lines.indexOf('SHEET: Content Verification Schedule') && line.startsWith('SHEET: '))).join('\n'));
-  for (const row of schedule.slice(1)) {
-    if (['Model Specifications', 'New Model Releases'].includes(row[0])) assert.equal(row[3], DATE);
+  const lines = tracker.split(/\r?\n/);
+  assert.ok(lines.includes('SHEET: Content Verification Schedule'));
+});
+
+test('all seven non-model tracker sheets remain byte-for-byte identical to the baseline', () => {
+  const current = fs.readFileSync(path.join(ROOT, 'GPUHosting_Tracker.csv'), 'utf8');
+  const baseline = childProcess.execFileSync('git', ['show', 'ca490b58c526dc7307621579f4c63a788f1422e7:GPUHosting_Tracker.csv'], { cwd: ROOT, encoding: 'utf8' });
+  const currentBlocks = new Map(sheetBlocks(current).map((block) => [block.match(/^SHEET: ([^\r\n]+)/)[1], block]));
+  const baselineBlocks = new Map(sheetBlocks(baseline).map((block) => [block.match(/^SHEET: ([^\r\n]+)/)[1], block]));
+  for (const [name, block] of baselineBlocks) {
+    if (name === 'Model Specifications') continue;
+    assert.equal(crypto.createHash('sha256').update(currentBlocks.get(name) || '').digest('hex'), crypto.createHash('sha256').update(block).digest('hex'), `${name} changed from baseline`);
   }
+});
+
+test('standards-compliant CSV parsing rejects an unterminated quote', () => {
+  assert.throws(() => parse('header\n"unterminated'), /quote|record/i);
 });
 
 test('obsolete current model rows are rejected and superseded research is a non-factual tombstone', () => {

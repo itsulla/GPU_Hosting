@@ -480,6 +480,15 @@
       || null;
   }
 
+  function calculateVram(totalParamsB, activeParamsB, bytesPerParam) {
+    const validNumber = (value) => typeof value === 'number' && Number.isFinite(value);
+    if (!validNumber(totalParamsB) || totalParamsB <= 0 || !validNumber(activeParamsB) || activeParamsB < 0 || activeParamsB > totalParamsB || ![0.5, 1, 2].includes(bytesPerParam)) {
+      throw new RangeError('Invalid VRAM calculator inputs');
+    }
+    const weightsOnlyGB = totalParamsB * bytesPerParam;
+    return { weightsOnlyGB, suggestedCapacityGB: Math.ceil(weightsOnlyGB * 1.2) };
+  }
+
   function deepFreeze(value) {
     if (value && typeof value === 'object' && !Object.isFrozen(value)) {
       Object.freeze(value);
@@ -496,5 +505,6 @@
     isDeploymentEligible,
     getDeploymentEligibleModels,
     selectWizardCandidate,
+    calculateVram,
   });
 });

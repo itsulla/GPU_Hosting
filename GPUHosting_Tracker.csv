@@ -73,11 +73,11 @@ SHEET: Content Verification Schedule
 Data Category,Verification Frequency,Priority,Last Checked,Next Check Due,How to Verify,Risk if Stale
 GPU Cloud Pricing,Weekly,Critical,07/26/2026,08/02/2026,Check each provider pricing page directly,Users lose trust immediately — pricing is the #1 reason they visit
 API Pricing,Monthly,High,07/26/2026,08/26/2026,Check each named provider's official pricing page,Calculator scenarios become misleading
-Model Specifications,Before publication,High,07/26/2026,Before publication,"Official model card, repository, license, and release notes",Technical audience will catch errors fast
+Model Specifications,Before publication,High,Needs refresh,Before publication,"Official model card, repository, license, and release notes",Technical audience will catch errors fast
 Hardware Specs (VRAM/bandwidth),Quarterly,Medium,07/26/2026,10/26/2026,Manufacturer specification or current datasheet,Variant confusion creates false fit claims
 Benchmark Claims,Before publication,High,Needs reproducible run,Before publication,"Publish workload, prompt, model hash, runtime, flags, GPU, concurrency, and raw output",Unscoped performance claims mislead users
 Affiliate Commission Rates,Before promotion,Medium,Needs dashboard check,Before promotion,Check each affiliate dashboard,Could publish invalid commercial terms
-New Model Releases,Weekly,High,07/26/2026,Before publication,"Official model card, repository, and release announcement",Site feels outdated or publishes unreleased models
+New Model Releases,Weekly,High,Needs official refresh,Before publication,"Official model card, repository, and release announcement",Site feels outdated or publishes unreleased models
 Provider New GPU Offerings,Monthly,Medium,07/26/2026,08/26/2026,Check provider pricing and product pages,Missing or mislabeling current configurations
 Quantization Formats,Quarterly,Medium,07/26/2026,10/26/2026,Current runtime documentation and release notes,Support and performance change by version
 VRAM Calculator Formula,Quarterly,High,07/26/2026,10/26/2026,"Component model: weights, quantization metadata, KV cache, runtime workspaces, concurrency, and headroom",A fixed 20% allowance is not a KV-cache model
