@@ -6,7 +6,7 @@
     "build": "npm run build:css",
     "build:css": "tailwindcss -c tailwind.config.js -i tailwind.source.css -o tailwind.generated.css --minify",
     "validate": "html-validate index.html",
-    "test": "npm run validate"
+    "test": "node --test test/model-registry.test.js && npm run validate"
   },
   "devDependencies": {
     "html-validate": "^11.5.6",
