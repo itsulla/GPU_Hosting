@@ -991,6 +991,9 @@ footer .border-slate-800 { border-color: var(--night-line) !important; }
     section > div:first-child.fade-up > h2 { font-size: clamp(38px, 12vw, 52px) !important; }
     #wizard-container { padding: 24px !important; }
     #wizard .wizard-option { min-height: 112px; }
+    .atlas-group-heading { align-items: flex-start; flex-direction: column; gap: 8px; }
+    .atlas-group-heading p { max-width: none; }
+    .atlas-group[data-category="self-hostable"] .atlas-group-heading h3::before { display: block; margin-bottom: 8px; }
     .model-entry summary { min-height: 92px; padding-inline: 2px; }
     .model-name { font-size: 17px; }
     .model-arch { font-size: 10px; }

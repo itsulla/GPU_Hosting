@@ -9,7 +9,7 @@ const { MODEL_REGISTRY } = require('../model-registry.js');
 const ROOT = path.join(__dirname, '..');
 const DATE = '07/26/2026';
 const LEDGER = fs.readFileSync(path.join(ROOT, 'research/2026-07-26/official-ledgers/MODEL_LINEUP_LEDGER.md'), 'utf8');
-const ARCHIVE = fs.readFileSync(path.join(ROOT, 'Prompt Research Project Analysis.md'), 'utf8');
+const ARCHIVE = fs.readFileSync(path.join(ROOT, 'research/archive/Prompt Research Project Analysis.md'), 'utf8');
 const EXPECTED_HEADERS = ['Model', 'Model ID', 'Developer', 'Category', 'Architecture', 'Total Params', 'Active Params', 'Context', 'License', 'Weights Status', 'Availability Caveat', 'Best For', 'Evidence Type', 'Last Verified', 'Source URL'];
 const OBSOLETE = ['DeepSeek V3.2', 'Qwen 3.5', 'Kimi K2.5', 'MiniMax M2.5', 'generic Mistral', 'Mixtral'];
 

@@ -50,6 +50,7 @@ test('every record has complete, dated, first-party evidence metadata', () => {
 test('publication invariants fail closed by category', () => {
   for (const record of allRecords()) {
     if (record.category === 'self-hostable') {
+      assert.equal(typeof record.modelId, 'string');
       assert.equal(record.weightsStatus, 'released');
       assert.notEqual(record.totalParamsB, null);
       assert.ok(record.license);
@@ -57,13 +58,18 @@ test('publication invariants fail closed by category', () => {
       assert.equal(record.availability, 'public-weights');
     }
     if (record.category === 'api-only') {
+      assert.equal(typeof record.apiId, 'string');
       assert.notEqual(record.weightsStatus, 'released');
       assert.equal(isDeploymentEligible(record), false);
     }
     if (record.category === 'weights-pending') {
+      assert.equal(typeof record.apiId, 'string');
       assert.equal(isDeploymentEligible(record), false);
     }
-    if (record.category === 'legacy') assert.match(record.displayName, /legacy/i);
+    if (record.category === 'legacy') {
+      assert.equal(typeof record.modelId, 'string');
+      assert.match(record.displayName, /legacy/i);
+    }
   }
 });
 

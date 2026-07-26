@@ -190,8 +190,8 @@
         <section id="wizard" class="scroll-mt-24">
             <div class="fade-up mb-10 border-b border-slate-200 pb-4">
                 <span class="text-indigo-600 font-bold text-sm uppercase tracking-wider">Interactive Guide</span>
-                <h2 class="text-3xl font-bold text-slate-900 mt-1">Find Your Perfect Setup</h2>
-                <p class="mt-3 text-slate-600 max-w-3xl">Answer 4 quick questions and we'll recommend the ideal model, GPU, quantization, and inference engine for your use case.</p>
+                <h2 class="text-3xl font-bold text-slate-900 mt-1">Find a defensible starting setup</h2>
+                <p class="mt-3 text-slate-600 max-w-3xl">Answer four questions to narrow the verified registry. Treat the result as a shortlist to validate against exact runtime support, quality, context, and concurrency.</p>
             </div>
 
             <div class="fade-up bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
@@ -289,7 +289,7 @@
                     <div class="wizard-step" data-step="result">
                         <div class="text-center mb-6">
                             <p class="result-overline">Setup result</p>
-                            <h3 class="text-xl font-bold text-slate-900">Your Recommended Setup</h3>
+                            <h3 class="text-xl font-bold text-slate-900">Starting configuration to validate</h3>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="wizard-results">
                         </div>
@@ -366,9 +366,8 @@
                     <h3 class="text-lg font-bold mb-4">Configure Model Parameters</h3>
                     <div class="mb-6">
                         <label class="block text-sm font-medium text-slate-700 mb-2">Model Size: <span id="param-val" class="font-bold text-indigo-600">70</span> Billion Parameters</label>
-                        <!-- integration contract marker for the planner control: <input\b id="param-slider" max="3000"> -->
                         <input type="range" id="param-slider" min="7" max="3000" value="70" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
-                        <div class="flex justify-between text-xs text-slate-500 mt-1"><span>7B</span><span>120B</span><span>400B</span><span>670B</span><span>1T</span><span>3T</span></div>
+                        <div class="flex justify-between text-xs text-slate-500 mt-1"><span>7B</span><span>3T</span></div>
                         <p class="text-xs text-slate-400 mt-1">Weights-only sizing always uses total parameters. MoE active parameters are a separate compute/throughput planning signal.</p>
                     </div>
                     <div class="mb-6">
@@ -383,7 +382,7 @@
                             <button type="button" class="quant-btn py-2 rounded text-sm font-medium transition-colors" style="background:#18181b;color:#a1a1aa;border:1px solid #27272a;" data-multiplier="1">8-Bit</button>
                             <button type="button" class="quant-btn py-2 rounded text-sm font-medium transition-colors" style="background:#18181b;color:#a1a1aa;border:1px solid #27272a;" data-multiplier="0.5">4-Bit</button>
                         </div>
-                        <p class="text-xs text-slate-500 mt-2">FP16 = best quality. 4-Bit = least VRAM. Sub-4-bit risks severe quality loss.</p>
+                        <p class="text-xs text-slate-500 mt-2">These are coarse bytes-per-parameter settings, not quality rankings. Runtime dtype support, quantization method, metadata, and higher-precision modules vary by artifact.</p>
                     </div>
                 </div>
                 <div class="p-6 md:w-1/2 flex flex-col justify-center items-center text-center">
@@ -392,7 +391,7 @@
                     <p id="weights-only-output" class="text-sm text-slate-500">Weights estimate: 140 GB before runtime allocations.</p>
                     <p class="text-xs text-slate-400 mb-6">Adds a coarse 20% runtime allowance after weights-only sizing. KV cache is excluded; long context or concurrency can require substantially more.</p>
                     <div class="gpu-rec-box w-full p-5">
-                        <h4 class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#71717a">Recommended GPU Setup</h4>
+                        <h4 class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#71717a">Capacity class to validate</h4>
                         <p id="gpu-recommendation" class="font-semibold" style="color:#DFFF00;font-size:0.95rem">1x provider-listed B200 (180GB, tight) or 3x H100 (80GB)</p>
                     </div>
                     <div id="vram-cta" class="w-full mt-4 rounded-xl p-4 flex items-center justify-between gap-4" style="background:rgba(223,255,0,0.06);border:1px solid rgba(223,255,0,0.25)">
@@ -903,11 +902,11 @@ codex --profile runpod</div>
             const entry=document.createElement('details'); entry.className='model-entry'; entry.dataset.category=record.category; entry.dataset.status=record.evidenceStatus;
             const summary=document.createElement('summary'); addText(summary,'span','model-index',String(index+1).padStart(2,'0')); addText(summary,'span','model-name',record.displayName); addText(summary,'span','model-arch',record.architecture); addText(summary,'span','model-best','Best for: '+record.bestFor); addText(summary,'span','model-plus','+').setAttribute('aria-hidden','true'); entry.appendChild(summary);
             const detail=document.createElement('div'); detail.className='model-detail'; const facts=document.createElement('div'); addText(facts,'h4','','Registry evidence'); const meta=document.createElement('div'); meta.className='model-meta';
-            [['Category',record.category],['Status',record.evidenceStatus],['Weights',record.weightsStatus],['License',record.license],['Architecture',record.architecture],['Total parameters',record.totalParamsB==null?'Not published':record.totalParamsB+'B'],['Active parameters',record.activeParamsB==null?'Not published':record.activeParamsB+'B'],['Context',record.contextTokens==null?'Not published':Number(record.contextTokens).toLocaleString()+' tokens'],['Evidence type',record.evidenceType],['Verified on',record.verifiedOn]].forEach(([label,value])=>{const row=document.createElement('div'); addText(row,'span','meta-label',label); addText(row,'span','meta-value',String(value)); meta.appendChild(row);}); facts.appendChild(meta);
+            [['Model ID',record.modelId],['API ID',record.apiId||'Not applicable'],['Category',record.category],['Availability',record.availability],['Status',record.evidenceStatus],['Weights',record.weightsStatus],['License',record.license],['Architecture',record.architecture],['Total parameters',record.totalParamsB==null?'Not published':record.totalParamsB+'B'],['Active parameters',record.activeParamsB==null?'Not published':record.activeParamsB+'B'],['Context',record.contextTokens==null?'Not published':Number(record.contextTokens).toLocaleString()+' tokens'],['Evidence type',record.evidenceType],['Verified on',record.verifiedOn]].forEach(([label,value])=>{const row=document.createElement('div'); addText(row,'span','meta-label',label); addText(row,'span','meta-value',String(value)); meta.appendChild(row);}); facts.appendChild(meta);
             const list=document.createElement('ul'); (record.facts||[]).forEach(f=>addText(list,'li','',f)); facts.appendChild(list); const sourceWrap=document.createElement('div'); sourceWrap.className='model-sources'; addText(sourceWrap,'h4','','Official sources');
             (record.officialSources||[]).filter(url=>/^https:\/\//i.test(url)).forEach(url=>{const link=document.createElement('a'); link.href=url; link.target='_blank'; link.rel='noopener noreferrer'; link.textContent=url; sourceWrap.appendChild(link);}); detail.append(facts,sourceWrap); entry.appendChild(detail); return entry;
         }
-        function renderAtlas() { if(!registry||!atlasGroups) return; const byCategory={}; Object.values(registry.models).forEach(record=>(byCategory[record.category] ||= []).push(record)); ['self-hostable','api-only','weights-pending','legacy'].forEach(category=>{const section=document.createElement('section'); section.className='atlas-group'; section.id='atlas-'+category; section.dataset.category=category; const heading=document.createElement('div'); heading.className='atlas-group-heading'; addText(heading,'h3','',groupCopy[category].title); addText(heading,'p','',groupCopy[category].copy); section.appendChild(heading); const list=document.createElement('div'); list.className='model-bento-grid'; (byCategory[category]||[]).forEach((record,index)=>list.appendChild(renderModelCard(record,index))); section.appendChild(list); atlasGroups.appendChild(section);}); }
+        function renderAtlas() { if(!atlasGroups) return; if(!registry){addText(atlasGroups,'p','atlas-error','Model registry unavailable. No model or deployment recommendation is shown.');return;} const byCategory={}; Object.values(registry.models).forEach(record=>(byCategory[record.category] ||= []).push(record)); ['self-hostable','api-only','weights-pending','legacy'].forEach(category=>{const section=document.createElement('section'); section.className='atlas-group'; section.id='atlas-'+category; section.dataset.category=category; const heading=document.createElement('div'); heading.className='atlas-group-heading'; addText(heading,'h3','',groupCopy[category].title); addText(heading,'p','',groupCopy[category].copy); section.appendChild(heading); const list=document.createElement('div'); list.className='model-bento-grid'; (byCategory[category]||[]).forEach((record,index)=>list.appendChild(renderModelCard(record,index))); section.appendChild(list); atlasGroups.appendChild(section);}); }
         renderAtlas();
 
         /* =========================================
@@ -956,24 +955,32 @@ codex --profile runpod</div>
             r.classList.add('active');
             document.getElementById('wizard-progress').style.width = '100%';
 
-            const eligibleModels = registryApi.getDeploymentEligibleModels();
+            const eligibleModels = registryApi ? registryApi.getDeploymentEligibleModels() : [];
             const modelPool = eligibleModels.filter(record => record.category === 'self-hostable' && record.weightsStatus === 'released'); // explicitly exclude api-only and weights-pending
-            const preferred = wizardState[1] === 'coding' ? modelPool.find(record => /code|gpt-oss|qwen/i.test(record.displayName)) : wizardState[1] === 'reasoning' ? modelPool.find(record => /reason|gpt-oss|deepseek|qwen/i.test(record.bestFor + record.displayName)) : modelPool[0];
-            let model = preferred ? preferred.displayName + ' — evaluate fit and license' : 'Evaluate a current self-hostable registry model', engine = 'Ollama or llama.cpp', quant = 'Supported GGUF', gpu = 'Size with the VRAM estimator', provider = 'Compare live offers';
+            const bySlug = new Map(modelPool.map(record => [record.slug, record]));
+            const candidateSlugsByUse = {
+                coding: ['openai-gpt-oss-20b','qwen3.6-27b','qwen3.6-35b-a3b','openai-gpt-oss-120b','deepseek-v4-flash','kimi-k2.7-code'],
+                reasoning: ['openai-gpt-oss-20b','qwen3.6-35b-a3b','openai-gpt-oss-120b','deepseek-v4-flash','deepseek-v4-pro'],
+                multilingual: ['qwen3.6-27b','qwen3.6-35b-a3b','sarvam-105b','mistral-small-4'],
+                chat: ['google-gemma-4-26b-a4b','qwen3.6-27b','qwen3.6-35b-a3b','llama-4-scout','mistral-small-4']
+            };
+            const budgetCapB = ({low:35,mid:120,high:500})[wizardState[3]] || 35;
+            const candidates = (candidateSlugsByUse[wizardState[1]] || candidateSlugsByUse.chat).map(slug=>bySlug.get(slug)).filter(Boolean).filter(record=>record.totalParamsB<=budgetCapB);
+            const preferred = candidates.at(-1) || modelPool.filter(record=>record.totalParamsB<=budgetCapB).sort((a,b)=>a.totalParamsB-b.totalParamsB).at(-1) || null;
+            const model = preferred ? preferred.displayName+' — '+preferred.totalParamsB+'B total / '+preferred.activeParamsB+'B active; validate fit and license' : 'No reviewed registry candidate matches this budget cap';
+            let engine = 'Verify exact-model runtime support', quant = 'Use only a documented artifact', gpu = 'Size from total parameters with the VRAM estimator', provider = 'Compare live offers';
 
-            if (wizardState[1] === 'multilingual') model = (modelPool.find(record => /sarvam|qwen/i.test(record.displayName)) || preferred || modelPool[0]).displayName + ' — evaluate target languages';
-
-            if (wizardState[2] === 'production') { engine = 'vLLM or SGLang'; quant = 'Runtime-supported AWQ/GPTQ/FP8'; gpu = 'Benchmark-sized GPU or cluster'; provider = 'RunPod / Lambda / CoreWeave'; }
-            else if (wizardState[2] === 'team') { engine = 'vLLM'; quant = 'Supported quantized format'; gpu = 'Capacity sized from model + concurrency'; provider = 'Compare fixed GPU clouds'; }
+            if (wizardState[2] === 'production') { engine = 'vLLM or SGLang if the exact model is supported'; quant = 'Documented AWQ/GPTQ/FP8 path, if published'; gpu = 'Benchmark-sized GPU or cluster'; provider = 'RunPod / Lambda / CoreWeave'; }
+            else if (wizardState[2] === 'team') { engine = 'vLLM if the exact model is supported'; quant = 'Documented quantized artifact, if published'; gpu = 'Capacity sized from model + concurrency'; provider = 'Compare fixed GPU clouds'; }
 
             if (wizardState[3] === 'low') {
-                gpu = '24–32GB class or choose a smaller model'; provider = 'Vast.ai / RunPod / local hardware';
+                gpu = 'Use the estimator; 24–32GB only if suggested capacity fits'; provider = 'Vast.ai / RunPod / local hardware';
             }
             else if (wizardState[3] === 'high') { if (wizardState[2] !== 'personal') { gpu = 'High-memory GPU or validated multi-GPU'; provider = 'Compare enterprise GPU clouds'; } }
 
             if (wizardState[4] === 'quality') quant = 'BF16/FP16 if capacity permits; otherwise evaluate quantized quality';
-            else if (wizardState[4] === 'speed') { engine = wizardState[2] === 'personal' ? 'llama.cpp or Ollama' : 'vLLM or SGLang'; quant = 'Benchmark supported AWQ/GPTQ/FP8 paths'; }
-            else if (wizardState[4] === 'ease') { engine = 'Ollama'; quant = 'Supported GGUF'; }
+            else if (wizardState[4] === 'speed') { engine = wizardState[2] === 'personal' ? 'llama.cpp or Ollama if the exact model is supported' : 'vLLM or SGLang if the exact model is supported'; quant = 'Benchmark a documented AWQ/GPTQ/FP8 path'; }
+            else if (wizardState[4] === 'ease') { engine = 'Ollama if the exact model tag is documented'; quant = 'Documented GGUF or official artifact, if available'; }
 
             const results = [
                 { code: '01', label: 'Model', value: model },

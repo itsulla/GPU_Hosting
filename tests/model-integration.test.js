@@ -42,13 +42,17 @@ test('exposes four visible model-atlas categories and keeps API-only/pending gui
   assert.match(appSource, /weights-pending[\s\S]{0,500}(?:exclude|not|cannot|do not).{0,120}(?:self-host|deploy)/i, 'pending records need an explicit exclusion');
 });
 
-test('renders registry evidence and deployment metadata with safe HTTPS source links', () => {
-  for (const field of ['verifiedOn', 'evidence', 'category', 'license', 'weights', 'totalParams', 'activeParams']) {
+test('renders exact identities, registry evidence, and deployment metadata with safe HTTPS source links', () => {
+  for (const field of ['modelId', 'apiId', 'verifiedOn', 'evidence', 'category', 'license', 'weights', 'totalParams', 'activeParams']) {
     assert.match(appSource, new RegExp(`\\b${field}\\b`, 'i'), `registry/rendering contract missing ${field}`);
   }
+  assert.match(index, /['"]Model ID['"]\s*,\s*record\.modelId/i, 'expanded cards must render the exact model ID');
+  assert.match(index, /['"]API ID['"]\s*,\s*record\.apiId/i, 'expanded cards must render the exact API ID when present');
   assert.match(appSource, /(?:officialSource|sourceUrl|officialUrl|sources)/i, 'official source metadata is required');
   assert.match(appSource, /https:\/\//i, 'official/source links must use HTTPS');
-  assert.match(appSource, /target=["']_blank["'][^>]*rel=["'][^"']*(?:noopener|noreferrer)[^"']*["']/i, 'blank-target anchors need a safe rel');
+  assert.match(index, /link\.href\s*=\s*url/i, 'renderer must assign each validated source URL to its anchor');
+  assert.match(index, /link\.target\s*=\s*["']_blank["']/i, 'renderer must open source links in a separate tab');
+  assert.match(index, /link\.rel\s*=\s*["'][^"']*(?:noopener|noreferrer)[^"']*["']/i, 'blank-target source anchors need a safe rel');
 });
 
 test('removes unsupported or stale homepage literals', () => {
@@ -72,7 +76,7 @@ test('metadata describes an open-weight-first guide without advertising DeepSeek
 });
 
 test('supports 3T VRAM planning with coarse precision bytes and honest cluster-scale wording', () => {
-  const slider = index.match(/<input\\b[^>]*id=["']param-slider["'][^>]*>/i);
+  const slider = index.match(/<input\b[^>]*id=["']param-slider["'][^>]*>/i);
   assert.ok(slider, 'parameter slider is required');
   const max = Number((slider[0].match(/\bmax=["']([^"']+)["']/i) || [])[1]);
   assert.ok(max >= 3000, `parameter slider max must reach at least 3000B, got ${max}`);
@@ -97,9 +101,16 @@ test('sizes weights from total parameters while exposing active parameters separ
 });
 
 test('wizard recommendations are sourced from current self-hostable families, never API-only or pending records', () => {
-  assert.match(appSource, /(?:wizard|recommend)[\s\S]{0,1200}(?:registry|catalog|atlas)/i);
+  const wizardStart = index.indexOf('function showWizardResult');
+  const wizardEnd = index.indexOf('window.resetWizard', wizardStart);
+  const wizardSource = index.slice(wizardStart, wizardEnd);
+  assert.match(index, /getDeploymentEligibleModels\(\)/, 'wizard must consume registry deployment eligibility');
   assert.match(appSource, /(?:category|deploymentClass|selfHostable)[^\n]{0,160}(?:self-hostable|selfHost|deploy)/i);
   assert.match(appSource, /(?:exclude|filter|reject|not)[^\n]{0,160}(?:api-only|weights-pending)/i);
+  assert.match(index, /candidateSlugsByUse/i, 'wizard must use an explicit reviewed candidate list');
+  assert.match(index, /budgetCapB/i, 'wizard must bound candidates by the selected budget tier');
+  assert.match(index, /totalParamsB\s*<=\s*budgetCapB/i, 'wizard budget must constrain total resident parameters');
+  assert.doesNotMatch(wizardSource, /\bSupported GGUF\b/i, 'wizard must not assert an unverified runtime artifact');
   assert.doesNotMatch(index, /showWizardResult[\s\S]{0,3000}(?:DeepSeek V3\.2|Qwen 3\.5)/i);
 });
 
