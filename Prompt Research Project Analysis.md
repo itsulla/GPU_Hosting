@@ -1,6 +1,6 @@
 > **ARCHIVED — SUPERSEDED**
 > **Archived:** 2026-07-26
-> This retained raw research artifact is not a publication source. Current model facts must come from the canonical `model-registry.js` and the dated `GPUHosting_Tracker.csv` Model Specifications ledger, using first-party model cards and official documentation only. Historical claims below remain for provenance and must not be republished without re-verification.
+> This retained raw research artifact is not a publication source. Current model facts must come from the canonical `model-registry.js` and the dated `research/2026-07-26/official-ledgers/MODEL_LINEUP_LEDGER.md`, with the `GPUHosting_Tracker.csv` Model Specifications sheet as its audit projection, using first-party model cards and official documentation only. Historical claims below remain for provenance and must not be republished without re-verification. Unsupported rumor, guessed-parameter, and model-sizing claims are not retained as current evidence.
 
 # **The Economics and Infrastructure of Self-Hosted Large Language Models: A Comprehensive 2026 Guide**
 
