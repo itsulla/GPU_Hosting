@@ -10,9 +10,9 @@
 
   function verified(record) {
     return {
+      ...record,
       verifiedOn: SNAPSHOT_DATE,
       evidenceStatus: 'verified',
-      ...record,
     };
   }
 
