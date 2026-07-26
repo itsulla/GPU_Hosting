@@ -69,9 +69,8 @@
       contextTokens: 262144,
       evidenceType: 'Official specification',
       bestFor: 'single-server multimodal and tool-use evaluation',
-      officialSources: ['https://huggingface.co/Qwen/Qwen3.6-27B', 'https://ollama.com/library/qwen3.6:27b'],
-      facts: ['The official repository reports 27B and its tensor metadata totals about 27.8B parameters.', 'Ollama labels the 17GB qwen3.6:27b artifact Q4_K_M.'],
-      quantizationNote: 'Ollama qwen3.6:27b 17GB: Q4_K_M',
+      officialSources: ['https://huggingface.co/Qwen/Qwen3.6-27B'],
+      facts: ['The official repository reports 27B and its tensor metadata totals about 27.8B parameters.'],
     }),
     'qwen3.6-35b-a3b': verified({
       slug: 'qwen3.6-35b-a3b',

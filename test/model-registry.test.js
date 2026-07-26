@@ -10,7 +10,7 @@ const CATEGORIES = new Set(['self-hostable', 'api-only', 'weights-pending', 'leg
 const EVIDENCE_TYPES = new Set(['Official specification', 'Official documentation']);
 const RUMOR_WORDS = /rumou?r|alleged|reportedly|speculative|unconfirmed|maybe|likely|expected|upcoming|rumored/i;
 const FORBIDDEN_CLAIMS = /benchmark|throughput|tok\/s|tokens?\s*\/\s*s|provider\s+prices?|\$\s*\d|gpu[- ]fit|fits?\s+(?:on|in)|recommended\s+gpu/i;
-const HTTPS_FIRST_PARTY = /^https:\/\/(?:huggingface\.co\/(?:deepseek-ai|Qwen|moonshotai|MiniMaxAI|google|openai|meta-llama|mistralai|sarvamai)\/|ai\.google\.dev\/gemma\/docs\/|www\.llama\.com\/models\/|platform\.claude\.com\/docs\/|platform\.kimi\.ai\/docs\/|help\.aliyun\.com\/zh\/model-studio\/|ollama\.com\/library\/)/i;
+const HTTPS_FIRST_PARTY = /^https:\/\/(?:huggingface\.co\/(?:deepseek-ai|Qwen|moonshotai|MiniMaxAI|google|openai|meta-llama|mistralai|sarvamai)\/|ai\.google\.dev\/gemma\/docs\/|www\.llama\.com\/models\/|platform\.claude\.com\/docs\/|platform\.kimi\.ai\/docs\/|help\.aliyun\.com\/zh\/model-studio\/)/i;
 
 function allRecords() {
   return Object.values(MODEL_REGISTRY.models);
@@ -44,6 +44,17 @@ test('every record has complete, dated, first-party evidence metadata', () => {
     if (record.totalParamsB !== null && record.activeParamsB !== null) assert.ok(record.activeParamsB <= record.totalParamsB, `${record.slug} active params exceed total params`);
     assert.equal(RUMOR_WORDS.test(JSON.stringify(record)), false, `${record.slug} contains rumor language`);
     assert.equal(FORBIDDEN_CLAIMS.test(JSON.stringify(record)), false, `${record.slug} contains forbidden commercial/performance claim`);
+  }
+});
+
+test('official model evidence rejects third-party artifact distributors', () => {
+  assert.equal(HTTPS_FIRST_PARTY.test('https://ollama.com/library/qwen3.6:27b'), false);
+  for (const record of allRecords()) {
+    assert.equal(
+      record.officialSources.some((source) => new URL(source).hostname === 'ollama.com'),
+      false,
+      `${record.slug} exposes Ollama as first-party evidence`,
+    );
   }
 });
 
