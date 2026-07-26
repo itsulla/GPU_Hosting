@@ -7,6 +7,7 @@ const { MODEL_REGISTRY, STATUS_CATEGORIES, isDeploymentEligible } = require('../
 
 const SNAPSHOT_DATE = '2026-07-26';
 const CATEGORIES = new Set(['self-hostable', 'api-only', 'weights-pending', 'legacy']);
+const EVIDENCE_TYPES = new Set(['Official specification', 'Official documentation']);
 const RUMOR_WORDS = /rumou?r|alleged|reportedly|speculative|unconfirmed|maybe|likely|expected|upcoming|rumored/i;
 const FORBIDDEN_CLAIMS = /benchmark|throughput|tok\/s|tokens?\s*\/\s*s|provider\s+prices?|\$\s*\d|gpu[- ]fit|fits?\s+(?:on|in)|recommended\s+gpu/i;
 const HTTPS_FIRST_PARTY = /^https:\/\/(?:huggingface\.co\/(?:deepseek-ai|Qwen|moonshotai|MiniMaxAI|openai|meta-llama|mistralai|sarvamai)\/|ai\.google\.dev\/gemma\/docs\/|www\.llama\.com\/models\/|platform\.claude\.com\/docs\/|platform\.kimi\.ai\/docs\/|help\.aliyun\.com\/zh\/model-studio\/|ollama\.com\/library\/)/i;
@@ -33,6 +34,7 @@ test('every record has complete, dated, first-party evidence metadata', () => {
     assert.ok(CATEGORIES.has(record.category));
     assert.equal(record.verifiedOn, SNAPSHOT_DATE);
     assert.equal(record.evidenceStatus, 'verified', `${record.slug} status claim is not publication-verified`);
+    assert.ok(EVIDENCE_TYPES.has(record.evidenceType), `${record.slug} uses an unapproved evidence label`);
     assert.ok(Array.isArray(record.facts) && record.facts.length > 0);
     assert.ok(Array.isArray(record.officialSources) && record.officialSources.length > 0);
     for (const source of record.officialSources) assert.ok(HTTPS_FIRST_PARTY.test(source), `non-first-party source ${source}`);
