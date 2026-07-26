@@ -18,7 +18,7 @@ SHEET: Model Specifications
 Model,Developer,Architecture,Total Params,Active Params,License,Context Window,Training Data,Training Cost,Key Benchmark,Best For,Last Verified,Source URL,Status
 Meta Llama 4 Scout,Meta,MoE (16 experts),109B,17B,Llama 4 Community (Commercial OK),Unknown,Unknown,Unknown,"Maverick 89.7% DevQualityEval","General purpose, enterprise, multimodal",03/2026,llama.meta.com,Needs Verification
 Meta Llama 4 Maverick,Meta,MoE,402B,17B,Llama 4 Community (Commercial OK),Unknown,Unknown,Unknown,"8.6s/task latency, 91.65% Ruby codegen","General purpose, enterprise, multimodal",03/2026,llama.meta.com,Needs Verification
-DeepSeek V4,DeepSeek,MoE,~1T,37B,MIT (Highly permissive),Unknown,Unknown,~$6M,MHLA 5-13% memory of standard attention,"Coding, complex reasoning, long code parsing",03/2026,github.com/deepseek-ai,Needs Verification
+DeepSeek V3.2,DeepSeek,Verify current official model card,Unknown,Unknown,Unknown,Unknown,Unknown,Unknown,Not recorded,"Candidate only after first-party refresh",07/26/2026,github.com/deepseek-ai,"V3.2 refresh required; unreleased successor rumors omitted"
 Alibaba Qwen 3,Alibaba,Dense + MoE (0.6B-235B),235B (flagship),22B (flagship),Apache 2.0,Up to 1M tokens,36T tokens,Unknown,90% cost reduction vs dense,"Multilingual, coding, STEM, agentic",03/2026,github.com/QwenLM,Needs Verification
 Mistral / Mixtral,Mistral AI,Dense + MoE,"7B / 8x7B / 8x22B",2 of 8 experts,"Apache 2.0 (small), Custom (large)",Unknown,Unknown,Unknown,8x22B rivals Llama 70B,"Fast inference, limited hardware, multilingual",03/2026,mistral.ai,Needs Verification
 Kimi K2,Moonshot AI,MoE,~1T,Unknown,Unknown,Unknown,Unknown,Unknown,Native <think> tag,"Complex reasoning, mathematical analysis",03/2026,Unknown,Needs Verification
