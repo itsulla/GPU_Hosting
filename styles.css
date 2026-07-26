@@ -658,6 +658,24 @@ a[rel~="sponsored"]:not(.ghost-btn)::after {
     opacity: .68;
 }
 
+/* Registry atlas: grouped, compact, and source-forward. */
+.model-atlas-groups { display: grid; gap: 34px; }
+.atlas-group { border-top: 2px solid var(--ink); }
+.atlas-group-heading { padding: 22px 0 14px; display: flex; align-items: baseline; justify-content: space-between; gap: 20px; }
+.atlas-group-heading h3 { margin: 0; color: var(--ink); font-size: clamp(18px, 2vw, 24px); letter-spacing: -.025em; }
+.atlas-group-heading p { margin: 0; max-width: 620px; color: var(--muted); font-size: 13px; line-height: 1.45; }
+.atlas-group[data-category="self-hostable"] { border-color: var(--acid); }
+.atlas-group[data-category="self-hostable"] .atlas-group-heading h3::before { content: "OPEN WEIGHTS  /  "; color: var(--green); font: 600 10px/1 var(--font-mono); letter-spacing: .08em; }
+.atlas-group[data-category="api-only"], .atlas-group[data-category="weights-pending"], .atlas-group[data-category="legacy"] { border-top-width: 1px; }
+.atlas-group[data-category="api-only"] .atlas-group-heading, .atlas-group[data-category="weights-pending"] .atlas-group-heading, .atlas-group[data-category="legacy"] .atlas-group-heading { padding-block: 16px 10px; }
+.atlas-group[data-category="api-only"] .model-entry summary, .atlas-group[data-category="weights-pending"] .model-entry summary, .atlas-group[data-category="legacy"] .model-entry summary { min-height: 78px; }
+.model-entry[data-category="api-only"] .model-name, .model-entry[data-category="weights-pending"] .model-name { color: #6e7469; }
+.model-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 22px; margin-bottom: 18px; }
+.meta-label { display: block; color: #7e8478; font: 600 9px/1.2 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
+.meta-value { display: block; margin-top: 3px; color: #e6e8e1; font-size: 12px; line-height: 1.35; }
+.model-sources a { display: block; margin-top: 8px; color: var(--acid); font: 500 11px/1.35 var(--font-mono); overflow-wrap: anywhere; text-decoration: underline; text-underline-offset: 3px; }
+.model-sources a:hover { color: #fff; }
+
 /* ——————————————————————— Dark decision instruments */
 .chart-container {
     position: relative;

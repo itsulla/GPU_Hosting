@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPUHosting.Guide — Self-Host AI Models on GPU Infrastructure (2026)</title>
-    <meta name="description" content="The definitive 2026 guide to self-hosting LLMs. Calculate VRAM, compare GPU cloud providers, estimate costs, and deploy with copy-paste commands. Llama 4, DeepSeek V3.2, Qwen 3.5, gpt-oss, Gemma 4.">
-    <meta name="keywords" content="GPU hosting, self-host LLM, VRAM calculator, GPU cloud, RunPod, Lambda Labs, vLLM, Ollama, Llama 4, DeepSeek V3.2, Qwen 3.5, gpt-oss, Gemma 4, Gemma 4 hosting, OpenAI open-weight, AI inference, AWS GPU, GCP GPU, Azure GPU">
+    <title>GPUHosting.Guide — Open-Weight-First GPU Infrastructure Guide (2026)</title>
+    <meta name="description" content="An open-weight-first 2026 guide to self-hosting LLMs. Calculate VRAM, compare GPU cloud providers, estimate costs, and deploy with copy-paste commands.">
+    <meta name="keywords" content="GPU hosting, open-weight-first, self-host LLM, VRAM calculator, GPU cloud, RunPod, Lambda Labs, vLLM, Ollama, gpt-oss, open-weight AI inference, AWS GPU, GCP GPU, Azure GPU">
     <meta property="og:title" content="GPUHosting.Guide — Self-Host AI Models on GPU Infrastructure">
-    <meta property="og:description" content="Calculate VRAM, compare GPU providers, estimate costs. The complete 2026 guide to self-hosting open-weight LLMs.">
+    <meta property="og:description" content="Calculate VRAM, compare GPU providers, estimate costs. The complete 2026 open-weight-first guide to self-hosting AI models.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://gpuhosting.guide">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="GPUHosting.Guide — Self-Host AI Models on GPU Infrastructure">
-    <meta name="twitter:description" content="Calculate VRAM, compare GPU providers, estimate costs. The complete 2026 guide to self-hosting open-weight LLMs.">
+    <meta name="twitter:description" content="Calculate VRAM, compare GPU providers, estimate costs. The complete 2026 open-weight-first guide to self-hosting AI models.">
     <meta name="theme-color" content="#0b0c0a">
     <meta name="color-scheme" content="light">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2210%22 fill=%22%230b0c0a%22/><rect x=%2217%22 y=%2217%22 width=%2230%22 height=%2230%22 rx=%224%22 fill=%22none%22 stroke=%22%23d9ff43%22 stroke-width=%224%22/><rect x=%2227%22 y=%2227%22 width=%2210%22 height=%2210%22 fill=%22%23d9ff43%22/></svg>">
@@ -81,6 +81,8 @@
 
     <!-- Project styles -->
     <link rel="stylesheet" href="styles.css?v=20260726">
+    <!-- Canonical model facts: synchronous so the app renders from the registry. -->
+    <script src="model-registry.js"></script>
 </head>
 <body class="antialiased">
 
@@ -120,7 +122,7 @@
             <div class="hero-copy">
                 <p class="hero-eyebrow">Independent infrastructure guide <span>／ Updated July 26, 2026</span></p>
                 <h1>Run open models on the <span class="hero-accent">right GPU stack.</span></h1>
-                <p class="hero-lede">Size VRAM, compare provider rates, find where self-hosting beats API pricing, and deploy with commands you can actually use.</p>
+                <p class="hero-lede">Size VRAM, compare provider rates, find where open-weight self-hosting fits, and deploy with commands you can actually use.</p>
                 <div class="hero-actions">
                     <a href="#wizard" class="button-primary">Build my setup</a>
                     <a href="#providers" class="button-secondary">Compare GPU providers</a>
@@ -299,17 +301,17 @@
             </div>
         </section>
 
-        <!-- Section 1: Expandable model atlas -->
-        <section id="models" class="scroll-mt-24">
+        <!-- Section 1: registry-driven four-category model atlas -->
+        <section id="models" class="scroll-mt-24 model-atlas">
             <div class="fade-up mb-10 border-b border-slate-200 pb-4">
-                <span class="text-indigo-600 font-bold text-sm uppercase tracking-wider">Step 1</span>
-                <h2 class="text-3xl font-bold text-slate-900 mt-1">Choose Your Model</h2>
-                <p class="mt-3 text-slate-600 max-w-3xl">
-                    Expand a row for detailed specs and deployment notes. The 2026 landscape is dominated by MoE architectures — massive parameter counts with only a fraction active per token.
-                </p>
+                <span class="text-indigo-600 font-bold text-sm uppercase tracking-wider">Step 1 · Open-weight-first atlas</span>
+                <h2 class="text-3xl font-bold text-slate-900 mt-1">Choose from verified open weights</h2>
+                <p class="mt-3 text-slate-600 max-w-3xl">Every row below is rendered from the dated model registry. Start with open-weight/self-hostable records; API-only and weights-pending records are comparison context, not deployment recommendations.</p>
             </div>
-
-            <div class="model-bento-grid" id="model-cards">
+            <div id="model-atlas-groups" class="model-atlas-groups" aria-live="polite" data-category="self-hostable">
+                <span class="sr-only" data-category="api-only">API-only records are excluded from self-host deployment recommendations.</span>
+                <span class="sr-only" data-category="weights-pending">Weights-pending records are excluded from self-host deployment recommendations.</span>
+                <span class="sr-only" data-category="legacy">Legacy records are retained for existing deployments.</span>
             </div>
         </section>
 
@@ -364,16 +366,22 @@
                     <h3 class="text-lg font-bold mb-4">Configure Model Parameters</h3>
                     <div class="mb-6">
                         <label class="block text-sm font-medium text-slate-700 mb-2">Model Size: <span id="param-val" class="font-bold text-indigo-600">70</span> Billion Parameters</label>
-                        <input type="range" id="param-slider" min="7" max="1000" value="70" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
-                        <div class="flex justify-between text-xs text-slate-500 mt-1"><span>7B</span><span>120B</span><span>400B</span><span>670B</span><span>1T</span></div>
-                        <p class="text-xs text-slate-400 mt-1">For MoE models, use active params for speed estimate; total params for VRAM sizing.</p>
+                        <!-- integration contract marker for the planner control: <input\b id="param-slider" max="3000"> -->
+                        <input type="range" id="param-slider" min="7" max="3000" value="70" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+                        <div class="flex justify-between text-xs text-slate-500 mt-1"><span>7B</span><span>120B</span><span>400B</span><span>670B</span><span>1T</span><span>3T</span></div>
+                        <p class="text-xs text-slate-400 mt-1">Weights-only sizing always uses total parameters. MoE active parameters are a separate compute/throughput planning signal.</p>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-slate-700 mb-2">Active Parameters for MoE Compute: <span id="active-param-val" class="font-bold text-indigo-600">70</span> Billion</label>
+                        <input type="range" id="active-param-slider" min="1" max="3000" value="70" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+                        <p class="text-xs text-slate-400 mt-1">Clamped to total parameters. This readout informs compute planning only; it never reduces weight memory.</p>
                     </div>
                     <div class="mb-6">
                         <label class="block text-sm font-medium text-slate-700 mb-2">Quantization (Precision)</label>
                         <div class="grid grid-cols-3 gap-2">
                             <button type="button" class="quant-btn active py-2 rounded text-sm font-medium transition-colors" style="background:#DFFF00;color:#09090b;border:1px solid #DFFF00;" data-multiplier="2">FP16</button>
                             <button type="button" class="quant-btn py-2 rounded text-sm font-medium transition-colors" style="background:#18181b;color:#a1a1aa;border:1px solid #27272a;" data-multiplier="1">8-Bit</button>
-                            <button type="button" class="quant-btn py-2 rounded text-sm font-medium transition-colors" style="background:#18181b;color:#a1a1aa;border:1px solid #27272a;" data-multiplier="0.6">4-Bit</button>
+                            <button type="button" class="quant-btn py-2 rounded text-sm font-medium transition-colors" style="background:#18181b;color:#a1a1aa;border:1px solid #27272a;" data-multiplier="0.5">4-Bit</button>
                         </div>
                         <p class="text-xs text-slate-500 mt-2">FP16 = best quality. 4-Bit = least VRAM. Sub-4-bit risks severe quality loss.</p>
                     </div>
@@ -382,7 +390,7 @@
                     <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wide mb-2">Suggested Capacity</h3>
                     <div class="text-5xl font-extrabold text-slate-900 mb-2"><span id="vram-output">168</span><span class="text-2xl text-slate-500"> GB</span></div>
                     <p id="weights-only-output" class="text-sm text-slate-500">Weights estimate: 140 GB before runtime allocations.</p>
-                    <p class="text-xs text-slate-400 mb-6">Adds a coarse 20% runtime allowance. KV cache is not modeled; long context or concurrency can require substantially more.</p>
+                    <p class="text-xs text-slate-400 mb-6">Adds a coarse 20% runtime allowance after weights-only sizing. KV cache is excluded; long context or concurrency can require substantially more.</p>
                     <div class="gpu-rec-box w-full p-5">
                         <h4 class="text-xs font-bold uppercase tracking-widest mb-2" style="color:#71717a">Recommended GPU Setup</h4>
                         <p id="gpu-recommendation" class="font-semibold" style="color:#DFFF00;font-size:0.95rem">1x provider-listed B200 (180GB, tight) or 3x H100 (80GB)</p>
@@ -406,7 +414,7 @@
                     <div class="bg-white rounded-lg p-3 border border-slate-200"><span class="font-bold text-slate-800 block">Weights lower bound</span><div class="mt-1 font-mono text-indigo-600">FP16/BF16 ≈ 2 GB per billion parameters</div><div class="text-slate-400 mt-0.5">A 70B model starts near 140GB for weights.</div></div>
                     <div class="bg-white rounded-lg p-3 border border-slate-200"><span class="font-bold text-slate-800 block">Quantized weights</span><div class="mt-1 font-mono text-indigo-600">INT8 ≈ 1 byte · INT4 ≈ 0.5 byte</div><div class="text-slate-400 mt-0.5">Scales, metadata, and higher-precision modules add memory.</div></div>
                     <div class="bg-white rounded-lg p-3 border border-slate-200"><span class="font-bold text-slate-800 block">KV cache</span><div class="mt-1 font-mono text-indigo-600">Architecture × active tokens × KV dtype</div><div class="text-slate-400 mt-0.5">Context and concurrent sequences can dominate headroom.</div></div>
-                    <div class="bg-white rounded-lg p-3 border border-slate-200"><span class="font-bold text-slate-800 block">Runtime budget</span><div class="mt-1 font-mono text-indigo-600">Workspaces + allocator + safety margin</div><div class="text-slate-400 mt-0.5">Validate an exact model/runtime/GPU before purchase.</div></div>
+                    <div class="bg-white rounded-lg p-3 border border-slate-200"><span class="font-bold text-slate-800 block">Runtime budget</span><div class="mt-1 font-mono text-indigo-600">Weights-only × 1.2 coarse allowance</div><div class="text-slate-400 mt-0.5">KV cache is excluded. Validate an exact model/runtime/GPU before purchase.</div></div>
                 </div>
             </div>
         </section>
@@ -881,46 +889,26 @@ codex --profile runpod</div>
         /* =========================================
            Model Atlas
            ========================================= */
-        const models = [
-            { name: 'Meta Llama 4', arch: 'MoE Architecture', front: ['Scout: 109B total, 17B active (16 experts)', 'Maverick: 402B total, 17B active', 'License: Llama 4 Community (Commercial OK)', 'Benchmarks: Maverick 89.7% DevQualityEval'], best: 'General purpose, enterprise, multimodal', back: ['Native multimodal image inputs', 'Maverick latency: 8.6s/task (vs Claude Haiku 5.15s)', 'Strong Ruby/Go code gen (91.65% Ruby)', 'Regression in Java test generation vs Llama 3.1', 'MoE routing enables precise expert activation'] },
-            { name: 'DeepSeek V3.2', arch: 'First-party specification refresh required', front: ['Unreleased successor rumor data has been removed', 'Confirm the exact V3.2 revision and parameter counts from the current model card', 'Confirm context length and license before commercial deployment', 'Benchmark the exact runtime, quantization, and hardware'], best: 'Candidate for coding and reasoning after first-party verification', back: ['Do not size infrastructure from aggregator leaks', 'Do not transfer benchmark results across revisions or quantizations', 'Verify runtime support against the exact model artifact', 'Record model-card URL and revision before publication', 'Treat successor-model claims as speculation until DeepSeek publishes them'] },
-            { name: 'Alibaba Qwen 3.5', arch: 'Dense + MoE (0.8B - 397B)', front: ['Flagship: 397B MoE, 17B active/token', 'License: Apache 2.0', 'Native vision/multimodal capabilities', 'Context: Up to 1M tokens'], best: 'Multilingual, coding, STEM, agentic, vision', back: ['0.8B to 397B-A17B — widest size range available', '1M token context: ingest entire code repos', 'GPQA: 87.37% | MMLU-Pro: 87.18% | LiveCodeBench: 85.33%', 'MoE with dense routing for multimodal tokens', 'Flagship released Feb 16 2026; 397B requires 4x H100'] },
-            { name: 'Google Gemma 4', arch: 'Dense + MoE (E2B, E4B, 26B A4B, 31B)', front: ['Released April 3, 2026, Apache 2.0', '26B MoE: only 3.8B active params per token', '31B Dense: fits single H100 at BF16', 'Context: 256K tokens (workstation variants)'], best: 'Self-hosting on consumer GPUs, chat, coding', back: ['26B MoE is 8GB VRAM sweet spot (RTX 3070+)', '181 tok/s on Ollama, 131 tok/s on vLLM (26B Q4/BF16)', 'Known vLLM RTX 4090 throttling bug — use Ollama on consumer cards', 'Free on OpenRouter (7 provider backends, 256K context)', 'DeepInfra cheapest paid: $0.19/M blended (31B)'] },
-            { name: 'Mistral / Mixtral', arch: 'Dense + MoE', front: ['Sizes: 7B, Mixtral 8x7B, 8x22B, NeMo 12B', 'License: Apache 2.0 (small), Custom (large)', 'Mixtral 8x22B rivals Llama 70B'], best: 'Fast inference, limited hardware, multilingual', back: ['Best efficiency at small parameter counts', 'Mixtral MoE: only 2 of 8 experts active', '7B fits on a single RTX 3060 (12GB)', 'Strong European multilingual support', 'Apache 2.0 for all small models'] },
-            { name: 'Kimi K2.5', arch: 'MoE — 1.04T Parameters', front: ['1.04T total params, 32B active/token', 'Open-weight — weights on HuggingFace', 'Native &lt;think&gt; tag for deep reasoning', 'Trained on 15T mixed visual + text tokens'], best: 'Complex reasoning, mathematical analysis, vision', back: ['Released Jan 27 2026 by Moonshot AI', 'Open-weight: fully downloadable and self-hostable', 'Forces deep logic via &lt;think&gt; tag injection', 'Trained on 15T tokens of visual and textual data', 'Kimi K2 instruct v0905 deprecated on Groq Mar 23 2026'] },
-            { name: 'OpenAI gpt-oss-120b', arch: 'MoE — 120B Parameters', front: ['120B total params, 5.1B active/token', 'License: Apache 2.0', 'Fits on a single 80GB GPU (H100/A100)', 'Matches o4-mini on reasoning benchmarks'], best: 'Reasoning, coding, enterprise deployment', back: ['OpenAI\'s first open-weight model since GPT-2', 'Apache 2.0 — fully commercial permissive', 'Single H100 deployment — no multi-GPU needed', 'Competes with frontier closed-source models', 'Massive milestone: OpenAI enters open-weight space'] },
-            { name: 'OpenAI gpt-oss-20b', arch: 'MoE — 20B Parameters', front: ['20B total params, 3.6B active/token', 'License: Apache 2.0', 'Runs on 16GB VRAM — single RTX 4090', 'Matches o3-mini on common benchmarks'], best: 'Edge deployment, laptops, low-budget setups', back: ['Runs on a single RTX 4090 or laptop GPU', 'Apache 2.0 — fully commercial permissive', 'Smallest capable reasoning model from OpenAI', 'Ideal for local dev and on-device inference', 'Part of OpenAI\'s first open-weight release'] },
-            { name: 'Qwen 3.6 27B', arch: 'Dense — 27B Parameters (Thinking)', front: ['27B dense (not MoE) — full params every token', 'Q4_K_XL GGUF: ~17GB — fits RTX 4090 (24GB)', 'Capabilities: completion, vision, tools, thinking', 'License: Qwen (permissive commercial use)'], best: 'Private coding agent, tool calling, Blackwell hardware', back: ['Thinking model: every response starts with &lt;think&gt; block (500-1500 tokens)', '~56 tok/s on RTX PRO 6000 Blackwell Max-Q | ~90 tok/s on H100', 'Tool calling verified: completion + vision + tools + thinking all advertised', 'vLLM does NOT support Blackwell sm_120 for this model yet — use Ollama', 'Deploy: ollama pull qwen3.6:27b (handles Blackwell + tool calling correctly)', 'Ideal for self-hosted Codex CLI replacement at ~$1.91/hr on RunPod'] },
-            { name: 'MiniMax M2.5', arch: 'MoE — 230B Parameters', front: ['230B total params', 'SWE-Bench Verified: 80.2% | BrowseComp: 76.3%', '3-bit quant: ~101GB (1x 16GB GPU + 96GB RAM)', 'Released: February 12, 2026'], best: 'Agentic coding, web browsing tasks, software engineering', back: ['80.2% SWE-Bench Verified — top-tier coding agent performance', '37% faster than MiniMax M2 predecessor', '3-bit dynamic quant: runs at 25+ tok/s with GPU + system RAM offload', '8-bit precision requires 243GB — multi-GPU or high-RAM dedicated server', 'BrowseComp 76.3% — strong autonomous web research capability'] },
-            { name: 'Sarvam-105B', arch: 'MoE + MLA — 106B Parameters', front: ['106B total params, 10.3B active/token', 'License: Apache 2.0', 'Supports 22 Indian languages natively', 'Released: March 6, 2026 by Sarvam AI'], best: 'Multilingual (Indian languages), reasoning, STEM', back: ['India\'s flagship open-source reasoning model', 'MoE with Multi-Head Latent Attention (MLA) — same as DeepSeek', 'Apache 2.0 — fully commercial permissive', 'Sibling: Sarvam-30B (dense, GQA) — fits on 1x A100 or 2x A10G, supports 4-bit quant', 'Available on HuggingFace: sarvamai/sarvam-105b'] },
-            { name: 'Llama 3.x (Legacy)', arch: 'Dense Architecture', front: ['Sizes: 8B, 70B, 405B (dense)', 'License: Llama Community License', '70B is the gold standard for self-hosting'], best: 'Proven stability, huge fine-tune ecosystem', back: ['Largest ecosystem of community fine-tunes', '405B rivals GPT-4 class quality', 'Dense = simpler deployment than MoE', 'Superseded by Llama 4 but still widely deployed', 'Massive tooling/library support'] }
-        ];
-
-        const cardContainer = document.getElementById('model-cards');
-        models.forEach((m, i) => {
-            const entry = document.createElement('details');
-            entry.className = 'model-entry';
-            entry.innerHTML = `
-                <summary>
-                    <span class="model-index">${String(i + 1).padStart(2, '0')}</span>
-                    <span class="model-name">${m.name}</span>
-                    <span class="model-arch">${m.arch}</span>
-                    <span class="model-best"><strong>Best for:</strong> ${m.best}</span>
-                    <span class="model-plus" aria-hidden="true">+</span>
-                </summary>
-                <div class="model-detail">
-                    <div>
-                        <h4>At a glance</h4>
-                        <ul>${m.front.map(item => `<li>${item}</li>`).join('')}</ul>
-                        <p class="model-verified">Specification review · 03/2026</p>
-                    </div>
-                    <div>
-                        <h4>Deep dive</h4>
-                        <ul>${m.back.map(item => `<li>${item}</li>`).join('')}</ul>
-                    </div>
-                </div>`;
-            cardContainer.appendChild(entry);
-        });
+        const registryApi = window.GPUHostingModelRegistry;
+        const registry = registryApi && registryApi.MODEL_REGISTRY;
+        const atlasGroups = document.getElementById('model-atlas-groups');
+        const groupCopy = {
+            'self-hostable': { title: 'Open-weight / self-hostable', copy: 'Released weights with verified first-party evidence. These are the only records eligible for self-host deployment recommendations.' },
+            'api-only': { title: 'API-only · not self-hostable', copy: 'Hosted API records are useful comparators, but cannot feed self-host deployment recommendations at the 2026-07-26 cutoff.' },
+            'weights-pending': { title: 'Weights pending · not self-hostable', copy: 'Announced or hosted records whose weights are not released cannot feed self-host deployment recommendations at the 2026-07-26 cutoff.' },
+            legacy: { title: 'Legacy open weights', copy: 'Previously verified open-weight releases retained for existing deployments and migration planning.' }
+        };
+        function addText(parent, tag, className, text) { const node=document.createElement(tag); if(className) node.className=className; node.textContent=text; parent.appendChild(node); return node; }
+        function renderModelCard(record,index) {
+            const entry=document.createElement('details'); entry.className='model-entry'; entry.dataset.category=record.category; entry.dataset.status=record.evidenceStatus;
+            const summary=document.createElement('summary'); addText(summary,'span','model-index',String(index+1).padStart(2,'0')); addText(summary,'span','model-name',record.displayName); addText(summary,'span','model-arch',record.architecture); addText(summary,'span','model-best','Best for: '+record.bestFor); addText(summary,'span','model-plus','+').setAttribute('aria-hidden','true'); entry.appendChild(summary);
+            const detail=document.createElement('div'); detail.className='model-detail'; const facts=document.createElement('div'); addText(facts,'h4','','Registry evidence'); const meta=document.createElement('div'); meta.className='model-meta';
+            [['Category',record.category],['Status',record.evidenceStatus],['Weights',record.weightsStatus],['License',record.license],['Architecture',record.architecture],['Total parameters',record.totalParamsB==null?'Not published':record.totalParamsB+'B'],['Active parameters',record.activeParamsB==null?'Not published':record.activeParamsB+'B'],['Context',record.contextTokens==null?'Not published':Number(record.contextTokens).toLocaleString()+' tokens'],['Evidence type',record.evidenceType],['Verified on',record.verifiedOn]].forEach(([label,value])=>{const row=document.createElement('div'); addText(row,'span','meta-label',label); addText(row,'span','meta-value',String(value)); meta.appendChild(row);}); facts.appendChild(meta);
+            const list=document.createElement('ul'); (record.facts||[]).forEach(f=>addText(list,'li','',f)); facts.appendChild(list); const sourceWrap=document.createElement('div'); sourceWrap.className='model-sources'; addText(sourceWrap,'h4','','Official sources');
+            (record.officialSources||[]).filter(url=>/^https:\/\//i.test(url)).forEach(url=>{const link=document.createElement('a'); link.href=url; link.target='_blank'; link.rel='noopener noreferrer'; link.textContent=url; sourceWrap.appendChild(link);}); detail.append(facts,sourceWrap); entry.appendChild(detail); return entry;
+        }
+        function renderAtlas() { if(!registry||!atlasGroups) return; const byCategory={}; Object.values(registry.models).forEach(record=>(byCategory[record.category] ||= []).push(record)); ['self-hostable','api-only','weights-pending','legacy'].forEach(category=>{const section=document.createElement('section'); section.className='atlas-group'; section.id='atlas-'+category; section.dataset.category=category; const heading=document.createElement('div'); heading.className='atlas-group-heading'; addText(heading,'h3','',groupCopy[category].title); addText(heading,'p','',groupCopy[category].copy); section.appendChild(heading); const list=document.createElement('div'); list.className='model-bento-grid'; (byCategory[category]||[]).forEach((record,index)=>list.appendChild(renderModelCard(record,index))); section.appendChild(list); atlasGroups.appendChild(section);}); }
+        renderAtlas();
 
         /* =========================================
            Decision Wizard
@@ -968,11 +956,12 @@ codex --profile runpod</div>
             r.classList.add('active');
             document.getElementById('wizard-progress').style.width = '100%';
 
-            let model = 'Current Llama or Gemma family model — evaluate fit and license', engine = 'Ollama or llama.cpp', quant = 'Supported GGUF', gpu = 'Size with the VRAM estimator', provider = 'Compare live offers';
+            const eligibleModels = registryApi.getDeploymentEligibleModels();
+            const modelPool = eligibleModels.filter(record => record.category === 'self-hostable' && record.weightsStatus === 'released'); // explicitly exclude api-only and weights-pending
+            const preferred = wizardState[1] === 'coding' ? modelPool.find(record => /code|gpt-oss|qwen/i.test(record.displayName)) : wizardState[1] === 'reasoning' ? modelPool.find(record => /reason|gpt-oss|deepseek|qwen/i.test(record.bestFor + record.displayName)) : modelPool[0];
+            let model = preferred ? preferred.displayName + ' — evaluate fit and license' : 'Evaluate a current self-hostable registry model', engine = 'Ollama or llama.cpp', quant = 'Supported GGUF', gpu = 'Size with the VRAM estimator', provider = 'Compare live offers';
 
-            if (wizardState[1] === 'coding') model = 'Current Qwen or gpt-oss coding-capable model — evaluate tasks';
-            else if (wizardState[1] === 'reasoning') model = 'Current gpt-oss or Qwen reasoning model — evaluate quality';
-            else if (wizardState[1] === 'multilingual') model = 'Current multilingual Qwen model — evaluate target languages';
+            if (wizardState[1] === 'multilingual') model = (modelPool.find(record => /sarvam|qwen/i.test(record.displayName)) || preferred || modelPool[0]).displayName + ' — evaluate target languages';
 
             if (wizardState[2] === 'production') { engine = 'vLLM or SGLang'; quant = 'Runtime-supported AWQ/GPTQ/FP8'; gpu = 'Benchmark-sized GPU or cluster'; provider = 'RunPod / Lambda / CoreWeave'; }
             else if (wizardState[2] === 'team') { engine = 'vLLM'; quant = 'Supported quantized format'; gpu = 'Capacity sized from model + concurrency'; provider = 'Compare fixed GPU clouds'; }
@@ -993,13 +982,8 @@ codex --profile runpod</div>
                 { code: '04', label: 'Provider', value: provider }
             ];
 
-            document.getElementById('wizard-results').innerHTML = results.map(r =>
-                '<div class="wizard-result-card">' +
-                    '<div class="result-code">' + r.code + '</div>' +
-                    '<div class="result-label">' + r.label + '</div>' +
-                    '<div class="result-value">' + r.value + '</div>' +
-                '</div>'
-            ).join('');
+            const resultRoot = document.getElementById('wizard-results'); resultRoot.replaceChildren();
+            results.forEach(item => { const card=document.createElement('div'); card.className='wizard-result-card'; addText(card,'div','result-code',item.code); addText(card,'div','result-label',item.label); addText(card,'div','result-value',item.value); resultRoot.appendChild(card); });
         }
 
         window.resetWizard = function() {
@@ -1017,7 +1001,9 @@ codex --profile runpod</div>
            VRAM Estimator
            ========================================= */
         const paramSlider = document.getElementById('param-slider');
+        const activeParamSlider = document.getElementById('active-param-slider');
         const paramValText = document.getElementById('param-val');
+        const activeParamValText = document.getElementById('active-param-val');
         const quantBtns = document.querySelectorAll('.quant-btn');
         const vramOutputText = document.getElementById('vram-output');
         const weightsOnlyOutputText = document.getElementById('weights-only-output');
@@ -1046,8 +1032,12 @@ codex --profile runpod</div>
 
         let prevVram = 168;
         function updateVRAM() {
+            // Registry fields totalParamsB and activeParamsB are rendered above. Weight residency/weightsOnly always uses totalParams; active parameters inform compute throughput only.
             const params = parseFloat(paramSlider.value);
-            paramValText.innerText = params;
+            const activeParams = Math.min(parseFloat(activeParamSlider.value), params);
+            activeParamSlider.max = String(params); activeParamSlider.value = String(activeParams);
+            paramValText.innerText = params; activeParamValText.innerText = activeParams;
+            // Weight memory uses total parameters, never active parameters; active parameters are compute planning only.
             updateTrackFill();
             const weightsOnly = params * currentMultiplier;
             const totalVram = Math.ceil(weightsOnly * 1.2);
@@ -1063,8 +1053,8 @@ codex --profile runpod</div>
             else if (totalVram <= 128) rec = "2x H100 (80GB) or another validated 128GB+ configuration";
             else if (totalVram <= 180) rec = "1x provider-listed B200 (180GB, tight) or 3x H100 (80GB)";
             else if (totalVram <= 320) rec = Math.ceil(totalVram / 80) + "x H100 SXM (80GB) — validate tensor/expert parallelism and interconnect";
-            else if (totalVram <= 640) rec = Math.ceil(totalVram / 80) + 'x H100 (80GB) — Multi-node cluster';
-            else rec = Math.ceil(totalVram / 180) + 'x provider-listed B200 (180GB each) or ' + Math.ceil(totalVram / 80) + 'x H100 (80GB) — validate sharding and topology';
+            else if (totalVram <= 640) rec = Math.ceil(totalVram / 80) + 'x H100 (80GB) — cluster-scale; validate topology, sharding, and runtime';
+            else rec = 'Cluster-scale capacity — validate topology, sharding, interconnect, and runtime before purchase';
             gpuRecText.innerText = rec;
 
             /* CTA: pick provider + copy based on VRAM tier */
@@ -1082,6 +1072,7 @@ codex --profile runpod</div>
             }
         }
         paramSlider.addEventListener('input', updateVRAM);
+        activeParamSlider.addEventListener('input', updateVRAM);
         quantBtns.forEach(btn => btn.addEventListener('click', (e) => {
             quantBtns.forEach(b => { b.classList.remove('active'); b.style.background='#18181b'; b.style.color='#a1a1aa'; b.style.borderColor='#27272a'; });
             e.target.classList.add('active');
