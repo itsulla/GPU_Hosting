@@ -10,7 +10,7 @@ const CATEGORIES = new Set(['self-hostable', 'api-only', 'weights-pending', 'leg
 const EVIDENCE_TYPES = new Set(['Official specification', 'Official documentation']);
 const RUMOR_WORDS = /rumou?r|alleged|reportedly|speculative|unconfirmed|maybe|likely|expected|upcoming|rumored/i;
 const FORBIDDEN_CLAIMS = /benchmark|throughput|tok\/s|tokens?\s*\/\s*s|provider\s+prices?|\$\s*\d|gpu[- ]fit|fits?\s+(?:on|in)|recommended\s+gpu/i;
-const HTTPS_FIRST_PARTY = /^https:\/\/(?:huggingface\.co\/(?:deepseek-ai|Qwen|moonshotai|MiniMaxAI|openai|meta-llama|mistralai|sarvamai)\/|ai\.google\.dev\/gemma\/docs\/|www\.llama\.com\/models\/|platform\.claude\.com\/docs\/|platform\.kimi\.ai\/docs\/|help\.aliyun\.com\/zh\/model-studio\/|ollama\.com\/library\/)/i;
+const HTTPS_FIRST_PARTY = /^https:\/\/(?:huggingface\.co\/(?:deepseek-ai|Qwen|moonshotai|MiniMaxAI|google|openai|meta-llama|mistralai|sarvamai)\/|ai\.google\.dev\/gemma\/docs\/|www\.llama\.com\/models\/|platform\.claude\.com\/docs\/|platform\.kimi\.ai\/docs\/|help\.aliyun\.com\/zh\/model-studio\/|ollama\.com\/library\/)/i;
 
 function allRecords() {
   return Object.values(MODEL_REGISTRY.models);
@@ -111,6 +111,7 @@ test('API comparators preserve exact identifiers and never become deployable', (
 
 test('critical claims point to exact official pages rather than generic vendor roots', () => {
   const bySlug = MODEL_REGISTRY.models;
+  assert.equal(bySlug['google-gemma-4-26b-a4b'].modelId, 'google/gemma-4-26B-A4B-it');
   const expectedSource = {
     'google-gemma-4-26b-a4b': 'https://ai.google.dev/gemma/docs/core/model_card_4',
     'mistral-small-4': 'https://huggingface.co/mistralai/Mistral-Small-4-119B-2603',

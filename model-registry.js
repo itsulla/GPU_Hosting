@@ -130,7 +130,7 @@
     'google-gemma-4-26b-a4b': verified({
       slug: 'google-gemma-4-26b-a4b',
       displayName: 'Google Gemma 4 26B-A4B',
-      modelId: 'Gemma 4 26B-A4B family release',
+      modelId: 'google/gemma-4-26B-A4B-it',
       vendor: 'Google DeepMind',
       category: 'self-hostable',
       availability: 'public-weights',
@@ -142,7 +142,7 @@
       contextTokens: 262144,
       evidenceType: 'Official specification',
       bestFor: 'consumer-workstation multimodal evaluation',
-      officialSources: ['https://ai.google.dev/gemma/docs/core/model_card_4'],
+      officialSources: ['https://ai.google.dev/gemma/docs/core/model_card_4', 'https://huggingface.co/google/gemma-4-26B-A4B-it'],
       facts: ['25.2B total parameters and 3.8B active parameters.', 'The family supports up to 256K tokens; weight residency must use total parameters.'],
     }),
     'openai-gpt-oss-120b': verified({
