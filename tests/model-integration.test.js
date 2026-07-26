@@ -46,8 +46,9 @@ test('renders exact identities, registry evidence, and deployment metadata with 
   for (const field of ['modelId', 'apiId', 'verifiedOn', 'evidence', 'category', 'license', 'weights', 'totalParams', 'activeParams']) {
     assert.match(appSource, new RegExp(`\\b${field}\\b`, 'i'), `registry/rendering contract missing ${field}`);
   }
-  assert.match(index, /['"]Model ID['"]\s*,\s*record\.modelId/i, 'expanded cards must render the exact model ID');
-  assert.match(index, /['"]API ID['"]\s*,\s*record\.apiId/i, 'expanded cards must render the exact API ID when present');
+  assert.match(index, /getDisplayIdentifiers\(record\)/i, 'renderer must normalize identifiers through the runtime-tested helper');
+  assert.match(index, /['"]Model ID['"]\s*,\s*identifiers\.modelId/i, 'expanded cards must render the normalized model ID');
+  assert.match(index, /['"]API ID['"]\s*,\s*identifiers\.apiId/i, 'expanded cards must render the normalized API ID');
   assert.match(appSource, /(?:officialSource|sourceUrl|officialUrl|sources)/i, 'official source metadata is required');
   assert.match(appSource, /https:\/\//i, 'official/source links must use HTTPS');
   assert.match(index, /link\.href\s*=\s*url/i, 'renderer must assign each validated source URL to its anchor');
@@ -104,12 +105,9 @@ test('wizard recommendations are sourced from current self-hostable families, ne
   const wizardStart = index.indexOf('function showWizardResult');
   const wizardEnd = index.indexOf('window.resetWizard', wizardStart);
   const wizardSource = index.slice(wizardStart, wizardEnd);
-  assert.match(index, /getDeploymentEligibleModels\(\)/, 'wizard must consume registry deployment eligibility');
-  assert.match(appSource, /(?:category|deploymentClass|selfHostable)[^\n]{0,160}(?:self-hostable|selfHost|deploy)/i);
-  assert.match(appSource, /(?:exclude|filter|reject|not)[^\n]{0,160}(?:api-only|weights-pending)/i);
-  assert.match(index, /candidateSlugsByUse/i, 'wizard must use an explicit reviewed candidate list');
-  assert.match(index, /budgetCapB/i, 'wizard must bound candidates by the selected budget tier');
-  assert.match(index, /totalParamsB\s*<=\s*budgetCapB/i, 'wizard budget must constrain total resident parameters');
+  assert.match(registry, /function\s+selectWizardCandidate[\s\S]{0,1200}getDeploymentEligibleModels\(\)/i, 'runtime selector must consume fail-closed deployment eligibility');
+  assert.match(registry, /function\s+isDeploymentEligible[\s\S]{0,400}self-hostable[\s\S]{0,400}public-weights/i);
+  assert.match(index, /selectWizardCandidate\(wizardState\[1\],\s*wizardState\[3\]\)/i, 'wizard must call the runtime-tested registry selector');
   assert.doesNotMatch(wizardSource, /\bSupported GGUF\b/i, 'wizard must not assert an unverified runtime artifact');
   assert.doesNotMatch(index, /showWizardResult[\s\S]{0,3000}(?:DeepSeek V3\.2|Qwen 3\.5)/i);
 });

@@ -451,6 +451,35 @@
     return Object.values(models).filter(isDeploymentEligible);
   }
 
+  function getDisplayIdentifiers(record) {
+    return {
+      modelId: record.modelId || 'Not applicable',
+      apiId: record.apiId || 'Not applicable',
+    };
+  }
+
+  const wizardCandidateSlugsByUse = {
+    coding: ['openai-gpt-oss-20b', 'qwen3.6-27b', 'qwen3.6-35b-a3b', 'openai-gpt-oss-120b', 'deepseek-v4-flash', 'kimi-k2.7-code'],
+    reasoning: ['openai-gpt-oss-20b', 'qwen3.6-35b-a3b', 'openai-gpt-oss-120b', 'deepseek-v4-flash', 'deepseek-v4-pro'],
+    multilingual: ['qwen3.6-27b', 'qwen3.6-35b-a3b', 'sarvam-105b', 'mistral-small-4'],
+    chat: ['google-gemma-4-26b-a4b', 'qwen3.6-27b', 'qwen3.6-35b-a3b', 'llama-4-scout', 'mistral-small-4'],
+  };
+  const wizardBudgetCapsB = { low: 35, mid: 120, high: 500 };
+
+  function selectWizardCandidate(useCase, budgetTier) {
+    const modelPool = getDeploymentEligibleModels();
+    const bySlug = new Map(modelPool.map((record) => [record.slug, record]));
+    const budgetCapB = wizardBudgetCapsB[budgetTier] || wizardBudgetCapsB.low;
+    const candidateSlugs = wizardCandidateSlugsByUse[useCase] || wizardCandidateSlugsByUse.chat;
+    const candidates = candidateSlugs
+      .map((slug) => bySlug.get(slug))
+      .filter(Boolean)
+      .filter((record) => record.totalParamsB <= budgetCapB);
+    return candidates.at(-1)
+      || modelPool.filter((record) => record.totalParamsB <= budgetCapB).sort((a, b) => a.totalParamsB - b.totalParamsB).at(-1)
+      || null;
+  }
+
   function deepFreeze(value) {
     if (value && typeof value === 'object' && !Object.isFrozen(value)) {
       Object.freeze(value);
@@ -463,7 +492,9 @@
   return deepFreeze({
     MODEL_REGISTRY,
     STATUS_CATEGORIES: statusCategories,
+    getDisplayIdentifiers,
     isDeploymentEligible,
     getDeploymentEligibleModels,
+    selectWizardCandidate,
   });
 });

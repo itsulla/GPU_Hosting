@@ -108,7 +108,7 @@ test('tracker retains eight rectangular sheets and only the model schedule is re
   }
 });
 
-test('obsolete current model rows and unsupported archive claims are rejected', () => {
+test('obsolete current model rows are rejected and superseded research is a non-factual tombstone', () => {
   const tracker = fs.readFileSync(path.join(ROOT, 'GPUHosting_Tracker.csv'), 'utf8');
   const modelText = tracker.slice(tracker.indexOf('SHEET: Model Specifications'), tracker.indexOf('SHEET: GPU Hardware Specs'));
   const currentRows = modelText.split(/\r?\n/).filter((line) => line && !line.startsWith('SHEET: ') && !line.startsWith('Model,'));
@@ -116,10 +116,12 @@ test('obsolete current model rows and unsupported archive claims are rejected', 
   assert.equal(currentRows.some((line) => line.includes('generic Mistral')), false, 'generic Mistral row');
   assert.equal(currentRows.some((line) => line.includes('Mixtral') && !line.includes(',legacy,')), false, 'obsolete current Mixtral row');
   assert.match(ARCHIVE, /ARCHIVED — SUPERSEDED/);
-  assert.match(ARCHIVE, /canonical `model-registry\.js`/);
+  assert.match(ARCHIVE, /Canonical model data: `model-registry\.js`/);
   assert.match(ARCHIVE, /GPUHosting_Tracker\.csv` Model Specifications (?:ledger|sheet)/i);
   assert.match(ARCHIVE, /must not be republished without re-verification/i);
-  assert.doesNotMatch(ARCHIVE, /DeepSeek[- ]V4[^\n]*(?:parameter|params|trillion|billion|rumou?r|guessed|estimated)/i);
+  assert.match(ARCHIVE, /body was intentionally removed/i);
+  assert.ok(ARCHIVE.split(/\r?\n/).length < 30, 'archive must not retain a reusable unsupported report body');
+  assert.doesNotMatch(ARCHIVE, /(?:tok\/s|tokens per second|outperforming|VRAM fit|hourly rental|affiliate commission|universal adoption)/i);
 });
 
 test('dated ledger is grouped, first-party, and fail-closed about estimates', () => {

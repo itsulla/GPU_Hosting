@@ -3,7 +3,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 
-const { MODEL_REGISTRY, STATUS_CATEGORIES, isDeploymentEligible } = require('../model-registry.js');
+const { MODEL_REGISTRY, STATUS_CATEGORIES, getDisplayIdentifiers, isDeploymentEligible, selectWizardCandidate } = require('../model-registry.js');
 
 const SNAPSHOT_DATE = '2026-07-26';
 const CATEGORIES = new Set(['self-hostable', 'api-only', 'weights-pending', 'legacy']);
@@ -113,6 +113,32 @@ test('API comparators preserve exact identifiers and never become deployable', (
   }
   assert.equal(bySlug['kimi-k3-api'].pendingWeightsDate, '2026-07-27');
   assert.equal(bySlug['qwen3.8-max-preview'].availability, 'restricted-api-preview');
+});
+
+test('display identifiers never leak undefined into any atlas category', () => {
+  for (const record of allRecords()) {
+    const identifiers = getDisplayIdentifiers(record);
+    assert.deepEqual(identifiers, {
+      modelId: record.modelId || 'Not applicable',
+      apiId: record.apiId || 'Not applicable',
+    });
+    assert.notEqual(identifiers.modelId, undefined);
+    assert.notEqual(identifiers.apiId, undefined);
+  }
+});
+
+test('wizard selection executes against eligible released weights and enforces budget caps', () => {
+  const caps = { low: 35, mid: 120, high: 500 };
+  for (const useCase of ['coding', 'reasoning', 'multilingual', 'chat']) {
+    for (const [budgetTier, cap] of Object.entries(caps)) {
+      const candidate = selectWizardCandidate(useCase, budgetTier);
+      assert.ok(candidate, `missing ${useCase}/${budgetTier} candidate`);
+      assert.equal(isDeploymentEligible(candidate), true);
+      assert.equal(candidate.category, 'self-hostable');
+      assert.equal(candidate.weightsStatus, 'released');
+      assert.ok(candidate.totalParamsB <= cap, `${candidate.slug} exceeds ${budgetTier} cap`);
+    }
+  }
 });
 
 test('critical claims point to exact official pages rather than generic vendor roots', () => {
