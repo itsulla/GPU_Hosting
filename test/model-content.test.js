@@ -9,22 +9,26 @@ const { parse } = require('csv-parse/sync');
 const { MODEL_REGISTRY } = require('../model-registry.js');
 
 const ROOT = path.join(__dirname, '..');
-const DATE = '07/26/2026';
 const LEDGER = fs.readFileSync(path.join(ROOT, 'research/2026-07-26/official-ledgers/MODEL_LINEUP_LEDGER.md'), 'utf8');
 const ARCHIVE = fs.readFileSync(path.join(ROOT, 'research/archive/Prompt Research Project Analysis.md'), 'utf8');
 const EXPECTED_HEADERS = ['Model', 'Model ID', 'Developer', 'Category', 'Architecture', 'Total Params', 'Active Params', 'Context', 'License', 'Weights Status', 'Availability Caveat', 'Best For', 'Evidence Type', 'Last Verified', 'Source URL'];
 const OBSOLETE = ['DeepSeek V3.2', 'Qwen 3.5', 'Kimi K2.5', 'MiniMax M2.5', 'generic Mistral', 'Mixtral'];
 const NON_MODEL_SHEET_HASHES = Object.freeze({
-  'Affiliate Programs': 'a8c7d3ff2cfda7879e7f24db54bd84fb23ab23a9451cc86142fba1a0c5570bc5',
-  'GPU Hardware Specs': '64d1e96dc8c6c5850bff780eb8b581824bae352e704efcba2be063efa934f8ee',
-  'Cloud Provider Pricing': 'bd08d7e70b59640f084013a768206308817f03e0d1f7373b1a1152da3f974ff6',
+  'Affiliate Programs': 'bbe663e8372991bd90e509ce80ec6dc7ff1d8afe81b92a4e4984d05ab83147cd',
+  'GPU Hardware Specs': 'ccf7551195bbc549455ff1deebfa55d0ce1a2f2e1f9ab80d90e6ccfdac852a4f',
+  'Cloud Provider Pricing': 'cd62083bacf3a4d0e1c8aa756afc9c6dd0c04032cad86ea1597e8711ea203f89',
   'API and Self-Hosted Cost Comparison Inputs': 'e86f763ea890f071557f32ab4f2b4d620fc881735d0b07a3776cc237656d1533',
   'Content Verification Schedule': '5d65bbd1541220b56dba35fb60d0b08f34d2bb0e2ce896ed38707a1560bbed72',
   'SEO & Traffic Tracking': '6741b0055ef48edfe73d9ed4b70f2fc264abea8a0ca7a2454b2273f065329b53',
-  'Monthly Revenue Tracking': 'bfddb9c47f67187e52d259aefa10b9abaab9ff88147133ed2781cd66ee7f26c3',
+  'Monthly Revenue Tracking': '9ac35685982ac1282ebfcc770ba459468666cc4520af916adeb3097819db0774',
 });
 
 function csvRows(text) { return parse(text, { relax_column_count: false, skip_empty_lines: true }); }
+
+function csvDate(isoDate) {
+  const [year, month, day] = isoDate.split('-');
+  return `${month}/${day}/${year}`;
+}
 
 function sheetBlocks(csv) {
   return csv.match(/SHEET: [^\r\n]+[\s\S]*?(?=\r?\nSHEET: |$)/g) || [];
@@ -53,7 +57,7 @@ function displayWeights(record) {
 function displayCaveat(record) {
   if (record.category === 'self-hostable') return 'Public weights; self-hostable';
   if (record.category === 'api-only') return record.availability === 'restricted-api-preview' ? 'Restricted API preview; no public weights' : 'API-only; no public weights';
-  if (record.category === 'weights-pending') return `API available; full weights pending until ${record.pendingWeightsDate}`;
+  if (record.category === 'weights-pending') return 'API available; full weights still not published when checked';
   return 'Legacy public weights; retained for existing deployments';
 }
 
@@ -72,7 +76,7 @@ function expectedRow(record) {
     displayCaveat(record),
     record.bestFor,
     record.evidenceType,
-    DATE,
+    csvDate(record.verifiedOn),
     record.officialSources[0],
   ];
 }
@@ -101,14 +105,14 @@ test('tracker retains eight rectangular sheets and only the model schedule is re
   assert.ok(lines.includes('SHEET: Content Verification Schedule'));
 });
 
-test('all seven non-model tracker sheets remain byte-for-byte identical to the baseline', () => {
+test('all seven non-model tracker sheets remain byte-for-byte identical to the reviewed snapshot', () => {
   const current = fs.readFileSync(path.join(ROOT, 'GPUHosting_Tracker.csv'), 'utf8');
   const currentBlocks = new Map(sheetBlocks(current).map((block) => [block.match(/^SHEET: ([^\r\n]+)/)[1], block]));
   const actualNames = [...currentBlocks.keys()].filter((name) => name !== 'Model Specifications').sort();
-  assert.deepEqual(actualNames, Object.keys(NON_MODEL_SHEET_HASHES).sort(), 'non-model sheet boundaries changed from baseline');
+  assert.deepEqual(actualNames, Object.keys(NON_MODEL_SHEET_HASHES).sort(), 'non-model sheet boundaries changed from reviewed snapshot');
   for (const [name, expectedHash] of Object.entries(NON_MODEL_SHEET_HASHES)) {
     const actualHash = crypto.createHash('sha256').update(currentBlocks.get(name) || '').digest('hex');
-    assert.equal(actualHash, expectedHash, `${name} changed from baseline`);
+    assert.equal(actualHash, expectedHash, `${name} changed from reviewed snapshot`);
   }
 });
 

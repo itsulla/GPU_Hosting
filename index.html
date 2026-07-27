@@ -28,7 +28,30 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-3GTGPGDL3F');
-      gtag('config', 'G-E9VPTS1J8F');
+
+      document.addEventListener('click', function (event) {
+        const link = event.target.closest('a[rel~="sponsored"]');
+        if (!link) return;
+
+        // Emit a semantic label, never an affiliate URL, query parameter, or referral code.
+        const destination = link.dataset.analyticsDestination || 'unknown';
+
+        const calculatorText = ['cost-conclusion', 'vram-output']
+          .map((id) => document.getElementById(id)?.textContent.trim())
+          .filter(Boolean)
+          .join(' | ')
+          .slice(0, 240) || 'not_used';
+
+        gtag('event', 'affiliate_click', {
+          provider: link.dataset.analyticsProvider || link.hostname,
+          page: window.location.pathname,
+          cta_position: link.dataset.analyticsPlacement || link.closest('section')?.id || 'unknown',
+          model_or_tool: link.dataset.analyticsModel || link.dataset.analyticsTool || 'all_models',
+          calculator_result: link.dataset.analyticsCalculatorResult || calculatorText,
+          destination: destination,
+          relationship: link.dataset.analyticsRelationship || 'affiliate_or_referral'
+        });
+      });
     </script>
 
     <!-- JSON-LD Structured Data -->
@@ -42,7 +65,7 @@
         "applicationCategory": "DeveloperApplication",
         "operatingSystem": "Web",
         "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-        "dateModified": "2026-07-26"
+        "dateModified": "2026-07-27"
     }
     </script>
     <script type="application/ld+json">
@@ -69,7 +92,7 @@
     }
     </script>
 
-    <link rel="stylesheet" href="tailwind.generated.css?v=20260726">
+    <link rel="stylesheet" href="tailwind.generated.css?v=20260727">
 
     <!-- Fonts: Instrument Sans (editorial/product) + IBM Plex Mono (technical data) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -120,7 +143,7 @@
     <header id="top" class="site-hero">
         <div class="hero-shell">
             <div class="hero-copy">
-                <p class="hero-eyebrow">Independent infrastructure guide <span>／ Updated July 26, 2026</span></p>
+                <p class="hero-eyebrow">Independent infrastructure guide <span>／ Updated July 27, 2026</span></p>
                 <h1>Run open models on the <span class="hero-accent">right GPU stack.</span></h1>
                 <p class="hero-lede">Size VRAM, compare provider rates, find where open-weight self-hosting fits, and deploy with commands you can actually use.</p>
                 <div class="hero-actions">
@@ -156,7 +179,7 @@
             <div class="hero-trust-inner">
                 <div class="trust-item">
                     <span class="trust-label">Freshness</span>
-                    <span class="trust-copy">Provider pricing and core data checked July 26, 2026.</span>
+                    <span class="trust-copy">Hardware and RunPod pricing checked July 27; model registry snapshot July 26, 2026.</span>
                 </div>
                 <div class="trust-item">
                     <span class="trust-label">Method</span>
@@ -339,13 +362,20 @@
                         </tr>
                     </thead>
                     <tbody class="text-sm divide-y divide-slate-100">
-                        <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">RTX 5090</td><td class="p-4"><span class="px-2 py-1 bg-emerald-50 text-emerald-700 rounded text-xs border border-emerald-200">Consumer</span></td><td class="p-4 font-mono">32GB GDDR7</td><td class="p-4 font-mono">1,792 GB/s</td><td class="p-4 font-bold text-indigo-600">$0.69/hr Community<br><span class="text-xs font-normal text-slate-500">$0.99 Secure</span></td><td class="p-4 text-slate-500">High-bandwidth 32GB option. Benchmark the exact model, precision, context, and runtime.</td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">RTX 5090</td><td class="p-4"><span class="px-2 py-1 bg-emerald-50 text-emerald-700 rounded text-xs border border-emerald-200">Consumer</span></td><td class="p-4 font-mono">32GB GDDR7</td><td class="p-4 font-mono">1,792 GB/s</td><td class="p-4 font-bold text-indigo-600">$0.69/hr Community<br><span class="text-xs font-normal text-slate-500">$0.99 Secure</span></td><td class="p-4 text-slate-500">NVIDIA specification plus RunPod price snapshot; benchmark the exact model, precision, context, and runtime.</td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">RTX 4090</td><td class="p-4"><span class="px-2 py-1 bg-emerald-50 text-emerald-700 rounded text-xs border border-emerald-200">Consumer</span></td><td class="p-4 font-mono">24GB GDDR6X</td><td class="p-4 text-slate-500">Not published on cited page</td><td class="p-4 font-bold text-indigo-600">$0.34/hr Community<br><span class="text-xs font-normal text-slate-500">$0.69 Secure</span></td><td class="p-4 text-slate-500">Useful lower-cost 24GB listing; avoid treating third-party bandwidth tables as the cited vendor specification.</td></tr>
                         <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">RTX 6000 Ada</td><td class="p-4"><span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs border border-blue-200">Workstation</span></td><td class="p-4 font-mono">48GB GDDR6</td><td class="p-4 font-mono">960 GB/s</td><td class="p-4 text-slate-500">Check live quote</td><td class="p-4 text-slate-500">Useful 48GB capacity class; availability and rental rates vary by provider.</td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">L40S</td><td class="p-4"><span class="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs border border-blue-200">Data center</span></td><td class="p-4 font-mono">48GB GDDR6 ECC</td><td class="p-4 font-mono">864 GB/s</td><td class="p-4 font-bold text-indigo-600">$0.79/hr Community<br><span class="text-xs font-normal text-slate-500">$0.99 Secure</span></td><td class="p-4 text-slate-500">Official NVIDIA specification plus RunPod price snapshot; PCIe Gen4 form factor.</td></tr>
                         <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">RTX PRO 6000 Blackwell</td><td class="p-4"><span class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs border border-purple-200">Blackwell</span></td><td class="p-4 font-mono">96GB GDDR7 ECC</td><td class="p-4 text-slate-500">Variant-specific</td><td class="p-4 text-slate-500">Check live quote</td><td class="p-4 text-slate-500">Workstation, Max-Q, and Server variants differ in power and form factor; name the exact SKU.</td></tr>
                         <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">A100 PCIe (80GB)</td><td class="p-4"><span class="px-2 py-1 bg-amber-50 text-amber-700 rounded text-xs border border-amber-200">Enterprise</span></td><td class="p-4 font-mono">80GB HBM2e</td><td class="p-4 font-mono">1,935 GB/s</td><td class="p-4 font-bold text-indigo-600">$1.19/hr Community<br><span class="text-xs font-normal text-slate-500">$1.39 Secure</span></td><td class="p-4 text-slate-500">A 70B FP16 model needs roughly 140GB for weights alone, before KV cache and runtime memory.</td></tr>
-                        <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">B200 provider listing</td><td class="p-4"><span class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs border border-purple-200">Blackwell</span></td><td class="p-4 font-mono">180GB listed</td><td class="p-4 text-slate-500">Pending NVIDIA datasheet</td><td class="p-4 font-bold text-indigo-600">$5.89/hr</td><td class="p-4 text-slate-500">RunPod and Lambda list 180GB configurations. Do not generalize this as NVIDIA's single-B200 specification.</td></tr>
                         <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">H100 SXM (80GB)</td><td class="p-4"><span class="px-2 py-1 bg-amber-50 text-amber-700 rounded text-xs border border-amber-200">Enterprise</span></td><td class="p-4 font-mono">80GB HBM3</td><td class="p-4 font-mono">3,350 GB/s</td><td class="p-4 font-bold text-indigo-600">$2.69/hr Community<br><span class="text-xs font-normal text-slate-500">$2.99 Secure</span></td><td class="p-4 text-slate-500">High-performance SXM option with NVLink for supported multi-GPU systems.</td></tr>
                         <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">H200 (141GB)</td><td class="p-4"><span class="px-2 py-1 bg-amber-50 text-amber-700 rounded text-xs border border-amber-200">Enterprise</span></td><td class="p-4 font-mono">141GB HBM3e</td><td class="p-4 font-mono">4,800 GB/s</td><td class="p-4 font-bold text-indigo-600">$3.59/hr Community<br><span class="text-xs font-normal text-slate-500">$4.39 Secure</span></td><td class="p-4 text-slate-500">Higher-capacity option; compare availability, topology, and runtime support.</td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">MI300X</td><td class="p-4"><span class="px-2 py-1 bg-rose-50 text-rose-700 rounded text-xs border border-rose-200">AMD OAM</span></td><td class="p-4 font-mono">192GB HBM3</td><td class="p-4 font-mono">5.3 TB/s</td><td class="p-4 text-slate-500">Check live quote</td><td class="p-4 text-slate-500">Official AMD accelerator specification; verify ROCm/runtime support for the exact workload.</td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">MI325X</td><td class="p-4"><span class="px-2 py-1 bg-rose-50 text-rose-700 rounded text-xs border border-rose-200">AMD OAM</span></td><td class="p-4 font-mono">256GB HBM3E</td><td class="p-4 font-mono">6 TB/s</td><td class="p-4 text-slate-500">Check live quote</td><td class="p-4 text-slate-500">Official AMD accelerator specification; availability and software support are provider-specific.</td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">B200 provider listing</td><td class="p-4"><span class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs border border-purple-200">Blackwell</span></td><td class="p-4 font-mono">180GB listed</td><td class="p-4 text-slate-500">Configuration-specific</td><td class="p-4 font-bold text-indigo-600">$5.89/hr</td><td class="p-4 text-slate-500">RunPod lists a 180GB configuration. Do not generalize this as a universal single-B200 specification.</td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">B300 provider listing</td><td class="p-4"><span class="px-2 py-1 bg-purple-50 text-purple-700 rounded text-xs border border-purple-200">Blackwell Ultra</span></td><td class="p-4 font-mono">288GB listed</td><td class="p-4 text-slate-500">Configuration-specific</td><td class="p-4 font-bold text-indigo-600">$6.94/hr Community<br><span class="text-xs font-normal text-slate-500">$7.39 Secure</span></td><td class="p-4 text-slate-500">RunPod configuration label; do not substitute it for a universal component datasheet.</td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">GB200 NVL72 system</td><td class="p-4"><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded text-xs border border-slate-200">Rack aggregate</span></td><td class="p-4 font-mono">13.4TB aggregate HBM3E</td><td class="p-4 font-mono">576 TB/s aggregate</td><td class="p-4 text-slate-500">System quote</td><td class="p-4 text-slate-500">72-GPU rack-scale totals from NVIDIA. Never compare these aggregate figures with a single GPU row.</td></tr>
+                        <tr class="hover:bg-slate-50 transition-colors"><td class="p-4 font-bold text-slate-900">GB300 NVL72 system</td><td class="p-4"><span class="px-2 py-1 bg-slate-100 text-slate-700 rounded text-xs border border-slate-200">Rack aggregate</span></td><td class="p-4 font-mono">20TB aggregate GPU memory</td><td class="p-4 font-mono">Up to 576 TB/s aggregate</td><td class="p-4 text-slate-500">System quote</td><td class="p-4 text-slate-500">72-GPU rack-scale totals from NVIDIA. Do not divide them into an uncited per-device specification.</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -399,7 +429,7 @@
                             <div class="text-xs font-mono uppercase tracking-widest mb-1" style="color:#DFFF00">Rent this setup hourly</div>
                             <div id="vram-cta-text" class="text-sm font-semibold text-white">RunPod · RTX 5090 from $0.69/hr Community</div>
                         </div>
-                        <a id="vram-cta-link" href="https://runpod.io?ref=852l1ola" target="_blank" rel="noopener nofollow sponsored"
+                        <a id="vram-cta-link" href="https://runpod.io?ref=852l1ola" target="_blank" rel="noopener nofollow sponsored" data-analytics-event="affiliate_click" data-analytics-provider="RunPod" data-analytics-relationship="direct_referral" data-analytics-destination="gpu_capacity_result" data-analytics-placement="vram_calculator" data-analytics-model="custom_parameter_estimate" data-analytics-calculator-result="initial"
                            class="shrink-0 inline-block text-xs font-bold px-4 py-2 rounded-lg whitespace-nowrap"
                            style="background:#DFFF00;color:#09090b">
                             Launch →
@@ -440,7 +470,7 @@
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-2">GPU Compute Cost (Hourly): $<span id="server-cost-val" class="font-bold text-indigo-600">1.19</span></label>
                             <input type="range" id="server-cost-slider" min="0.20" max="15.00" value="1.19" step="0.01" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
-                            <p class="text-xs text-slate-500 mt-1">Compute only. RunPod examples checked 2026-07-26: A100 PCIe $1.19 Community; H100 SXM $2.69.</p>
+                            <p class="text-xs text-slate-500 mt-1">Compute only. RunPod examples checked 2026-07-27: A100 PCIe $1.19 Community; H100 SXM $2.69.</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-slate-700 mb-2">Provisioned Hours per Day: <span id="hours-val" class="font-bold text-indigo-600">24</span></label>
@@ -474,7 +504,7 @@
                     <h4 id="cost-cta-title" class="text-lg font-bold text-white">Check the assumptions, then choose your deployment model</h4>
                     <p id="cost-cta-sub" class="text-sm mt-1" style="color:#a1a1aa">RunPod bills compute by the second; stopped compute and retained storage are separate cost lines.</p>
                 </div>
-                <a id="cost-cta-link" href="https://runpod.io?ref=852l1ola" target="_blank" rel="noopener nofollow sponsored"
+                <a id="cost-cta-link" href="https://runpod.io?ref=852l1ola" target="_blank" rel="noopener nofollow sponsored" data-analytics-event="affiliate_click" data-analytics-provider="RunPod" data-analytics-relationship="direct_referral" data-analytics-destination="cost_comparison_result" data-analytics-placement="cost_calculator" data-analytics-model="quality_equivalent_custom" data-analytics-calculator-result="initial"
                    class="shrink-0 inline-block text-sm font-bold px-5 py-3 rounded-lg whitespace-nowrap"
                    style="background:#DFFF00;color:#09090b">
                     <span id="cost-cta-btn">Launch on RunPod →</span>
@@ -492,7 +522,7 @@
             <p class="table-hint">Swipe horizontally to compare providers →</p>
             <div class="fade-up glass-card overflow-x-auto">
                 <div class="p-4 bg-slate-50 border-b border-slate-200 flex justify-between items-center">
-                    <span class="font-semibold text-slate-700">Price snapshot checked July 26, 2026</span>
+                    <span class="font-semibold text-slate-700">Price snapshot checked July 27, 2026</span>
                     <select id="provider-filter" class="text-sm border-slate-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 p-2">
                         <option value="all">All Providers</option>
                         <option value="enterprise">Enterprise</option>
@@ -505,7 +535,7 @@
                     <thead><tr class="bg-slate-100 text-xs uppercase tracking-wider text-slate-600 border-b border-slate-200"><th scope="col" class="p-4 font-semibold">Provider</th><th scope="col" class="p-4 font-semibold">Type</th><th scope="col" class="p-4 font-semibold">GPU scope</th><th scope="col" class="p-4 font-semibold">Public rate / quote</th><th scope="col" class="p-4 font-semibold">Decision note</th><th scope="col" class="p-4 font-semibold text-center">Get Started</th></tr></thead>
                     <tbody id="provider-tbody" class="text-sm divide-y divide-slate-100"></tbody>
                 </table>
-                <div class="p-4 text-xs text-slate-500 bg-slate-50 italic">Official-page snapshot checked July 26, 2026. Fixed rates, marketplace offers, serverless billing, and sales quotes are different products. Recheck before purchase. Links may contain affiliate referrals.</div>
+                <div class="p-4 text-xs text-slate-500 bg-slate-50 italic">Official-page snapshot checked July 27, 2026. Fixed rates, marketplace offers, serverless billing, and sales quotes are different products. Recheck before purchase. Links may contain affiliate referrals.</div>
             </div>
         </section>
 
@@ -645,7 +675,7 @@
                 <p class="mt-3 text-slate-600 max-w-3xl">Deployment commands for four common paths, from local testing to a private coding agent.</p>
             </div>
 
-            <div class="fade-up mb-8"><div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden"><div class="bg-emerald-50 border-b border-emerald-200 px-6 py-4 flex items-center justify-between"><div><h3 class="text-lg font-bold text-slate-900">Option A: Ollama (2 minutes)</h3><p class="text-sm text-slate-600">Single-user, dev/testing</p></div><span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold">BEGINNER</span></div><div class="p-6"><div class="mb-4 rounded-lg px-4 py-3 flex items-center justify-between gap-3 text-sm" style="background:rgba(223,255,0,0.05);border:1px solid rgba(223,255,0,0.18)"><span class="text-zinc-300"><strong style="color:#DFFF00">No GPU yet?</strong> Spin up compute by the second; stopped compute and retained storage are billed separately.</span><a href="https://runpod.io?ref=852l1ola" target="_blank" rel="noopener nofollow sponsored" class="shrink-0 text-xs font-bold px-3 py-1.5 rounded whitespace-nowrap" style="background:#DFFF00;color:#09090b">RunPod →</a></div><div class="code-block" id="code-ollama"><button type="button" class="copy-btn" onclick="copyCode('code-ollama')">Copy</button>
+            <div class="fade-up mb-8"><div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden"><div class="bg-emerald-50 border-b border-emerald-200 px-6 py-4 flex items-center justify-between"><div><h3 class="text-lg font-bold text-slate-900">Option A: Ollama (2 minutes)</h3><p class="text-sm text-slate-600">Single-user, dev/testing</p></div><span class="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-bold">BEGINNER</span></div><div class="p-6"><div class="mb-4 rounded-lg px-4 py-3 flex items-center justify-between gap-3 text-sm" style="background:rgba(223,255,0,0.05);border:1px solid rgba(223,255,0,0.18)"><span class="text-zinc-300"><strong style="color:#DFFF00">No GPU yet?</strong> Spin up compute by the second; stopped compute and retained storage are billed separately.</span><a href="https://runpod.io?ref=852l1ola" target="_blank" rel="noopener nofollow sponsored" data-analytics-event="affiliate_click" data-analytics-provider="RunPod" data-analytics-relationship="direct_referral" data-analytics-placement="deploy_ollama" data-analytics-destination="gpu_cloud_signup" data-analytics-model="all_models" data-analytics-calculator-result="not_used" class="shrink-0 text-xs font-bold px-3 py-1.5 rounded whitespace-nowrap" style="background:#DFFF00;color:#09090b">RunPod →</a></div><div class="code-block" id="code-ollama"><button type="button" class="copy-btn" onclick="copyCode('code-ollama')">Copy</button>
 <span class="comment"># Official Ollama 0.32.4 image, pinned to the multi-architecture manifest digest checked 2026-07-26</span>
 OLLAMA_IMAGE=ollama/ollama:0.32.4@sha256:10c13eb515db310990527d36ca14a136da4bcc0fbf2bf3b15e9c1f111e9d3cd4
 docker pull "$OLLAMA_IMAGE"
@@ -689,7 +719,7 @@ curl http://localhost:8000/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{"model":"meta-llama/Llama-3.1-70B-Instruct","messages":[{"role":"user","content":"Hello!"}],"max_tokens":256}'</div></div></div></div>
 
-            <div class="fade-up mb-8"><div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden"><div class="bg-amber-50 border-b border-amber-200 px-6 py-4 flex items-center justify-between"><div><h3 class="text-lg font-bold text-slate-900">Option C: RunPod Serverless</h3><p class="text-sm text-slate-600">Variable traffic, scale-to-zero compute</p></div><span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-bold">SERVERLESS</span></div><div class="p-6"><div class="mb-4 rounded-lg px-4 py-3 flex items-center justify-between gap-3 text-sm" style="background:rgba(223,255,0,0.05);border:1px solid rgba(223,255,0,0.18)"><span class="text-zinc-300"><strong style="color:#DFFF00">Step 1:</strong> create a RunPod account. Measure cold starts and include retained volumes in TCO.</span><a href="https://runpod.io?ref=852l1ola" target="_blank" rel="noopener nofollow sponsored" class="shrink-0 text-xs font-bold px-3 py-1.5 rounded whitespace-nowrap" style="background:#DFFF00;color:#09090b">Create account →</a></div><div class="code-block" id="code-runpod"><button type="button" class="copy-btn" onclick="copyCode('code-runpod')">Copy</button>
+            <div class="fade-up mb-8"><div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden"><div class="bg-amber-50 border-b border-amber-200 px-6 py-4 flex items-center justify-between"><div><h3 class="text-lg font-bold text-slate-900">Option C: RunPod Serverless</h3><p class="text-sm text-slate-600">Variable traffic, scale-to-zero compute</p></div><span class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-bold">SERVERLESS</span></div><div class="p-6"><div class="mb-4 rounded-lg px-4 py-3 flex items-center justify-between gap-3 text-sm" style="background:rgba(223,255,0,0.05);border:1px solid rgba(223,255,0,0.18)"><span class="text-zinc-300"><strong style="color:#DFFF00">Step 1:</strong> create a RunPod account. Measure cold starts and include retained volumes in TCO.</span><a href="https://runpod.io?ref=852l1ola" target="_blank" rel="noopener nofollow sponsored" data-analytics-event="affiliate_click" data-analytics-provider="RunPod" data-analytics-relationship="direct_referral" data-analytics-placement="deploy_serverless" data-analytics-destination="gpu_cloud_signup" data-analytics-model="all_models" data-analytics-calculator-result="not_used" class="shrink-0 text-xs font-bold px-3 py-1.5 rounded whitespace-nowrap" style="background:#DFFF00;color:#09090b">Create account →</a></div><div class="code-block" id="code-runpod"><button type="button" class="copy-btn" onclick="copyCode('code-runpod')">Copy</button>
 <span class="comment"># 1. Create account at runpod.io/?ref=852l1ola</span>
 <span class="comment"># 2. Serverless > New Endpoint > vLLM Worker</span>
 <span class="comment"># 3. Size the exact model/quantization first; 70B FP16 needs a high-memory or multi-GPU configuration.</span>
@@ -701,7 +731,7 @@ curl -X POST "https://api.runpod.ai/v2/YOUR_ENDPOINT_ID/runsync" \
   -H "Content-Type: application/json" \
   -d '{"input":{"prompt":"Hello!","max_tokens":512,"temperature":0.7}}'</div></div></div></div>
 
-            <div class="fade-up mb-8"><div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden"><div class="px-6 py-4 flex items-center justify-between" style="background:rgba(109,40,217,0.15);border-bottom:1px solid rgba(139,92,246,0.25)"><div><h3 class="text-lg font-bold text-white">Option D: RunPod + Codex CLI (Private Coding Agent)</h3><p class="text-sm text-zinc-400">Example loopback-and-SSH workflow; re-test current model, runtime, and client versions</p></div><span class="px-3 py-1 rounded-full text-xs font-bold text-violet-300" style="background:rgba(139,92,246,0.2);border:1px solid rgba(139,92,246,0.35)">CODING AGENT</span></div><div class="p-6"><div class="mb-4 rounded-lg px-4 py-3 flex items-center justify-between gap-3 text-sm" style="background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.25)"><span class="text-zinc-300"><strong class="text-violet-300">Example hardware:</strong> RTX PRO 6000 Blackwell Max-Q (96GB). Check the live rate and exact variant before launch.</span><a href="https://runpod.io?ref=852l1ola" target="_blank" rel="noopener nofollow sponsored" class="shrink-0 text-xs font-bold px-3 py-1.5 rounded whitespace-nowrap text-violet-200" style="background:rgba(139,92,246,0.35);border:1px solid rgba(139,92,246,0.5)">Launch pod →</a></div><div class="code-block" id="code-codex"><button type="button" class="copy-btn" onclick="copyCode('code-codex')">Copy</button>
+            <div class="fade-up mb-8"><div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden"><div class="px-6 py-4 flex items-center justify-between" style="background:rgba(109,40,217,0.15);border-bottom:1px solid rgba(139,92,246,0.25)"><div><h3 class="text-lg font-bold text-white">Option D: RunPod + Codex CLI (Private Coding Agent)</h3><p class="text-sm text-zinc-400">Example loopback-and-SSH workflow; re-test current model, runtime, and client versions</p></div><span class="px-3 py-1 rounded-full text-xs font-bold text-violet-300" style="background:rgba(139,92,246,0.2);border:1px solid rgba(139,92,246,0.35)">CODING AGENT</span></div><div class="p-6"><div class="mb-4 rounded-lg px-4 py-3 flex items-center justify-between gap-3 text-sm" style="background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.25)"><span class="text-zinc-300"><strong class="text-violet-300">Example hardware:</strong> RTX PRO 6000 Blackwell Max-Q (96GB). Check the live rate and exact variant before launch.</span><a href="https://runpod.io?ref=852l1ola" target="_blank" rel="noopener nofollow sponsored" data-analytics-event="affiliate_click" data-analytics-provider="RunPod" data-analytics-relationship="direct_referral" data-analytics-placement="deploy_codex" data-analytics-destination="gpu_cloud_signup" data-analytics-model="all_models" data-analytics-calculator-result="not_used" class="shrink-0 text-xs font-bold px-3 py-1.5 rounded whitespace-nowrap text-violet-200" style="background:rgba(139,92,246,0.35);border:1px solid rgba(139,92,246,0.5)">Launch pod →</a></div><div class="code-block" id="code-codex"><button type="button" class="copy-btn" onclick="copyCode('code-codex')">Copy</button>
 <span class="comment"># ── On RunPod pod (JupyterLab terminal) ──────────────────────</span>
 <span class="comment"># 1. Pull the official Ollama 0.32.4 image by its verified multi-architecture manifest digest</span>
 OLLAMA_IMAGE=ollama/ollama:0.32.4@sha256:10c13eb515db310990527d36ca14a136da4bcc0fbf2bf3b15e9c1f111e9d3cd4
@@ -723,7 +753,7 @@ ssh -L 8000:localhost:8000 -o ServerAliveInterval=60 \
   root@YOUR_POD_IP -p YOUR_PORT -i ~/.ssh/id_ed25519
 
 <span class="comment"># 5. Install Codex CLI (new terminal)</span>
-npm install -g @openai/codex@0.118.0
+npm install -g @openai/codex@0.145.0
 
 <span class="comment"># 6. Create Codex config</span>
 mkdir -p ~/.codex &amp;&amp; cat &gt; ~/.codex/config.toml &lt;&lt; 'EOF'
@@ -773,9 +803,9 @@ codex --profile runpod</div>
                 <div class="service-card flex-1 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-zinc-800/50 rounded-xl px-6 py-4">
                     <div>
                         <h3 class="font-bold text-white">VPS Hosting</h3>
-                        <p class="text-sm text-zinc-400 mt-0.5">Fast VPS from <span class="text-white font-mono font-semibold">$4.99/mo</span> — great for API gateways</p>
+                        <p class="text-sm text-zinc-400 mt-0.5">VPS control plane for API gateways — verify the current plan, region, renewal price, and resource limits</p>
                     </div>
-                    <a href="https://www.hostinger.com?REFERRALCODE=SNPULRICHICN" target="_blank" rel="noopener nofollow sponsored"
+                    <a href="https://www.hostinger.com?REFERRALCODE=SNPULRICHICN" target="_blank" rel="noopener nofollow sponsored" data-analytics-event="affiliate_click" data-analytics-provider="Hostinger" data-analytics-relationship="direct_referral" data-analytics-destination="vps_control_plane" data-analytics-placement="supporting_services" data-analytics-model="all_models" data-analytics-calculator-result="not_used"
                        class="shrink-0 ghost-btn text-sm px-5 py-2 rounded-lg font-semibold whitespace-nowrap">
                         Hostinger →
                     </a>
@@ -783,9 +813,9 @@ codex --profile runpod</div>
                 <div class="service-card flex-1 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-zinc-800/50 rounded-xl px-6 py-4">
                     <div>
                         <h3 class="font-bold text-white">Shared Hosting</h3>
-                        <p class="text-sm text-zinc-400 mt-0.5">Frontend + static sites from <span class="text-white font-mono font-semibold">$3.79/mo</span></p>
+                        <p class="text-sm text-zinc-400 mt-0.5">WordPress and basic web hosting — verify the current introductory and renewal terms</p>
                     </div>
-                    <a href="https://bluehost.sjv.io/9VVDN4" target="_blank" rel="noopener nofollow sponsored"
+                    <a href="https://bluehost.sjv.io/9VVDN4" target="_blank" rel="noopener nofollow sponsored" data-analytics-event="affiliate_click" data-analytics-provider="Bluehost" data-analytics-relationship="impact_affiliate" data-analytics-destination="shared_hosting" data-analytics-placement="supporting_services" data-analytics-model="not_applicable" data-analytics-calculator-result="not_used"
                        class="shrink-0 ghost-btn text-sm px-5 py-2 rounded-lg font-semibold whitespace-nowrap">
                         Bluehost →
                     </a>
@@ -793,9 +823,9 @@ codex --profile runpod</div>
                 <div class="service-card flex-1 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-zinc-800/50 rounded-xl px-6 py-4">
                     <div>
                         <h3 class="font-bold text-white">Domain Registration</h3>
-                        <p class="text-sm text-zinc-400 mt-0.5">Domains from <span class="text-white font-mono font-semibold">$1.18/yr</span> + free WHOIS privacy</p>
+                        <p class="text-sm text-zinc-400 mt-0.5">Domain and DNS workflow — compare the exact TLD registration, renewal, transfer, and privacy terms</p>
                     </div>
-                    <a href="https://namecheap.pxf.io/rEErVj" target="_blank" rel="noopener nofollow sponsored"
+                    <a href="https://namecheap.pxf.io/rEErVj" target="_blank" rel="noopener nofollow sponsored" data-analytics-event="affiliate_click" data-analytics-provider="Namecheap" data-analytics-relationship="impact_affiliate" data-analytics-destination="domain_registration" data-analytics-placement="supporting_services" data-analytics-model="not_applicable" data-analytics-calculator-result="not_used"
                        class="shrink-0 ghost-btn text-sm px-5 py-2 rounded-lg font-semibold whitespace-nowrap">
                         Namecheap →
                     </a>
@@ -816,7 +846,7 @@ codex --profile runpod</div>
             </div>
             <div class="methodology-item">
                 <h3>What “verified” means</h3>
-                <p>The date marks the last review of the displayed data—not a promise that every GPU is currently in stock. Core hardware, runtime, and pricing claims were reviewed July 26, 2026.</p>
+                <p>The date marks the last review of the displayed data—not a promise that every GPU is currently in stock. Hardware and RunPod pricing were reviewed July 27; the model/runtime snapshot remains dated July 26, 2026.</p>
             </div>
             <div class="methodology-item">
                 <h3>How the guide is funded</h3>
@@ -824,7 +854,7 @@ codex --profile runpod</div>
             </div>
             <div class="methodology-item">
                 <h3>Corrections are welcome</h3>
-                <p>Found stale pricing or a technical error? <a href="mailto:corrections@gpuhosting.guide?subject=Inaccuracy%20Report">Report an inaccuracy</a> so the guide can be updated.</p>
+                <p>Found stale pricing or a technical error? Use the <a href="contact.html">public correction route</a>. Do not include credentials or private data.</p>
             </div>
         </div>
     </section>
@@ -834,14 +864,15 @@ codex --profile runpod</div>
     <!-- Footer -->
     <footer class="bg-slate-900 text-slate-400 py-12 mt-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
                 <div><div class="footer-brand text-lg mb-3">GPUHosting<span class="brand-domain">.guide</span></div><p class="text-sm">A practical 2026 guide to sizing, pricing, and deploying open-weight AI models on GPU infrastructure.</p></div>
                 <div><div class="font-semibold text-slate-300 mb-3">Quick Links</div><div class="space-y-2 text-sm"><a href="#wizard" class="block hover:text-white transition-colors">Find My Setup</a><a href="#vram" class="block hover:text-white transition-colors">VRAM Calculator</a><a href="#calculator" class="block hover:text-white transition-colors">Cost Calculator</a><a href="#deploy" class="block hover:text-white transition-colors">Deployment Guides</a></div></div>
-                <div><div class="font-semibold text-slate-300 mb-3">Affiliate disclosure</div><p class="text-sm text-slate-500">Marked links may earn us a commission or referral credit at no extra cost to you. This supports the guide; it does not change the comparison data shown.</p><a href="#methodology" class="inline-block mt-3 text-sm text-slate-300 underline">Read our method</a></div>
+                <div><div class="font-semibold text-slate-300 mb-3">Trust</div><div class="space-y-2 text-sm"><a href="about.html" class="block hover:text-white transition-colors">About</a><a href="contact.html" class="block hover:text-white transition-colors">Contact</a><a href="privacy.html" class="block hover:text-white transition-colors">Privacy</a><a href="editorial-methodology.html" class="block hover:text-white transition-colors">Editorial methodology</a><a href="affiliate-disclosure.html" class="block hover:text-white transition-colors">Affiliate disclosure</a></div></div>
+                <div><div class="font-semibold text-slate-300 mb-3">Affiliate disclosure</div><p class="text-sm text-slate-500">Marked links may earn us a commission or referral credit at no extra cost to you. This supports the guide; it does not change the comparison data shown.</p><a href="affiliate-disclosure.html" class="inline-block mt-3 text-sm text-slate-300 underline">Read full disclosure</a></div>
             </div>
             <div class="border-t border-slate-800 pt-6 flex flex-col sm:flex-row justify-between items-center gap-3 text-sm">
-                <p>gpuhosting.guide &copy; 2026. Core data checked July 26, 2026. Built for developers, by developers.</p>
-                <a href="mailto:corrections@gpuhosting.guide?subject=Inaccuracy%20Report" class="text-slate-500 hover:text-neon transition-colors">Report Inaccuracy</a>
+                <p>gpuhosting.guide &copy; 2026. Guide updated July 27, 2026. Built for developers, by developers.</p>
+                <a href="contact.html" class="text-slate-500 hover:text-neon transition-colors">Report Inaccuracy</a>
             </div>
         </div>
     </footer>
@@ -853,11 +884,11 @@ codex --profile runpod</div>
        ========================================= */
     const AFFILIATES = {
         runpod:      { name: 'RunPod',      url: 'https://runpod.io?ref=852l1ola',          tagline: 'RTX 5090 from $0.69/hr Community · storage separate' },
-        vultr:       { name: 'Vultr',       url: 'https://www.vultr.com/?ref=9885946-9J',   tagline: 'Global GPU instances · check live quote'      },
+        vultr:       { name: 'Vultr',       url: 'https://www.vultr.com/products/cloud-gpu/', tagline: 'Editorial link · no approved referral program' },
         digitalocean:{ name: 'DigitalOcean',url: 'https://m.do.co/c/0ac1da4ad477',          tagline: 'Managed H100 droplets, per-second billing'    },
         vast:        { name: 'Vast.ai',     url: 'https://cloud.vast.ai/?ref_id=447231',    tagline: 'Variable GPU marketplace · compare live offers' },
-        hostinger:   { name: 'Hostinger',   url: 'https://www.hostinger.com?REFERRALCODE=SNPULRICHICN', tagline: 'VPS for API gateways from $4.99/mo' },
-        bluehost:    { name: 'Bluehost',    url: 'https://bluehost.sjv.io/9VVDN4',          tagline: 'Static frontend hosting from $3.79/mo'        },
+        hostinger:   { name: 'Hostinger',   url: 'https://www.hostinger.com?REFERRALCODE=SNPULRICHICN', tagline: 'VPS control plane · verify current terms' },
+        bluehost:    { name: 'Bluehost',    url: 'https://bluehost.sjv.io/9VVDN4',          tagline: 'WordPress/basic hosting · verify current terms' },
         namecheap:   { name: 'Namecheap',   url: 'https://namecheap.pxf.io/rEErVj',         tagline: 'Domains & SSL'                                },
     };
 
@@ -893,8 +924,8 @@ codex --profile runpod</div>
         const atlasGroups = document.getElementById('model-atlas-groups');
         const groupCopy = {
             'self-hostable': { title: 'Open-weight / self-hostable', copy: 'Released weights with verified first-party evidence. These are the only records eligible for self-host deployment recommendations.' },
-            'api-only': { title: 'API-only · not self-hostable', copy: 'Hosted API records are useful comparators, but cannot feed self-host deployment recommendations at the 2026-07-26 cutoff.' },
-            'weights-pending': { title: 'Weights pending · not self-hostable', copy: 'Announced or hosted records whose weights are not released cannot feed self-host deployment recommendations at the 2026-07-26 cutoff.' },
+            'api-only': { title: 'API-only · not self-hostable', copy: 'Hosted API records are useful comparators, but their latest verified status does not qualify them for self-host deployment recommendations.' },
+            'weights-pending': { title: 'Weights pending · not self-hostable', copy: 'Hosted records whose weights remain unpublished cannot feed self-host deployment recommendations under their latest verified status.' },
             legacy: { title: 'Legacy open weights', copy: 'Previously verified open-weight releases retained for existing deployments and migration planning.' }
         };
         function addText(parent, tag, className, text) { const node=document.createElement(tag); if(className) node.className=className; node.textContent=text; parent.appendChild(node); return node; }
@@ -1067,6 +1098,8 @@ codex --profile runpod</div>
                 else                       pick = { aff: AFFILIATES.runpod,       copy: 'RunPod · multi-GPU H100 SXM clusters with NVLink' };
                 ctaText.innerText = pick.copy;
                 ctaLink.href = pick.aff.url;
+                ctaLink.dataset.analyticsProvider = pick.aff.name;
+                ctaLink.dataset.analyticsCalculatorResult = totalVram <= 32 ? 'up_to_32gb' : totalVram <= 48 ? '33_to_48gb' : totalVram <= 96 ? '49_to_96gb' : totalVram <= 180 ? '97_to_180gb' : 'multi_gpu_over_180gb';
             }
         }
         paramSlider.addEventListener('input', updateVRAM);
@@ -1139,12 +1172,14 @@ codex --profile runpod</div>
                     ctaSub.innerText='RunPod compute is billed by the second; retained storage and operations remain separate costs.';
                     ctaLink.href=AFFILIATES.runpod.url;
                     ctaBtn.innerText='Launch on RunPod →';
+                    ctaLink.dataset.analyticsCalculatorResult='self_host_lower_estimate';
                 } else {
                     ctaEyebrow.innerText='Variable workload? Try serverless';
                     ctaTitle.innerText='RunPod Serverless — pay only when you generate tokens';
                     ctaSub.innerText='Serverless compute can scale to zero; measure cold starts and include retained volumes, network, and control-plane costs.';
                     ctaLink.href=AFFILIATES.runpod.url;
                     ctaBtn.innerText='Try Serverless →';
+                    ctaLink.dataset.analyticsCalculatorResult='api_or_serverless_lower_estimate';
                 }
             }
         }
@@ -1155,14 +1190,14 @@ codex --profile runpod</div>
            Provider Table
            ========================================= */
         const providers = [
-            { name:'RunPod', type:'budget', typeName:'Fixed GPU / Serverless', gpu:'RTX 4090 / 5090 / A100 / H100 / H200 / B200', rate:'$0.34 — $5.89/GPU-hr', adv:'Published Community and Secure rates. Storage is billed separately; Serverless is a different billing plane.', link:'https://runpod.io?ref=852l1ola', affiliate:true },
-            { name:'Vast.ai', type:'budget', typeName:'Marketplace', gpu:'Host- and offer-dependent', rate:'Live marketplace offers', adv:'Price, host verification, location, storage, and interruption risk vary by offer. Compare and test the exact listing.', link:'https://cloud.vast.ai/?ref_id=447231', affiliate:true },
+            { name:'RunPod', type:'budget', typeName:'Fixed GPU / Serverless', gpu:'RTX 4090 / 5090 / L40S / A100 / H100 / H200 / B200 / B300', rate:'$0.34 — $7.39/GPU-hr', adv:'Published Community and Secure rates. The upper bound is the listed B300 Secure rate; storage and Serverless use separate billing.', link:'https://runpod.io?ref=852l1ola', affiliate:true, relationship:'direct_referral' },
+            { name:'Vast.ai', type:'budget', typeName:'Marketplace', gpu:'Host- and offer-dependent', rate:'Live marketplace offers', adv:'Price, host verification, location, storage, and interruption risk vary by offer. Compare and test the exact listing.', link:'https://cloud.vast.ai/?ref_id=447231', affiliate:true, relationship:'referral_link' },
             { name:'Lambda', type:'enterprise', typeName:'GPU Cloud / Clusters', gpu:'A6000 / A100 / H100 / B200', rate:'1x examples: $1.09 — $6.99/GPU-hr', adv:'Current 1x and cluster tables use different configurations and commitment assumptions; compare the exact row.', link:'https://lambda.ai/pricing' },
             { name:'CoreWeave', type:'enterprise', typeName:'GPU Systems / Inference', gpu:'A100 / H100 / H200 / B200 / GB200', rate:'System + spot pricing', adv:'Public tables emphasize multi-GPU systems. Normalize the full system, spot interruption, storage, and networking.', link:'https://www.coreweave.com/gpu-cloud-pricing' },
             { name:'Crusoe Cloud', type:'enterprise', typeName:'GPU VM / Managed Inference', gpu:'L40S / A100 / H100 / H200 / MI300X', rate:'VM examples: $1.50 — $4.29/GPU-hr', adv:'Raw VMs, self-serve deployments, and per-token serverless inference are separate products.', link:'https://www.crusoe.ai/cloud/pricing' },
             { name:'Modal', type:'budget', typeName:'Serverless GPU', gpu:'T4 through B300', rate:'Per-second active compute', adv:'Cold starts, concurrency, CPU/RAM, scaledown settings, and retained volumes determine total cost.', link:'https://modal.com/pricing' },
-            { name:'Vultr', type:'budget', typeName:'Cloud GPU', gpu:'Availability varies', rate:'Check live regional quote', adv:'Regional shapes and capacity change; record the exact GPU, region, storage, and network terms.', link:'https://www.vultr.com/?ref=9885946-9J', affiliate:true },
-            { name:'DigitalOcean / Paperspace', type:'enterprise', typeName:'Managed Cloud', gpu:'Availability varies', rate:'Check live account quote', adv:'Useful app and notebook control plane; verify current GPU SKU, minimum billing, and region before quoting.', link:'https://m.do.co/c/0ac1da4ad477', affiliate:true },
+            { name:'Vultr', type:'budget', typeName:'Cloud GPU', gpu:'Availability varies', rate:'Check live regional quote', adv:'Editorial-only link: no approved referral program. Regional shapes and capacity change; record the exact GPU, region, storage, and network terms.', link:'https://www.vultr.com/products/cloud-gpu/' },
+            { name:'DigitalOcean', type:'enterprise', typeName:'Paperspace Managed Cloud', gpu:'Availability varies', rate:'Check live account quote', adv:'Paperspace is a DigitalOcean product. Verify the current GPU SKU, minimum billing, and region before quoting; this CTA uses the direct DigitalOcean referral relationship.', link:'https://m.do.co/c/0ac1da4ad477', affiliate:true, relationship:'direct_referral' },
             { name:'Hetzner', type:'dedicated', typeName:'Dedicated Bare Metal', gpu:'Dedicated GPU server shapes', rate:'Check current monthly quote', adv:'Compare contract term, setup fees, power envelope, replacement SLA, and effective utilization.', link:'https://www.hetzner.com' },
             { name:'AWS / GCP / Azure', type:'hyperscaler', typeName:'Hyperscaler', gpu:'Region- and shape-dependent', rate:'Use official calculators', adv:'Quota, region, full-instance topology, spot/commitment, storage, egress, and managed-service layer dominate comparison.', link:'https://aws.amazon.com/ec2/pricing/on-demand/' },
         ];
@@ -1175,7 +1210,8 @@ codex --profile runpod</div>
                     const tr=document.createElement('tr');tr.className="hover:bg-slate-50 transition-colors";
                     const rel=p.affiliate?'noopener noreferrer sponsored':'noopener noreferrer';
                     const affiliateLabel=p.affiliate?'<span class="affiliate-mark">Affiliate link</span>':'';
-                    tr.innerHTML='<td class="py-6 px-4 font-bold text-slate-800">'+p.name+'</td><td class="py-6 px-4"><span class="px-2 py-1 '+typeColors[p.type]+' rounded text-xs border">'+p.typeName+'</span></td><td class="py-6 px-4 font-bold text-slate-800" style="font-family:\'IBM Plex Mono\',monospace;font-size:0.8rem;letter-spacing:-0.01em">'+p.gpu+'</td><td class="py-6 px-4 font-bold" style="color:#087b58;font-family:\'IBM Plex Mono\',monospace;font-size:0.85rem">'+p.rate+'</td><td class="py-6 px-4 text-sm">'+p.adv+'</td><td class="py-6 px-4 text-center"><a href="'+p.link+'" target="_blank" rel="'+rel+'" class="ghost-btn inline-flex flex-col text-xs font-semibold px-4 py-2 rounded-lg">Visit &rarr;'+affiliateLabel+'</a></td>';
+                    const analytics=p.affiliate?' data-analytics-event="affiliate_click" data-analytics-provider="'+p.name+'" data-analytics-relationship="'+p.relationship+'" data-analytics-destination="gpu_provider" data-analytics-placement="provider_table" data-analytics-model="all_models" data-analytics-calculator-result="not_used"':'';
+                    tr.innerHTML='<td class="py-6 px-4 font-bold text-slate-800">'+p.name+'</td><td class="py-6 px-4"><span class="px-2 py-1 '+typeColors[p.type]+' rounded text-xs border">'+p.typeName+'</span></td><td class="py-6 px-4 font-bold text-slate-800" style="font-family:\'IBM Plex Mono\',monospace;font-size:0.8rem;letter-spacing:-0.01em">'+p.gpu+'</td><td class="py-6 px-4 font-bold" style="color:#087b58;font-family:\'IBM Plex Mono\',monospace;font-size:0.85rem">'+p.rate+'</td><td class="py-6 px-4 text-sm">'+p.adv+'</td><td class="py-6 px-4 text-center"><a href="'+p.link+'" target="_blank" rel="'+rel+'"'+analytics+' class="ghost-btn inline-flex flex-col text-xs font-semibold px-4 py-2 rounded-lg">Visit &rarr;'+affiliateLabel+'</a></td>';
                     tbody.appendChild(tr);
                 }
             });

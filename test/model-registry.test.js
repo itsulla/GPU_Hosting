@@ -32,7 +32,9 @@ test('every record has complete, dated, first-party evidence metadata', () => {
     assert.ok(!slugs.has(record.slug), `duplicate slug ${record.slug}`); slugs.add(record.slug);
     assert.ok(!names.has(record.displayName), `duplicate display name ${record.displayName}`); names.add(record.displayName);
     assert.ok(CATEGORIES.has(record.category));
-    assert.equal(record.verifiedOn, SNAPSHOT_DATE);
+    assert.match(record.verifiedOn, /^2026-07-(26|27)$/);
+    assert.ok(record.verifiedOn >= SNAPSHOT_DATE, `${record.slug} predates the registry snapshot`);
+    assert.ok(record.verifiedOn <= '2026-07-27', `${record.slug} has a future verification date`);
     assert.equal(record.evidenceStatus, 'verified', `${record.slug} status claim is not publication-verified`);
     assert.ok(EVIDENCE_TYPES.has(record.evidenceType), `${record.slug} uses an unapproved evidence label`);
     assert.ok(Array.isArray(record.facts) && record.facts.length > 0);

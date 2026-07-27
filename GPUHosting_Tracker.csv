@@ -1,18 +1,17 @@
 SHEET: Affiliate Programs
 Provider,Signup URL,Commission,Cookie Duration,Payment Threshold,Payment Method,Status,Affiliate ID,Login URL,Notes
-RunPod,runpod.io (dashboard referral),Credits-based referral,Unknown,Unknown,Credits,Not Applied,,,"Most recommended provider on site, priority #1"
-Vast.ai,vast.ai (account settings),Credits-based referral,Unknown,Unknown,Credits,Not Applied,,,"Budget GPU option, high volume"
-Lambda Labs,lambdalabs.com (contact sales),Referral credits,Unknown,Unknown,Credits,Not Applied,,,"Enterprise GPU cloud"
-Vultr,vultr.com/promo/affiliate,$100 per qualified signup,30 days,$25,PayPal/Wire,Not Applied,,,"Easy approval, solid GPU instances"
-DigitalOcean,digitalocean.com/affiliates,$200 per signup (spend $25+),Unknown,$25,PayPal,Not Applied,,,"Best payout ratio, GPU Droplets"
-Hetzner,hetzner.com (account referral),Credits-based,Unknown,Unknown,Credits,Not Applied,,,"Popular with self-hosters"
-Liquid Web,liquidweb.com/affiliate,150% of month 1 (up to $1500),90 days,$50,Check/Wire,Not Applied,,,"Whale play — one enterprise sale = $1500"
-Linode (Akamai),linode.com/affiliate-program,$100 per qualified signup,90 days,$100,PayPal,Not Applied,,,"Trusted brand, GPU instances"
-OVHcloud,ovhcloud.com/en/partner-program,Varies,Unknown,Unknown,Unknown,Not Applied,,,"GPU dedicated servers"
-Amazon Associates,affiliate-program.amazon.com,1-4% on hardware,24 hours,$10,Direct Deposit,Not Applied,,,"RTX 4090/5090 hardware purchases"
-Newegg,newegg.com/affiliate,2.5%,7 days,$50,Check,Not Applied,,,"GPU hardware sales"
-AWS,affiliate-program.amazon.com,1-3%,24 hours,$10,Direct Deposit,Not Applied,,,"Low commission but massive trust"
-Google Cloud,cloud.google.com/affiliate,Varies,Unknown,Unknown,Unknown,Not Applied,,,"TPU + GPU offerings"
+RunPod,https://runpod.io?ref=852l1ola,Dashboard referral terms,Not published,Not published,Credits or cash if account qualifies,Active direct referral,852l1ola,https://www.runpod.io/console/user/referrals,"Use the dashboard as the source of truth for current qualification and rewards"
+Vast.ai,https://cloud.vast.ai/?ref_id=447231,Dashboard referral terms,Not published,Not published,Account credit or dashboard terms,Link present — dashboard verification needed,447231,https://cloud.vast.ai/,"Do not publish commission terms until verified in the account"
+DigitalOcean,https://m.do.co/c/0ac1da4ad477,Dashboard referral terms,Not published,Not published,Referral reward or credit per dashboard,Active direct referral,0ac1da4ad477,https://cloud.digitalocean.com/,"Direct DigitalOcean referral; not represented as Awin or CJ"
+Hostinger,https://www.hostinger.com?REFERRALCODE=SNPULRICHICN,Account-dashboard terms,Check current dashboard,Check current dashboard,Check current dashboard,Active direct referral,SNPULRICHICN,https://affiliates.hostinger.com/,"Use for VPS/control-plane or straightforward web hosting; not GPU inference"
+Bluehost,https://bluehost.sjv.io/9VVDN4,Impact dashboard terms,Check current dashboard,Check current dashboard,Impact,Active Impact affiliate,9VVDN4,https://app.impact.com/,"Use only for WordPress or basic hosting intent"
+Namecheap,https://namecheap.pxf.io/rEErVj,Impact dashboard terms,Check current dashboard,Check current dashboard,Impact,Active Impact affiliate,rEErVj,https://app.impact.com/,"Use for domain and DNS intent"
+Vultr,https://www.vultr.com/products/cloud-gpu/,None,Not applicable,Not applicable,Not applicable,Not approved,,,"Editorial-only link; do not append a referral parameter"
+Liquid Web,https://www.liquidweb.com/,None,Not applicable,Not applicable,Not applicable,Not approved,,,"Application denied or pending; no monetized link"
+Kinsta,https://kinsta.com/,None,Not applicable,Not applicable,Not applicable,Not pursuing,,,"Merchant requires a dedicated Kinsta property; poor portfolio fit"
+Netlify,https://www.netlify.com/,None verified,Not applicable,Not applicable,Not applicable,Editorial comparator only,,,"No publisher link configured"
+Lambda,https://lambda.ai/,None verified,Not applicable,Not applicable,Not applicable,Editorial comparator only,,,"Keep ordinary editorial links"
+Amazon Associates,https://affiliate-program.amazon.com/,Not applied,Not published,Not published,Not applicable,Optional — not applied,,,"Only relevant if dedicated hardware-buying content is published"
 
 SHEET: Model Specifications
 Model,Model ID,Developer,Category,Architecture,Total Params,Active Params,Context,License,Weights Status,Availability Caveat,Best For,Evidence Type,Last Verified,Source URL
@@ -33,7 +32,7 @@ Sarvam-105B,sarvamai/sarvam-105b,Sarvam AI,self-hostable,MoE + MLA,106B,10.3B,13
 Claude Fable 5,claude-fable-5,Anthropic,api-only,Not published,Not published,Not published,1000000,Proprietary API terms,Not published,API-only; no public weights,managed API comparison,Official documentation,07/26/2026,https://platform.claude.com/docs/en/about-claude/models/overview
 Claude Opus 5,claude-opus-5,Anthropic,api-only,Not published,Not published,Not published,1000000,Proprietary API terms,Not published,API-only; no public weights,managed frontier API comparison,Official documentation,07/26/2026,https://platform.claude.com/docs/en/about-claude/models/overview
 Claude Sonnet 5,claude-sonnet-5,Anthropic,api-only,Not published,Not published,Not published,1000000,Proprietary API terms,Not published,API-only; no public weights,managed balanced API comparison,Official documentation,07/26/2026,https://platform.claude.com/docs/en/about-claude/models/overview
-Kimi K3,kimi-k3,Moonshot AI,weights-pending,MoE; hosted specification,2800B,Not published,1000000,Not published,Pending,API available; full weights pending until 2026-07-27,hosted comparison while weights remain pending,Official documentation,07/26/2026,https://platform.kimi.ai/docs/guide/kimi-k3-quickstart
+Kimi K3,kimi-k3,Moonshot AI,weights-pending,MoE; hosted specification,2800B,Not published,1000000,Not published,Pending,API available; full weights still not published when checked,hosted comparison while weights remain pending,Official documentation,07/27/2026,https://platform.kimi.ai/docs/guide/kimi-k3-quickstart
 qwen3.8-max-preview,qwen3.8-max-preview,Alibaba Qwen,api-only,Not published,Not published,Not published,Not published,Proprietary API terms,Not published,Restricted API preview; no public weights,restricted hosted preview comparison,Official documentation,07/26/2026,https://help.aliyun.com/zh/model-studio/models
 Mixtral 8x7B (legacy),mistralai/Mixtral-8x7B-v0.1,Mistral AI,legacy,MoE,46.7B,12.9B,32768,Apache-2.0,Released,Legacy public weights; retained for existing deployments,established sparse deployments,Official specification,07/26/2026,https://huggingface.co/mistralai/Mixtral-8x7B-v0.1
 Mixtral 8x22B (legacy),mistralai/Mixtral-8x22B-v0.1,Mistral AI,legacy,MoE,141B,39B,65536,Apache-2.0,Released,Legacy public weights; retained for existing deployments,established sparse deployments,Official specification,07/26/2026,https://huggingface.co/mistralai/Mixtral-8x22B-v0.1
@@ -42,24 +41,31 @@ Meta Llama 3.3 70B (legacy),meta-llama/Llama-3.3-70B-Instruct,Meta,legacy,Dense,
 
 SHEET: GPU Hardware Specs
 GPU,VRAM,Memory Type,Bandwidth (GB/s),Published Cloud Price Snapshot,Tokens per $1,Decision Note,Evidence Class,Last Verified,Source,Status
-Nvidia RTX 5090,32GB,GDDR7,1792,"RunPod $0.69 Community / $0.99 Secure",Not published,"High-bandwidth 32GB option; benchmark exact model, precision, context, and runtime",Official specification + current price snapshot,07/26/2026,"nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5090/; runpod.io/pricing",Checked
-Nvidia RTX 6000 Ada,48GB,GDDR6,960,Check live quote,Not published,"48GB capacity class; validate exact format, KV cache, and runtime headroom",Official specification,07/26/2026,nvidia.com/en-us/design-visualization/rtx-6000/,Checked spec / price pending
-Nvidia RTX PRO 6000 Blackwell,96GB,GDDR7 ECC,Variant-specific,Check live quote,Not published,"Workstation, Max-Q, and Server variants are not interchangeable",Official specification,07/26/2026,nvidia.com/en-us/products/workstations/professional-desktop-gpus/rtx-pro-6000-blackwell/,Checked spec / price pending
-Nvidia A100 PCIe,80GB,HBM2e,1935,"RunPod $1.19 Community / $1.39 Secure",Not published,"A 70B FP16 model needs about 140GB for weights alone and does not fit one 80GB GPU",Official specification + current price snapshot,07/26/2026,"nvidia.com/en-us/data-center/a100/; runpod.io/pricing",Checked
-Nvidia H100 SXM,80GB,HBM3,3350,"RunPod $2.69 Community / $2.99 Secure",Not published,"High-performance SXM option; validate topology and workload",Official specification + current price snapshot,07/26/2026,"nvidia.com/en-us/data-center/h100/; runpod.io/pricing",Checked
-Nvidia H200,141GB,HBM3e,4800,"RunPod $3.59 Community / $4.39 Secure",Not published,"Higher-capacity Hopper option; compare topology and runtime support",Official specification + current price snapshot,07/26/2026,"nvidia.com/en-us/data-center/h200/; runpod.io/pricing",Checked
-B200 provider listing,180GB listed,HBM3e,Pending NVIDIA single-GPU datasheet,RunPod $5.89,Not published,"RunPod and Lambda list 180GB configurations; do not generalize as a universal single-B200 specification",Current provider listing,07/26/2026,"runpod.io/pricing; lambda.ai/pricing",Configuration-specific
+Nvidia RTX 5090,32GB,GDDR7,1792,"RunPod $0.69 Community / $0.99 Secure",Not published,"High-bandwidth 32GB option; benchmark exact model, precision, context, and runtime",Official specification + current price snapshot,07/27/2026,"https://www.nvidia.com/en-us/geforce/graphics-cards/50-series/rtx-5090/; https://www.runpod.io/pricing",Checked
+Nvidia RTX 4090,24GB,GDDR6X,Not published on cited page,"RunPod $0.34 Community / $0.69 Secure",Not published,"Lower-cost 24GB listing; do not import an uncited bandwidth figure",Official specification + current price snapshot,07/27/2026,"https://www.nvidia.com/en-us/geforce/graphics-cards/40-series/rtx-4090/; https://www.runpod.io/pricing",Checked
+Nvidia RTX 6000 Ada,48GB,GDDR6,960,Check live quote,Not published,"48GB capacity class; validate exact format, KV cache, and runtime headroom",Official specification,07/27/2026,https://www.nvidia.com/en-us/design-visualization/rtx-6000/,Checked spec / price pending
+Nvidia L40S,48GB,GDDR6 ECC,864,"RunPod $0.79 Community / $0.99 Secure",Not published,"Data-center PCIe option; validate exact workload and runtime",Official specification + current price snapshot,07/27/2026,"https://www.nvidia.com/en-us/data-center/l40s/; https://www.runpod.io/pricing",Checked
+Nvidia RTX PRO 6000 Blackwell,96GB,GDDR7 ECC,Variant-specific,Check live quote,Not published,"Workstation, Max-Q, and Server variants are not interchangeable",Official specification,07/27/2026,https://nvidianews.nvidia.com/news/nvidia-blackwell-rtx-pro-workstations-servers-agentic-ai,Checked spec / price pending
+Nvidia A100 PCIe,80GB,HBM2e,1935,"RunPod $1.19 Community / $1.39 Secure",Not published,"A 70B FP16 model needs about 140GB for weights alone and does not fit one 80GB GPU",Official specification + current price snapshot,07/27/2026,"https://www.nvidia.com/en-us/data-center/a100/; https://www.runpod.io/pricing",Checked
+Nvidia H100 SXM,80GB,HBM3,3350,"RunPod $2.69 Community / $2.99 Secure",Not published,"High-performance SXM option; validate topology and workload",Official specification + current price snapshot,07/27/2026,"https://www.nvidia.com/en-us/data-center/h100/; https://www.runpod.io/pricing",Checked
+Nvidia H200,141GB,HBM3e,4800,"RunPod $3.59 Community / $4.39 Secure",Not published,"Higher-capacity Hopper option; compare topology and runtime support",Official specification + current price snapshot,07/27/2026,"https://www.nvidia.com/en-us/data-center/h200/; https://www.runpod.io/pricing",Checked
+AMD MI300X,192GB,HBM3,5300,Check live quote,Not published,"Validate ROCm and runtime support for the exact workload",Official specification,07/27/2026,https://www.amd.com/en/products/accelerators/instinct/mi300/mi300x.html,Checked spec / price pending
+AMD MI325X,256GB,HBM3E,6000,Check live quote,Not published,"Availability and software support are provider-specific",Official specification,07/27/2026,https://www.amd.com/en/products/accelerators/instinct/mi300/mi325x.html,Checked spec / price pending
+B200 provider listing,180GB listed,HBM3e,Configuration-specific,RunPod $5.89,Not published,"RunPod lists a 180GB configuration; do not generalize as a universal single-B200 specification",Current provider listing,07/27/2026,https://www.runpod.io/pricing,Configuration-specific
+B300 provider listing,288GB listed,HBM3e,Configuration-specific,"RunPod $6.94 Community / $7.39 Secure",Not published,"RunPod configuration label; do not substitute it for a universal component datasheet",Current provider listing,07/27/2026,https://www.runpod.io/pricing,Configuration-specific
+GB200 NVL72 system,13.4TB aggregate,HBM3E,576000 aggregate,System quote,Not published,"72-GPU rack aggregate; never compare these totals with a single-GPU row",Official rack-system specification,07/27/2026,https://www.nvidia.com/en-us/data-center/gb200-nvl72/,Rack aggregate
+GB300 NVL72 system,20TB aggregate GPU memory,Not specified in cited summary,Up to 576000 aggregate,System quote,Not published,"72-GPU rack aggregate; do not derive an uncited per-device specification",Official rack-system specification,07/27/2026,https://www.nvidia.com/en-us/data-center/gb300-nvl72/,Rack aggregate
 
 SHEET: Cloud Provider Pricing
 Provider,GPU Scope,Published Rate / Quote,Billing Plane,Tokens per $1,Decision Note,Affiliate Status,Last Verified,Pricing Page URL,Status
-RunPod,"RTX 4090 / 5090 / A100 / H100 / H200 / B200",$0.34 - $5.89/GPU-hr,Fixed GPU + Serverless,Not published,"Community and Secure rates differ; storage is billed separately",Linked,07/26/2026,runpod.io/pricing,Checked
+RunPod,"RTX 4090 / 5090 / L40S / A100 / H100 / H200 / B200 / B300",$0.34 - $7.39/GPU-hr,Fixed GPU + Serverless,Not published,"Community and Secure rates differ; storage is billed separately",Linked,07/27/2026,https://www.runpod.io/pricing,Checked
 Vast.ai,Host- and offer-dependent,Live marketplace offers,Marketplace,Not published,"Price, host verification, location, storage, and interruption risk vary by offer",Linked,07/26/2026,vast.ai/pricing,Variable
 Lambda,"A6000 / A100 / H100 / B200","1x examples $1.09 - $6.99/GPU-hr",GPU Cloud + Clusters,Not published,"1x and cluster rows use different configurations and commitment assumptions",Not linked,07/26/2026,lambda.ai/pricing,Checked
 CoreWeave,"A100 / H100 / H200 / B200 / GB200",System + spot pricing,GPU systems + inference,Not published,"Normalize full-system, spot, storage, and network costs",Not linked,07/26/2026,coreweave.com/gpu-cloud-pricing,Checked
 Crusoe Cloud,"L40S / A100 / H100 / H200 / MI300X","VM examples $1.50 - $4.29/GPU-hr",GPU VM + managed inference,Not published,"Raw VMs and per-token serverless inference are separate products",Not linked,07/26/2026,crusoe.ai/cloud/pricing,Checked
 Modal,T4 through B300,Per-second active compute,Serverless GPU,Not published,"Cold starts, concurrency, CPU/RAM, scaledown, and retained volumes determine TCO",Not linked,07/26/2026,modal.com/pricing,Checked
-Vultr,Availability varies,Check live regional quote,Cloud GPU,Not published,"Record exact GPU, region, storage, and network terms",Linked,07/26/2026,vultr.com/pricing,Refresh before quoting
-DigitalOcean / Paperspace,Availability varies,Check live account quote,Managed cloud,Not published,"Verify SKU, region, and minimum billing before quoting",Linked,07/26/2026,digitalocean.com/pricing,Refresh before quoting
+Vultr,Availability varies,Check live regional quote,Cloud GPU,Not published,"Editorial-only link; record exact GPU, region, storage, and network terms",Not approved,07/27/2026,https://www.vultr.com/products/cloud-gpu/,Refresh before quoting
+DigitalOcean,Availability varies,Check live account quote,Paperspace managed cloud,Not published,"Paperspace is a DigitalOcean product; public CTA uses the active direct DigitalOcean referral; verify SKU, region, and minimum billing",Active direct referral,07/27/2026,https://docs.digitalocean.com/products/paperspace/,Refresh before quoting
 Hetzner,Dedicated GPU server shapes,Check current monthly quote,Dedicated bare metal,Not published,"Compare contract, setup fee, power envelope, replacement SLA, and utilization",Not linked,07/26/2026,hetzner.com,Refresh before quoting
 AWS / GCP / Azure,Region- and shape-dependent,Use official calculators,Hyperscaler,Not published,"Quota, topology, commitment, storage, egress, and managed-service layer dominate",Not linked,07/26/2026,"aws.amazon.com/ec2/pricing/on-demand/; cloud.google.com/products/calculator; azure.microsoft.com/pricing/calculator/",Refresh before quoting
 
@@ -95,7 +101,7 @@ llama 4 vram requirements,High,Not indexed,VRAM Calculator,,New model = low comp
 
 SHEET: Monthly Revenue Tracking
 Month,Provider,Clicks,Signups,Revenue,Commission Type,Notes
-03/2026,Example: Vultr,0,0,$0,$100 per signup,Not yet active
-03/2026,Example: DigitalOcean,0,0,$0,$200 per signup,Not yet active
-03/2026,Example: RunPod,0,0,$0,Credits,Not yet active
-03/2026,Example: Liquid Web,0,0,$0,Up to $1500,Not yet active
+07/2026,DigitalOcean,0,0,$0,Direct referral,Active link; verify rewards in DigitalOcean dashboard
+07/2026,Hostinger,0,0,$0,Direct referral,Active link; verify payout terms in Hostinger dashboard
+07/2026,RunPod,0,0,$0,Direct referral,Active link; verify qualification and rewards in RunPod dashboard
+07/2026,Liquid Web,0,0,$0,None,Not approved; no monetized link published

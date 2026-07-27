@@ -11,7 +11,7 @@
   function verified(record) {
     return {
       ...record,
-      verifiedOn: SNAPSHOT_DATE,
+      verifiedOn: record.verifiedOn || SNAPSHOT_DATE,
       evidenceStatus: 'verified',
     };
   }
@@ -345,7 +345,8 @@
       evidenceType: 'Official documentation',
       bestFor: 'hosted comparison while weights remain pending',
       officialSources: ['https://platform.kimi.ai/docs/guide/kimi-k3-quickstart'],
-      facts: ['The official API identifier is kimi-k3 and total size is 2.8T parameters.', 'Full weights are scheduled for 2026-07-27 and are not treated as released in this snapshot.'],
+      verifiedOn: '2026-07-27',
+      facts: ['The official API identifier is kimi-k3 and total size is 2.8T parameters.', 'Full weights were still pending and not published when checked on 2026-07-27.'],
     }),
     'qwen3.8-max-preview': verified({
       slug: 'qwen3.8-max-preview',
